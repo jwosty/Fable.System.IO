@@ -5,8 +5,9 @@
     <OutputType>Library</OutputType>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="Path.fs" />
+    <Compile Include="Fable.System.IO.fs" />
     <Content Include="*.fsproj; **\*.fs; **\*.fsi" PackagePath="fable\" />
+    <Content Remove="**\obj\**\*" />
   </ItemGroup>
   <Import Project="..\.paket\Paket.Restore.targets" />
 </Project>

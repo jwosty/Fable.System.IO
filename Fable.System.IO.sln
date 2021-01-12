@@ -1,0 +1,36 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30804.86
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{6EC3EE1D-3C4E-46DD-8F32-0CC8E7565705}") = "Fable.System.IO", "src\Fable.System.IO.fsproj", "{2ADC2951-05C5-46AE-B72F-669F169B4665}"
+EndProject
+Project("{6EC3EE1D-3C4E-46DD-8F32-0CC8E7565705}") = "Fable.System.IO.Tests", "tests\Fable.System.IO.Tests.fsproj", "{3BCCFEB0-36B1-4770-A6C4-6E0905054445}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{0BADEEB7-C7A6-4477-B639-0FBA9BEAE0CE}"
+	ProjectSection(SolutionItems) = preProject
+		paket.dependencies = paket.dependencies
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{2ADC2951-05C5-46AE-B72F-669F169B4665}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2ADC2951-05C5-46AE-B72F-669F169B4665}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2ADC2951-05C5-46AE-B72F-669F169B4665}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2ADC2951-05C5-46AE-B72F-669F169B4665}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3BCCFEB0-36B1-4770-A6C4-6E0905054445}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3BCCFEB0-36B1-4770-A6C4-6E0905054445}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3BCCFEB0-36B1-4770-A6C4-6E0905054445}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3BCCFEB0-36B1-4770-A6C4-6E0905054445}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {0130CDD3-B315-43CD-8C29-52D576DCF8A1}
+	EndGlobalSection
+EndGlobal
