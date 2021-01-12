@@ -1,2 +1,4 @@
 Fable.Mocha
 Expecto
+YoloDev.Expecto.TestSdk
+Microsoft.NET.Test.Sdk
