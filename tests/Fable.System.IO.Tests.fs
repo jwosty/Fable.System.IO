@@ -16,21 +16,18 @@ let ``Fable.System.IO.Path.Tests`` =
                 [|"foo"|], "foo", "foo"
                 [|"foo"; "bar"|], "foo/bar", "foo\\bar"
             ]
-            testList "Unix" [
-                for (input, unixExpected, _) in testCases ->
-                    testCase (arrayToStr input) (fun () ->
+
+            for (input, unixExpected, windowsExpected) in testCases ->
+                testList (arrayToStr input) [
+                    testCase "Windows" (fun () ->
                         let actual = Fable.Unix.System.IO.Path.Combine input
-                        Expect.equal actual unixExpected "Path.Combine"
+                        Expect.equal actual unixExpected "Path.Combine unix"
                     )
-            ]
-            testList "Windows" [
-                for (input, _, windowsExpected) in testCases ->
-                    testCase (arrayToStr input) (fun () ->
+                    testCase "Unix" (fun () ->
                         let actual = Fable.Windows.System.IO.Path.Combine input
-                        Expect.equal actual windowsExpected "Path.Combine"
+                        Expect.equal actual windowsExpected "Path.Combine windows"
                     )
-            ]
-                
+                ]
         ]
     ]
 
