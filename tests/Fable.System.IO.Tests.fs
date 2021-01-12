@@ -33,17 +33,17 @@ let ``Fable.System.IO.Path.Tests`` =
             testList "OracleTests" [
                 // these tests compare the output to the BCL implementation to verify that they match for a particular
                 // platform
-                for (input, _, _) in testCases ->
+                for (input, unixExpected, windowsExpected) in testCases ->
                     testList (arrayToStr input) [
                         if RuntimeInformation.IsOSPlatform OSPlatform.Windows then
                             testCase "Windows" (fun () ->
-                                let actual = Fable.Windows.System.IO.Path.Combine input
+                                let actual = windowsExpected
                                 let expected = global.System.IO.Path.Combine input
                                 Expect.equal actual expected "Path.Combine Windows (Oracle)"
                             )
                         else
                             testCase "Unix" (fun () ->
-                                let actual = Fable.Unix.System.IO.Path.Combine input
+                                let actual = unixExpected
                                 let expected = global.System.IO.Path.Combine input
                                 Expect.equal actual expected "Path.Combine Unix (Oracle)"
                             )
