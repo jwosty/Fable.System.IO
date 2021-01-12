@@ -1,11 +1,16 @@
 module Fable.System.IO.Tests
 open System
-open System.Runtime.InteropServices
 #if FABLE_COMPILER
 open Fable.Mocha
 #else
+open System.Runtime.InteropServices
 open Expecto
 #endif
+
+#if FABLE_COMPILER
+type TestsAttribute() = inherit Attribute()
+#endif
+
 
 let arrayToStr (array: 'a[]) =
     "[|" + System.String.Join (";", array) + "|]"
@@ -62,6 +67,7 @@ let ``Fable.System.IO.Path.Tests`` =
                     ]
             ]
             testList "OracleTests" [
+#if !FABLE_COMPILER
                 for (caseName, input, expected) in testCases ->
                     testList caseName [
                         if RuntimeInformation.IsOSPlatform OSPlatform.Windows then
@@ -75,6 +81,7 @@ let ``Fable.System.IO.Path.Tests`` =
                                 Expect.equal expected oracle "Path.Combine Unix (Oracle)"
                             )
                     ]
+#endif
             ]
         ]
 
@@ -98,6 +105,7 @@ let ``Fable.System.IO.Path.Tests`` =
                     ]
             ]
             testList "OracleTests" [
+#if !FABLE_COMPILER
                 // these tests compare the output to the BCL implementation to verify that they match for a particular
                 // platform
                 for (input, unixExpected, windowsExpected) in testCases ->
@@ -115,6 +123,7 @@ let ``Fable.System.IO.Path.Tests`` =
                                 Expect.equal actual expected "Path.Combine Unix (Oracle)"
                             )
                     ]
+#endif
             ]
         ]
 

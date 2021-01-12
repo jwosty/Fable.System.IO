@@ -6,6 +6,7 @@
     <GenerateProgramFile>false</GenerateProgramFile>
   </PropertyGroup>
   <ItemGroup>
+    <None Include="webpack.config.js" />
     <None Include="paket.references" />
     <Compile Include="Fable.System.IO.Tests.fs" />
   </ItemGroup>
