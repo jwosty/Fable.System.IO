@@ -4,6 +4,9 @@ open System
 open System.Text
 
 module IO =
+    let private (|AllEmptyStrings|_|) (xs: string list) =
+        if xs |> List.forall String.IsNullOrEmpty then Some () else None
+
     type path(directorySeparatorChar: char, altDirectorySeparatorChar: char, usesDrives: bool) =        
         let allDirSeparators = Set.ofList [directorySeparatorChar; altDirectorySeparatorChar]
         let allDirSeparatorsArray = Set.toArray allDirSeparators
@@ -40,7 +43,7 @@ module IO =
                     lastChar <- p.[p.Length - 1]
                 sb.ToString ()
 
-        member this.GetRelativePath (relativeTo: string, path: string) =
+        member _.GetRelativePath (relativeTo: string, path: string) =
             let trimmedRelativeTo = relativeTo.TrimEnd allDirSeparatorsArray
             let trimmedPath = path.TrimEnd allDirSeparatorsArray
             if trimmedRelativeTo = trimmedPath then
@@ -52,13 +55,19 @@ module IO =
                     | rs, ps -> rs, ps
                 
                 let differingRelativeTo, differingPath =
-                    eatCommonParts  (Array.toList (trimmedRelativeTo.Split allDirSeparatorsArray))
-                                    (Array.toList (trimmedPath.Split allDirSeparatorsArray))
+                    eatCommonParts  (Array.toList (relativeTo.Split allDirSeparatorsArray))
+                                    (Array.toList (path.Split allDirSeparatorsArray))
+                
                 match differingRelativeTo, differingPath with
                 | ([] | [""]), ps -> String.Join (directorySeparatorString, ps)
-                | (_::_ as rs), [] ->
-                    String.Join(directorySeparatorString, Array.create rs.Length "..")
-                | _, _ -> String.Join(directorySeparatorString, [|"..";path|])
+                | (_::_ as rs), ps ->
+                    let parts = [|
+                        for _ in 1..rs.Length -> ".."
+                        yield! ps
+                    |]
+                    String.Join(directorySeparatorString, parts)
+
+
 
         member _.DirectorySeparatorChar : char = directorySeparatorChar
         member _.AltDirectorySeparatorChar : char = altDirectorySeparatorChar

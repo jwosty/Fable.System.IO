@@ -244,21 +244,26 @@ let ``Fable.System.IO.Path.Tests`` =
                     ("/foo/bar/baz/qux", "/foo"),   "../../..",         "..\\..\\.."
                 "relativeTo is 3-deep subdir of path (windows-style dir sep)",
                     ("C:\\foo\\bar\\baz\\qux", "C:\\foo"),"../C:\\foo", "..\\..\\.."
-                "relativeTo is 2-deep subdir of path (unix-style dir sep) with trailing dir sep",
-                ("/foo/bar/baz/", "/foo/"),         "../..",            "..\\.."
-                "relativeTo is 2-deep subdir of path (windows-style dir sep) with trailing dir sep",
-                ("C:\\foo\\bar\\baz\\", "C:\\foo\\"),"../C:\\foo\\",    "..\\.."
+                
+                "multi-level sibling paths (unix dir sep)",
+                    ("foo/bar", "baz/qux"),         "../../baz/qux",    "..\\..\\baz\\qux"
+                "multi-level sibling paths (windows dir sep)",
+                    ("foo\\bar", "baz\\qux"),       "../baz\\qux",      "..\\..\\baz\\qux"
+                "multi-level sibling paths (unix dir sep) with trailing dir sep",
+                    ("foo/bar", "baz/qux/"),        "../../baz/qux/",   "..\\..\\baz\\qux\\"
+                "multi-level sibling paths (windows dir sep) with trailing dir sep",
+                    ("foo\\bar", "baz\\qux\\"),     "../baz\\qux\\",    "..\\..\\baz\\qux\\"
             ]
             testList "IndependentTests" [
                 for (caseName, (input1, input2), unixExpected, windowsExpected) in testCases ->
                     testList caseName [
                         testCase "Windows" (fun () ->
                             let actual = Fable.Windows.System.IO.Path.GetRelativePath (input1, input2)
-                            Expect.equal actual windowsExpected "Path.Combine Windows"
+                            Expect.equal actual windowsExpected "Path.GetRelativePath Windows"
                         )
                         testCase "Unix" (fun () ->
                             let actual = Fable.Unix.System.IO.Path.GetRelativePath (input1, input2)
-                            Expect.equal actual unixExpected "Path.Combine Unix"
+                            Expect.equal actual unixExpected "Path.GetRelativePath Unix"
                         )
                     ]
             ]
@@ -271,7 +276,7 @@ let ``Fable.System.IO.Path.Tests`` =
                         testCase osName (fun () ->
                             let actual = if isWindows then windowsExpected else unixExpected
                             let expected = global.System.IO.Path.GetRelativePath (input1, input2)
-                            Expect.equal actual expected ("Path.Combine " + osName + " (Oracle)")
+                            Expect.equal actual expected ("Path.GetRelativePath " + osName + " (Oracle)")
                         )
                     ]
 #endif
