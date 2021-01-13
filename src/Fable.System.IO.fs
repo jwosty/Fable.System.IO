@@ -6,7 +6,9 @@ open System.Text
 module IO =
     type path(directorySeparatorChar: char, altDirectorySeparatorChar: char, usesDrives: bool) =        
         let allDirSeparators = Set.ofList [directorySeparatorChar; altDirectorySeparatorChar]
-        let allDirSearatorsArray = Set.toArray allDirSeparators
+        let allDirSeparatorsArray = Set.toArray allDirSeparators
+
+        let directorySeparatorString = string directorySeparatorChar
 
         member _.IsPathRooted (path: string) =
             if path.Length = 0 then false
@@ -38,20 +40,25 @@ module IO =
                     lastChar <- p.[p.Length - 1]
                 sb.ToString ()
 
-        member _.GetRelativePath (relativeTo: string, path: string) =
-            if relativeTo = path then
+        member this.GetRelativePath (relativeTo: string, path: string) =
+            let trimmedRelativeTo = relativeTo.TrimEnd allDirSeparatorsArray
+            let trimmedPath = path.TrimEnd allDirSeparatorsArray
+            if trimmedRelativeTo = trimmedPath then
                 "."
             else
-                let rec f thunkSiblingPaths (relativeToParts: string list) (pathParts: string list) =
+                let rec eatCommonParts (relativeToParts: string list) (pathParts: string list) =
                     match relativeToParts, pathParts with
-                    | r::rs, p::ps when r = p -> f thunkSiblingPaths rs ps
-                    | ([] | [""]), ps -> String.Join (string directorySeparatorChar, ps)
-                    | _, _ -> thunkSiblingPaths ()
+                    | r::rs, p::ps when r = p -> eatCommonParts rs ps
+                    | rs, ps -> rs, ps
                 
-                f
-                    (fun () -> sprintf "..%c%s" directorySeparatorChar path)
-                    (Array.toList (relativeTo.Split allDirSearatorsArray))
-                    (Array.toList (path.Split allDirSearatorsArray))
+                let differingRelativeTo, differingPath =
+                    eatCommonParts  (Array.toList (trimmedRelativeTo.Split allDirSeparatorsArray))
+                                    (Array.toList (trimmedPath.Split allDirSeparatorsArray))
+                match differingRelativeTo, differingPath with
+                | ([] | [""]), ps -> String.Join (directorySeparatorString, ps)
+                | (_::_ as rs), [] ->
+                    String.Join(directorySeparatorString, Array.create rs.Length "..")
+                | _, _ -> String.Join(directorySeparatorString, [|"..";path|])
 
         member _.DirectorySeparatorChar : char = directorySeparatorChar
         member _.AltDirectorySeparatorChar : char = altDirectorySeparatorChar

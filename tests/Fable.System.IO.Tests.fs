@@ -205,6 +205,10 @@ let ``Fable.System.IO.Path.Tests`` =
                 // separators -- this is exactly how mscorlib System.IO.Path behaves!
                 "identical paths",
                     ("SomePath", "SomePath"),       ".",                "."
+                "equivalent (but not identical) paths using unix dir sep",
+                    ("SomePath", "SomePath/"),      ".",                "."
+                "equivalent (but not identical) paths using windows dir sep",
+                    ("SomePath", "SomePath\\"),     "../SomePath\\",    "."
                 "sibling paths",
                     ("foo", "bar"),                 "../bar",           "..\\bar"
                 "1-deep unix-style subdir",
@@ -223,6 +227,27 @@ let ``Fable.System.IO.Path.Tests`` =
                     ("foo", "foo/bar/"),            "bar/",             "bar\\"
                 "2-deep windows-style subdir with trailing sep",
                     ("foo", "foo\\bar\\"),          "../foo\\bar\\",    "bar\\"
+                "2-deep unix-style subdir of absolute path",
+                    ("/foo/bar", "/foo/bar/baz"),   "baz",              "baz"
+                "2-deep windows-style subdir of absolute path",
+                    ("C:\\foo\\bar", "C:\\foo\\bar\\baz"), "../C:\\foo\\bar\\baz", "baz"
+
+                "relativeTo is 1-deep subdir of path (unix-style dir sep)",
+                    ("/foo/bar", "/foo"),           "..",               ".."
+                "relativeTo is 1-deep subdir of path (windows-style dir sep)",
+                    ("C:\\foo\\bar", "C:\\foo"),    "../C:\\foo",       ".."
+                "relativeTo is 2-deep subdir of path (unix-style dir sep)",
+                    ("/foo/bar/baz", "/foo"),       "../..",            "..\\.."
+                "relativeTo is 2-deep subdir of path (windows-style dir sep)",
+                    ("C:\\foo\\bar\\baz", "C:\\foo"),"../C:\\foo",      "..\\.."
+                "relativeTo is 3-deep subdir of path (unix-style dir sep)",
+                    ("/foo/bar/baz/qux", "/foo"),   "../../..",         "..\\..\\.."
+                "relativeTo is 3-deep subdir of path (windows-style dir sep)",
+                    ("C:\\foo\\bar\\baz\\qux", "C:\\foo"),"../C:\\foo", "..\\..\\.."
+                "relativeTo is 2-deep subdir of path (unix-style dir sep) with trailing dir sep",
+                ("/foo/bar/baz/", "/foo/"),         "../..",            "..\\.."
+                "relativeTo is 2-deep subdir of path (windows-style dir sep) with trailing dir sep",
+                ("C:\\foo\\bar\\baz\\", "C:\\foo\\"),"../C:\\foo\\",    "..\\.."
             ]
             testList "IndependentTests" [
                 for (caseName, (input1, input2), unixExpected, windowsExpected) in testCases ->
