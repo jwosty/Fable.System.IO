@@ -15,73 +15,77 @@ type TestsAttribute() = inherit Attribute()
 let arrayToStr (array: 'a[]) =
     "[|" + System.String.Join (";", array) + "|]"
 
+#if !FABLE_COMPILER
 let isWindows = RuntimeInformation.IsOSPlatform OSPlatform.Windows
 let osName = if isWindows then "Windows" else "Unix"
+#endif
 
 let ``Fable.System.IO.Path.Tests`` =
     let isPathRootedTests =
         let testCases = [
-            "empty path", "", false
-            "simple unix-style relative path", "foo/bar", false
-            "simple windows-style relative path", "foo\\bar", false
-            "simple mixed-style relative path", "foo/bar\\baz", false
+            "empty path", "", false, false
+            "simple unix-style relative path", "foo/bar", false, false
+            "simple windows-style relative path", "foo\\bar", false, false
+            "simple mixed-style relative path", "foo/bar\\baz", false, false
 
-            "explicit current dir", ".", false
-            "explicit parent dir", "..", false
-            "explicit current dir with trailing unix path separator", "./", false
-            "explicit current dir with trailing windows path separator", ".\\", false
-            "explicit parent dir with trailing unix path separator", "../", false
-            "explicit parent dir with trailing windows path separator", "..\\", false
+            "explicit current dir", ".", false, false
+            "explicit parent dir", "..", false, false
+            "explicit current dir with trailing unix path separator", "./", false, false
+            "explicit current dir with trailing windows path separator", ".\\", false, false
+            "explicit parent dir with trailing unix path separator", "../", false, false
+            "explicit parent dir with trailing windows path separator", "..\\", false, false
 
-            "unix root", "/", true
-            "simple unix absolute path", "/foo", true
-            "simple unix absolute path with trailing separators", "/foo/", true
-            "simple unix absolute path with extra beginning separators", "//foo", true
+            "unix root", "/", true, true
+            "simple unix absolute path", "/foo", true, true
+            "simple unix absolute path with trailing separators", "/foo/", true, true
+            "simple unix absolute path with extra beginning separators", "//foo", true, true
             
-            "windows C drive 1 no slash", "C:", true
-            "windows C drive 2 slash", "C:\\", true
-            "windows C drive subfolder", "C:\\foo", true
-            "windows C drive forward slash", "C:/", true
-            "windows C drive subfolder no slash", "C:foo", true
-            "windows style root no drive letter", "\\", true
-            "windows style root subfolder no drive letter", "\\foo", true
-            "windows D drive forward slash", "D://", true
-            "windows z drive slash", "z:\\", true
-            "windows Z drive slash", "Z:\\", true
-            "windows a drive slash", "a:\\", true
-            "windows A drive slash", "A:\\", true
+            // Path.IsRootedPath on Unix doesn't think Windows root paths are rooted because it doesn't recognize the
+            // Windows directory separator. Hence, these implementations will disagree here.
+            "windows C drive 1 no slash", "C:", false, true
+            "windows C drive 2 slash", "C:\\", false, true
+            "windows C drive subfolder", "C:\\foo", false, true
+            "windows C drive forward slash", "C:/", false, true
+            "windows C drive subfolder no slash", "C:foo", false, true
+            "windows style root no drive letter", "\\", false, true
+            "windows style root subfolder no drive letter", "\\foo", false, true
+            "windows D drive forward slash", "D://", false, true
+            "windows z drive slash", "z:\\", false, true
+            "windows Z drive slash", "Z:\\", false, true
+            "windows a drive slash", "a:\\", false, true
+            "windows A drive slash", "A:\\", false, true
 
-            "UNC named pipe", "\\.\\pipe\\MyPipe", true
+            "UNC named pipe", "\\.\\pipe\\MyPipe", false, true
             
-            "strange path", "::", false
+            "strange path", "::", false, false
         ]
         testList "IsPathRooted" [
             testList "IndependentTests" [
-                for (caseName, input, expected) in testCases ->
+                for (caseName, input, unixExpected, windowsExpected) in testCases ->
                     testList caseName [
                         testCase "Windows" (fun () ->
                             let actual = Fable.Windows.System.IO.Path.IsPathRooted input
-                            Expect.equal actual expected "Path.IsPathRooted Windows"
+                            Expect.equal actual windowsExpected "Path.IsPathRooted Windows"
                         )
                         testCase "Unix" (fun () ->
                             let actual = Fable.Unix.System.IO.Path.IsPathRooted input
-                            Expect.equal actual expected "Path.IsPathRooted Unix"
+                            Expect.equal actual unixExpected "Path.IsPathRooted Unix"
                         )
                     ]
             ]
             testList "OracleTests" [
 #if !FABLE_COMPILER
-                for (caseName, input, expected) in testCases ->
+                for (caseName, input, unixExpected, windowsExpected) in testCases ->
                     testList caseName [
                         if RuntimeInformation.IsOSPlatform OSPlatform.Windows then
                             testCase "Windows" (fun () ->
                                 let oracle = global.System.IO.Path.IsPathRooted input
-                                Expect.equal expected oracle "Path.Combine Windows (Oracle)"
+                                Expect.equal windowsExpected oracle "Path.Combine Windows (Oracle)"
                             )
                         else
                             testCase "Unix" (fun () ->
                                 let oracle = global.System.IO.Path.IsPathRooted input
-                                Expect.equal expected oracle "Path.Combine Unix (Oracle)"
+                                Expect.equal unixExpected oracle "Path.Combine Unix (Oracle)"
                             )
                     ]
 #endif
@@ -109,24 +113,25 @@ let ``Fable.System.IO.Path.Tests`` =
             "3 parts with trailing unix slash",
                 [|"foo/"; "bar"; "baz/"|],  "foo/bar/baz/",     "foo/bar\\baz/"
             "3 parts with trailing windows slash",
-                [|"foo\\"; "bar"; "baz\\"|],"foo\\bar/baz\\",   "foo\\bar\\baz\\"
+                [|"foo\\"; "bar"; "baz\\"|],"foo\\/bar/baz\\",  "foo\\bar\\baz\\"
             "absolute 3 parts with trailing unix slash",
                 [|"C:/"; "foo"; "bar/"|],   "C:/foo/bar/",      "C:/foo\\bar/"
             "absolute 3 parts with trailing windows slash",
-                [|"C:\\";"foo";"bar\\"|],   "C:\\foo/bar\\",    "C:\\foo\\bar\\"
+                [|"C:\\";"foo";"bar\\"|],   "C:\\/foo/bar\\",   "C:\\foo\\bar\\"
             "3 parts with mixed empty & non-empty",
                 [|"foo";"";"bar"|],         "foo/bar",          "foo\\bar"
             "3 parts with extra unix slashes",
                 [|"foo//";"bar/";"baz/"|],  "foo//bar/baz/",    "foo//bar/baz/"
             "3 parts with extra windows slashes",
-                [|"foo\\\\";"bar\\";"baz\\"|], "foo\\\\bar\\baz\\", "foo\\\\bar\\baz\\"
+                [|"foo\\\\";"bar\\";"baz\\"|], "foo\\\\/bar\\/baz\\", "foo\\\\bar\\baz\\"
             
+            // unix acts funny on some of these because it doesn't recognize Windows drive paths as being rooted
             "2 absolute windows paths",
-                [|"C:\\foo";"C:\\bar"|],    "C:\\bar",          "C:\\bar"
+                [|"C:\\foo";"C:\\bar"|],    "C:\\foo/C:\\bar",  "C:\\bar"
             "2 absolute unix paths",
                 [|"/foo";"/bar"|],          "/bar",             "/bar"
             "mixed windows absolute and relative paths",
-                [|"C:\\foo";"bar";"C:\\baz";"qux"|],"C:\\baz/qux",  "C:\\baz\\qux"
+                [|"C:\\foo";"bar";"C:\\baz";"qux"|],"C:\\foo/bar/C:\\baz/qux",  "C:\\baz\\qux"
             "mixed unix absolute and relative paths",
                 [|"/foo";"bar";"/baz";"qux"|],     "/baz/qux",     "/baz\\qux"
         ]

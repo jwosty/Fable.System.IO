@@ -4,14 +4,17 @@ open System
 open System.Text
 
 module IO =
-    type path(directorySeparatorChar: char, altDirectorySeparatorChar) =
+    type path(directorySeparatorChar: char, altDirectorySeparatorChar: char, usesDrives: bool) =        
+        let allDirSeparators = Set.ofList [directorySeparatorChar; altDirectorySeparatorChar]
+        
         member _.IsPathRooted (path: string) =
             if path.Length = 0 then false
-            else if path.[0] = '/' || path.[0] = '\\' then true
+            else if allDirSeparators.Contains path.[0] then true
             else if path.Length = 1 then false
-            else
-                let driveLetter = path.[0]
-                (path.[1] = ':') && (int driveLetter) >= (int 'A') && (int driveLetter) <= (int 'z')
+            else if usesDrives then
+                    let driveLetter = path.[0]
+                    (path.[1] = ':') && (int driveLetter) >= (int 'A') && (int driveLetter) <= (int 'z')
+            else false
 
         // TODO: implement GetInvalidPathChars() and throw whenever those chars are used        
         member this.Combine ([<ParamArray>] paths: string[]) =
@@ -28,7 +31,7 @@ module IO =
                 // can't use StringBuilder.Chars nor StringBuilder.Length because they're not implemented in Fable
                 let mutable lastChar = paths.[0].[paths.[0].Length - 1]
                 for p in Seq.tail paths do
-                    if not (lastChar = '/' || lastChar = '\\') then
+                    if not (allDirSeparators.Contains lastChar) then
                         sb.Append directorySeparatorChar |> ignore
                     sb.Append p |> ignore
                     lastChar <- p.[p.Length - 1]
@@ -39,9 +42,9 @@ module IO =
 
 namespace Fable.Unix.System
 module IO =
-    let Path = Fable.System.IO.path('/', '/')
+    let Path = Fable.System.IO.path('/', '/', false)
 
 namespace Fable.Windows.System
 module IO =
-    let Path = Fable.System.IO.path('\\', '/')
+    let Path = Fable.System.IO.path('\\', '/', true)
 
