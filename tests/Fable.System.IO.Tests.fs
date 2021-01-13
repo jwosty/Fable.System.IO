@@ -15,6 +15,9 @@ type TestsAttribute() = inherit Attribute()
 let arrayToStr (array: 'a[]) =
     "[|" + System.String.Join (";", array) + "|]"
 
+let isWindows = RuntimeInformation.IsOSPlatform OSPlatform.Windows
+let osName = if isWindows then "Windows" else "Unix"
+
 let ``Fable.System.IO.Path.Tests`` =
     let isPathRootedTests =
         let testCases = [
@@ -147,26 +150,53 @@ let ``Fable.System.IO.Path.Tests`` =
                 // platform
                 for (caseName, input, unixExpected, windowsExpected) in testCases ->
                     testList caseName [
-                        if RuntimeInformation.IsOSPlatform OSPlatform.Windows then
-                            testCase "Windows" (fun () ->
-                                let actual = windowsExpected
-                                let expected = global.System.IO.Path.Combine input
-                                Expect.equal actual expected "Path.Combine Windows (Oracle)"
-                            )
-                        else
-                            testCase "Unix" (fun () ->
-                                let actual = unixExpected
-                                let expected = global.System.IO.Path.Combine input
-                                Expect.equal actual expected "Path.Combine Unix (Oracle)"
-                            )
+                        testCase osName (fun () ->
+                            let actual = if isWindows then windowsExpected else unixExpected
+                            let expected = global.System.IO.Path.Combine input
+                            Expect.equal actual expected ("Path.Combine " + osName + " (Oracle)")
+                        )
                     ]
 #endif
             ]
         ]
 
+    let directorySeparatorTests = [
+        testList "DirectorySeparator" [
+#if !FABLE_COMPILER
+            testList "OracleTests" [
+                testCase osName (fun () ->
+                    let actual =
+                        if isWindows then
+                            Fable.Windows.System.IO.Path.DirectorySeparatorChar
+                        else
+                            Fable.Unix.System.IO.Path.DirectorySeparatorChar
+                    Expect.equal actual global.System.IO.Path.DirectorySeparatorChar
+                        ("Path.DirectorySeparatorChar " + osName + " (Oracle)")
+                )
+            ]
+#endif
+        ]
+        testList "AltDirectorySeparator" [
+#if !FABLE_COMPILER
+            testList "OracleTests" [
+                testCase osName (fun () ->
+                    let actual =
+                        if isWindows then
+                            Fable.Windows.System.IO.Path.AltDirectorySeparatorChar
+                        else
+                            Fable.Unix.System.IO.Path.AltDirectorySeparatorChar
+                    Expect.equal actual global.System.IO.Path.AltDirectorySeparatorChar
+                        ("Path.AltDirectorySeparatorChar " + osName + " (Oracle)")
+                )
+            ]
+#endif
+        ]
+    ]
+
     testList "Path" [
-        isPathRootedTests
-        combineTests
+        yield isPathRootedTests
+        yield combineTests
+        yield! directorySeparatorTests
     ]
 
 [<Tests>]

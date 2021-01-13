@@ -4,15 +4,16 @@ open System
 open System.Text
 
 module IO =
-    type path(pathSeparator: string) =
-        member this.IsPathRooted (path: string) =
+    type path(directorySeparatorChar: char, altDirectorySeparatorChar) =
+        member _.IsPathRooted (path: string) =
             if path.Length = 0 then false
             else if path.[0] = '/' || path.[0] = '\\' then true
             else if path.Length = 1 then false
             else
                 let driveLetter = path.[0]
                 (path.[1] = ':') && (int driveLetter) >= (int 'A') && (int driveLetter) <= (int 'z')
-        
+
+        // TODO: implement GetInvalidPathChars() and throw whenever those chars are used        
         member this.Combine ([<ParamArray>] paths: string[]) =
             let paths = paths |> Array.filter (fun p -> p <> "")
             let skipUntilLastRooted paths =
@@ -28,16 +29,19 @@ module IO =
                 let mutable lastChar = paths.[0].[paths.[0].Length - 1]
                 for p in Seq.tail paths do
                     if not (lastChar = '/' || lastChar = '\\') then
-                        sb.Append pathSeparator |> ignore
+                        sb.Append directorySeparatorChar |> ignore
                     sb.Append p |> ignore
                     lastChar <- p.[p.Length - 1]
                 sb.ToString ()
 
+        member _.DirectorySeparatorChar : char = directorySeparatorChar
+        member _.AltDirectorySeparatorChar : char = altDirectorySeparatorChar
+
 namespace Fable.Unix.System
 module IO =
-    let Path = Fable.System.IO.path("/")
+    let Path = Fable.System.IO.path('/', '/')
 
 namespace Fable.Windows.System
 module IO =
-    let Path = Fable.System.IO.path("\\")
+    let Path = Fable.System.IO.path('\\', '/')
 
