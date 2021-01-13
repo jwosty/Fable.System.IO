@@ -6,7 +6,8 @@ open System.Text
 module IO =
     type path(directorySeparatorChar: char, altDirectorySeparatorChar: char, usesDrives: bool) =        
         let allDirSeparators = Set.ofList [directorySeparatorChar; altDirectorySeparatorChar]
-        
+        let allDirSearatorsArray = Set.toArray allDirSeparators
+
         member _.IsPathRooted (path: string) =
             if path.Length = 0 then false
             else if allDirSeparators.Contains path.[0] then true
@@ -37,6 +38,21 @@ module IO =
                     lastChar <- p.[p.Length - 1]
                 sb.ToString ()
 
+        member _.GetRelativePath (relativeTo: string, path: string) =
+            if relativeTo = path then
+                "."
+            else
+                let rec f thunkSiblingPaths (relativeToParts: string list) (pathParts: string list) =
+                    match relativeToParts, pathParts with
+                    | r::rs, p::ps when r = p -> f thunkSiblingPaths rs ps
+                    | ([] | [""]), ps -> String.Join (string directorySeparatorChar, ps)
+                    | _, _ -> thunkSiblingPaths ()
+                
+                f
+                    (fun () -> sprintf "..%c%s" directorySeparatorChar path)
+                    (Array.toList (relativeTo.Split allDirSearatorsArray))
+                    (Array.toList (path.Split allDirSearatorsArray))
+
         member _.DirectorySeparatorChar : char = directorySeparatorChar
         member _.AltDirectorySeparatorChar : char = altDirectorySeparatorChar
 
@@ -47,4 +63,3 @@ module IO =
 namespace Fable.Windows.System
 module IO =
     let Path = Fable.System.IO.path('\\', '/', true)
-

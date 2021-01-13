@@ -197,11 +197,67 @@ let ``Fable.System.IO.Path.Tests`` =
 #endif
         ]
     ]
+    
+    let getRelativePathTests =
+        testList "GetRelativePath" [
+            let testCases = [
+                // note that in all of these it ends up replacing the path separators with the current platform's
+                // separators -- this is exactly how mscorlib System.IO.Path behaves!
+                "identical paths",
+                    ("SomePath", "SomePath"),       ".",                "."
+                "sibling paths",
+                    ("foo", "bar"),                 "../bar",           "..\\bar"
+                "1-deep unix-style subdir",
+                    ("foo", "foo/bar"),             "bar",              "bar"
+                "1-deep windows-style subdir",
+                    ("foo", "foo\\bar"),            "../foo\\bar",      "bar"
+                "1-deep unix-style subdir in deeper parent",
+                    ("foo/bar", "foo/bar/baz"),     "baz",              "baz"
+                "1-deep windows-style subdir in deeper parent",
+                    ("foo\\bar", "foo\\bar\\baz"),  "../foo\\bar\\baz", "baz"
+                "2-deep unix-style subdir",
+                    ("foo", "foo/bar/baz"),         "bar/baz",          "bar\\baz"
+                "2-deep windows-style subdir",
+                    ("foo", "foo\\bar\\baz"),       "../foo\\bar\\baz", "bar\\baz"
+                "2-deep unix-style subdir with trailing sep",
+                    ("foo", "foo/bar/"),            "bar/",             "bar\\"
+                "2-deep windows-style subdir with trailing sep",
+                    ("foo", "foo\\bar\\"),          "../foo\\bar\\",    "bar\\"
+            ]
+            testList "IndependentTests" [
+                for (caseName, (input1, input2), unixExpected, windowsExpected) in testCases ->
+                    testList caseName [
+                        testCase "Windows" (fun () ->
+                            let actual = Fable.Windows.System.IO.Path.GetRelativePath (input1, input2)
+                            Expect.equal actual windowsExpected "Path.Combine Windows"
+                        )
+                        testCase "Unix" (fun () ->
+                            let actual = Fable.Unix.System.IO.Path.GetRelativePath (input1, input2)
+                            Expect.equal actual unixExpected "Path.Combine Unix"
+                        )
+                    ]
+            ]
+            testList "OracleTests" [
+#if !FABLE_COMPILER
+                // these tests compare the output to the BCL implementation to verify that they match for a particular
+                // platform
+                for (caseName, (input1, input2), unixExpected, windowsExpected) in testCases ->
+                    testList caseName [
+                        testCase osName (fun () ->
+                            let actual = if isWindows then windowsExpected else unixExpected
+                            let expected = global.System.IO.Path.GetRelativePath (input1, input2)
+                            Expect.equal actual expected ("Path.Combine " + osName + " (Oracle)")
+                        )
+                    ]
+#endif
+            ]
+        ]
 
     testList "Path" [
         yield isPathRootedTests
         yield combineTests
         yield! directorySeparatorTests
+        yield getRelativePathTests
     ]
 
 [<Tests>]
