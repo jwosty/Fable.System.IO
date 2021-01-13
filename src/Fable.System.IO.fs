@@ -58,14 +58,15 @@ module IO =
                     eatCommonParts  (Array.toList (relativeTo.Split allDirSeparatorsArray))
                                     (Array.toList (path.Split allDirSeparatorsArray))
                 
-                match differingRelativeTo, differingPath with
-                | ([] | [""]), ps -> String.Join (directorySeparatorString, ps)
-                | (_::_ as rs), ps ->
-                    let parts = [|
-                        for _ in 1..rs.Length -> ".."
-                        yield! ps
-                    |]
-                    String.Join(directorySeparatorString, parts)
+                let nonEmptyRs = differingRelativeTo |> Seq.filter (not << String.IsNullOrEmpty)
+                let parts = [|
+                    for _ in 1 .. (Seq.length nonEmptyRs) -> ".."
+                    // if differingPath is empty, that means relativeTo is a strict subdir of path, and we don't want
+                    // to add any trailing slashes in that situation
+                    if differingPath <> [""] then
+                        yield! differingPath
+                |]
+                String.Join(directorySeparatorString, parts)
 
 
 
