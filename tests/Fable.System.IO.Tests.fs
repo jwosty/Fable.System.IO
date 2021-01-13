@@ -87,13 +87,50 @@ let ``Fable.System.IO.Path.Tests`` =
 
     let combineTests =
         let testCases = [
-            [|"foo"|], "foo", "foo"
-            [|"foo"; "bar"|], "foo/bar", "foo\\bar"
+            "1 empty part",
+                [|""|],                     "",                 ""
+            "2 empty parts",
+                [|"";""|],                  "",                 ""
+            "3 empty parts",
+                [|"";"";""|],               "",                 ""
+            "one part",
+                [|"foo"|],                  "foo",              "foo"
+            "two parts",
+                [|"foo";"bar"|],            "foo/bar",          "foo\\bar"
+            "three parts",
+                [|"foo";"bar";"baz"|],      "foo/bar/baz",      "foo\\bar\\baz"
+            "1 part with trailing unix slash",
+                [|"foo/"|],                 "foo/",             "foo/"
+            "1 part with trailing windows slash",
+                [|"foo\\"|],                "foo\\",            "foo\\"
+            "3 parts with trailing unix slash",
+                [|"foo/"; "bar"; "baz/"|],  "foo/bar/baz/",     "foo/bar\\baz/"
+            "3 parts with trailing windows slash",
+                [|"foo\\"; "bar"; "baz\\"|],"foo\\bar/baz\\",   "foo\\bar\\baz\\"
+            "absolute 3 parts with trailing unix slash",
+                [|"C:/"; "foo"; "bar/"|],   "C:/foo/bar/",      "C:/foo\\bar/"
+            "absolute 3 parts with trailing windows slash",
+                [|"C:\\";"foo";"bar\\"|],   "C:\\foo/bar\\",    "C:\\foo\\bar\\"
+            "3 parts with mixed empty & non-empty",
+                [|"foo";"";"bar"|],         "foo/bar",          "foo\\bar"
+            "3 parts with extra unix slashes",
+                [|"foo//";"bar/";"baz/"|],  "foo//bar/baz/",    "foo//bar/baz/"
+            "3 parts with extra windows slashes",
+                [|"foo\\\\";"bar\\";"baz\\"|], "foo\\\\bar\\baz\\", "foo\\\\bar\\baz\\"
+            
+            "2 absolute windows paths",
+                [|"C:\\foo";"C:\\bar"|],    "C:\\bar",          "C:\\bar"
+            "2 absolute unix paths",
+                [|"/foo";"/bar"|],          "/bar",             "/bar"
+            "mixed windows absolute and relative paths",
+                [|"C:\\foo";"bar";"C:\\baz";"qux"|],"C:\\baz/qux",  "C:\\baz\\qux"
+            "mixed unix absolute and relative paths",
+                [|"/foo";"bar";"/baz";"qux"|],     "/baz/qux",     "/baz\\qux"
         ]
         testList "Combine" [
             testList "IndependentTests" [
-                for (input, unixExpected, windowsExpected) in testCases ->
-                    testList (arrayToStr input) [
+                for (caseName, input, unixExpected, windowsExpected) in testCases ->
+                    testList caseName [
                         testCase "Windows" (fun () ->
                             let actual = Fable.Windows.System.IO.Path.Combine input
                             Expect.equal actual windowsExpected "Path.Combine Windows"
@@ -108,8 +145,8 @@ let ``Fable.System.IO.Path.Tests`` =
 #if !FABLE_COMPILER
                 // these tests compare the output to the BCL implementation to verify that they match for a particular
                 // platform
-                for (input, unixExpected, windowsExpected) in testCases ->
-                    testList (arrayToStr input) [
+                for (caseName, input, unixExpected, windowsExpected) in testCases ->
+                    testList caseName [
                         if RuntimeInformation.IsOSPlatform OSPlatform.Windows then
                             testCase "Windows" (fun () ->
                                 let actual = windowsExpected
