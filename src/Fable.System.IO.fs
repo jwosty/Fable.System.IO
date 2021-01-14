@@ -7,7 +7,7 @@ module IO =
     let private (|AllEmptyStrings|_|) (xs: string list) =
         if xs |> List.forall String.IsNullOrEmpty then Some () else None
 
-    type path(directorySeparatorChar: char, altDirectorySeparatorChar: char, usesDrives: bool) =        
+    type path internal(directorySeparatorChar: char, altDirectorySeparatorChar: char, usesDrives: bool) =        
         let allDirSeparators = Set.ofList [directorySeparatorChar; altDirectorySeparatorChar]
         let allDirSeparatorsArray = Set.toArray allDirSeparators
 
