@@ -1,4 +1,4 @@
-name: .NET
+name: CI
 
 on:
   push:
@@ -7,8 +7,28 @@ on:
     branches: [ master ]
 
 jobs:
-  build:
+  build-windows:
+    runs-on: windows-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: 5.0.101
+    - name: Setup Node.js
+      uses: actions/setup-node@v1
+    - name: Restore dependencies
+      run: |
+        dotnet tool restore
+        dotnet paket restore
+        yarn install
+    - name: Build
+      run: dotnet fake build -t Build
+    - name: Test
+      run: dotnet fake build -t Test
     
+  build-ubuntu:
     runs-on: ubuntu-latest
 
     steps:
