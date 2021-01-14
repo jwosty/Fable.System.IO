@@ -43,30 +43,36 @@ module IO =
                     lastChar <- p.[p.Length - 1]
                 sb.ToString ()
 
-        member _.GetRelativePath (relativeTo: string, path: string) =
+        member this.GetRelativePath (relativeTo: string, path: string) =
             let trimmedRelativeTo = relativeTo.TrimEnd allDirSeparatorsArray
             let trimmedPath = path.TrimEnd allDirSeparatorsArray
             if trimmedRelativeTo = trimmedPath then
                 "."
             else
-                let rec eatCommonParts (relativeToParts: string list) (pathParts: string list) =
+                let rec eatCommonParts hasCommonParts (relativeToParts: string list) (pathParts: string list) =
                     match relativeToParts, pathParts with
-                    | r::rs, p::ps when r = p -> eatCommonParts rs ps
-                    | rs, ps -> rs, ps
+                    | r::rs, p::ps when r = p -> eatCommonParts true rs ps
+                    | rs, ps -> hasCommonParts, rs, ps
                 
-                let differingRelativeTo, differingPath =
-                    eatCommonParts  (Array.toList (relativeTo.Split allDirSeparatorsArray))
-                                    (Array.toList (path.Split allDirSeparatorsArray))
+                let hasCommonParts, differingRelativeTo, differingPath =
+                    eatCommonParts false
+                        (Array.toList (relativeTo.Split allDirSeparatorsArray))
+                        (Array.toList (path.Split allDirSeparatorsArray))
                 
-                let nonEmptyRs = differingRelativeTo |> Seq.filter (not << String.IsNullOrEmpty)
-                let parts = [|
-                    for _ in 1 .. (Seq.length nonEmptyRs) -> ".."
-                    // if differingPath is empty, that means relativeTo is a strict subdir of path, and we don't want
-                    // to add any trailing slashes in that situation
-                    if differingPath <> [""] then
-                        yield! differingPath
-                |]
-                String.Join(directorySeparatorString, parts)
+                if not hasCommonParts && this.IsPathRooted relativeTo && this.IsPathRooted path then
+                    // if they share nothing, meaning they have different roots, return ``path`` as is (i.e. C:\\foo
+                    // and D:\\bar)
+                    path
+                else
+                    let nonEmptyRs = differingRelativeTo |> Seq.filter (not << String.IsNullOrEmpty)
+                    let parts = [|
+                        for _ in 1 .. (Seq.length nonEmptyRs) -> ".."
+                        // if differingPath is empty, that means relativeTo is a strict subdir of path, and we don't want
+                        // to add any trailing slashes in that situation
+                        if differingPath <> [""] then
+                            yield! differingPath
+                    |]
+                    String.Join(directorySeparatorString, parts)
 
 
 

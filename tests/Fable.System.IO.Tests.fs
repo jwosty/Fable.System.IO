@@ -257,7 +257,10 @@ let ``Fable.System.IO.Path.Tests`` =
                 "relativeTo is 2-deep subdir of path (unix-style dir sep) with trailing dir sep",
                     ("/foo/bar/baz/", "/foo/"),     "../..",            "..\\.."
                 "relativeTo is 2-deep subdir of path (windows-style dir sep) with trailing dir sep",
-                    ("C:\\foo\\bar\\baz\\", "C:\\foo\\"),"../C:\\foo\\",    "..\\.."
+                    ("C:\\foo\\bar\\baz\\", "C:\\foo\\"),"../C:\\foo\\","..\\.."
+
+                "two absolute paths with nothing in common (windows-style dir sep)",
+                    ("C:\\foo","D:\\bar"),          "../D:\\bar",       "D:\\bar"
             ]
             testList "IndependentTests" [
                 for (caseName, (input1, input2), unixExpected, windowsExpected) in testCases ->
