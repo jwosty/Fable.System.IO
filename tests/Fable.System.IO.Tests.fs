@@ -21,6 +21,39 @@ let osName = if isWindows then "Windows" else "Unix"
 #endif
 
 let ``Fable.System.IO.Path.Tests`` =
+    let invalidFilenameAndPathChars = [
+        testList "InvalidFileNameChars" [
+#if !FABLE_COMPILER
+            testList "OracleTests" [
+                testCase osName (fun () ->
+                    let actual =
+                        if isWindows then
+                            Fable.Windows.System.IO.Path.GetInvalidFileNameChars ()
+                        else
+                            Fable.Unix.System.IO.Path.GetInvalidFileNameChars ()
+                    Expect.equal actual (global.System.IO.Path.GetInvalidFileNameChars ())
+                        ("Path.GetInvalidFileNameChars " + osName + " (Oracle)")
+                )
+            ]
+#endif
+        ]
+        testList "InvalidPathChars" [
+#if !FABLE_COMPILER
+            testList "OracleTests" [
+                testCase osName (fun () ->
+                    let actual =
+                        if isWindows then
+                            Fable.Windows.System.IO.Path.GetInvalidPathChars ()
+                        else
+                            Fable.Unix.System.IO.Path.GetInvalidPathChars ()
+                    Expect.equal actual (global.System.IO.Path.GetInvalidPathChars ())
+                        ("Path.GetInvalidPathChars " + osName + " (Oracle)")
+                )
+            ]
+#endif
+        ]
+    ]
+    
     let isPathRootedTests =
         let testCases = [
             "empty path", "", false, false
@@ -292,6 +325,7 @@ let ``Fable.System.IO.Path.Tests`` =
         ]
 
     testList "Path" [
+        yield! invalidFilenameAndPathChars
         yield isPathRootedTests
         yield combineTests
         yield! directorySeparatorTests

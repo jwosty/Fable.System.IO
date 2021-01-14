@@ -7,11 +7,15 @@ module IO =
     let private (|AllEmptyStrings|_|) (xs: string list) =
         if xs |> List.forall String.IsNullOrEmpty then Some () else None
 
-    type path internal(directorySeparatorChar: char, altDirectorySeparatorChar: char, usesDrives: bool) =        
+    type path internal(directorySeparatorChar: char, altDirectorySeparatorChar: char, usesDrives: bool,
+                       getInvalidFilenameChars: unit -> char[], getInvalidPathChars: unit -> char[]) =        
         let allDirSeparators = Set.ofList [directorySeparatorChar; altDirectorySeparatorChar]
         let allDirSeparatorsArray = Set.toArray allDirSeparators
 
         let directorySeparatorString = string directorySeparatorChar
+
+        member _.GetInvalidFileNameChars () = getInvalidFilenameChars ()
+        member _.GetInvalidPathChars () = getInvalidPathChars ()
 
         member _.IsPathRooted (path: string) =
             if path.Length = 0 then false
@@ -81,8 +85,20 @@ module IO =
 
 namespace Fable.Unix.System
 module IO =
-    let Path = Fable.System.IO.path('/', '/', false)
+    let private getInvalidFileNameChars () = [|'\000'; '/'|]
+    let private getInvalidPathChars () = [|'\000'|]
+    let Path = Fable.System.IO.path('/', '/', false, getInvalidFileNameChars, getInvalidPathChars)
 
 namespace Fable.Windows.System
 module IO =
-    let Path = Fable.System.IO.path('\\', '/', true)
+    let private getInvalidFileNameChars () =
+        [|'"'; '<'; '>'; '|'; '\000'; '\001'; '\002'; '\003'; '\004'; '\005'; '\006';
+          '\007'; '\b'; '\009'; '\010'; '\011'; '\012'; '\013'; '\014'; '\015'; '\016';
+          '\017'; '\018'; '\019'; '\020'; '\021'; '\022'; '\023'; '\024'; '\025'; '\026';
+          '\027'; '\028'; '\029'; '\030'; '\031'; ':'; '*'; '?'; '\\'; '/'|]
+    let private getInvalidPathChars () =
+        [|'|'; '\000'; '\001'; '\002'; '\003'; '\004'; '\005'; '\006'; '\007'; '\b';
+          '\009'; '\010'; '\011'; '\012'; '\013'; '\014'; '\015'; '\016'; '\017'; '\018';
+          '\019'; '\020'; '\021'; '\022'; '\023'; '\024'; '\025'; '\026'; '\027'; '\028';
+          '\029'; '\030'; '\031'|]
+    let Path = Fable.System.IO.path('\\', '/', true, getInvalidFileNameChars, getInvalidPathChars)
