@@ -26,9 +26,12 @@ module IO =
                     (path.[1] = ':') && (int driveLetter) >= (int 'A') && (int driveLetter) <= (int 'z')
             else false
 
-        // TODO: implement GetInvalidPathChars() and throw whenever those chars are used        
         member this.Combine ([<ParamArray>] paths: string[]) =
+            if isNull paths then
+                raise (ArgumentNullException(nameof(paths)))
+            
             let paths = paths |> Array.filter (fun p -> p <> "")
+
             let skipUntilLastRooted paths =
                 let skipI = paths |> Array.tryFindIndexBack this.IsPathRooted |> Option.defaultValue 0
                 paths |> Array.skip skipI
@@ -48,6 +51,11 @@ module IO =
                 sb.ToString ()
 
         member this.GetRelativePath (relativeTo: string, path: string) =
+            if isNull relativeTo then
+                raise (ArgumentNullException(nameof(relativeTo)))
+            if isNull path then
+                raise (ArgumentNullException(nameof(path)))
+            
             let trimmedRelativeTo = relativeTo.TrimEnd allDirSeparatorsArray
             let trimmedPath = path.TrimEnd allDirSeparatorsArray
             if trimmedRelativeTo = trimmedPath then
@@ -77,8 +85,6 @@ module IO =
                             yield! differingPath
                     |]
                     String.Join(directorySeparatorString, parts)
-
-
 
         member _.DirectorySeparatorChar : char = directorySeparatorChar
         member _.AltDirectorySeparatorChar : char = altDirectorySeparatorChar
