@@ -50,6 +50,21 @@ module IO =
                     lastChar <- p.[p.Length - 1]
                 sb.ToString ()
 
+        member this.Join ([<ParamArray>] paths: string[]) =
+            let sb = StringBuilder()
+            let mutable lastPathEndsInDirSep = false
+
+            let inline beginsInDirSep (path: string) = path.Length > 0 && allDirSeparators.Contains (path.[0])
+
+            for i in 0 .. paths.Length - 1 do
+                let path = paths.[i]
+                if i > 0 && not lastPathEndsInDirSep && not (beginsInDirSep path) then
+                    sb.Append directorySeparatorChar |> ignore
+                sb.Append path |> ignore
+                lastPathEndsInDirSep <- path.Length > 0 && allDirSeparators.Contains (path.[path.Length - 1])
+
+            sb.ToString()
+
         member this.GetRelativePath (relativeTo: string, path: string) =
             if isNull relativeTo then
                 raise (ArgumentNullException(nameof(relativeTo)))

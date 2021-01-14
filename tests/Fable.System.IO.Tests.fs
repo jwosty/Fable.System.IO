@@ -198,6 +198,59 @@ let ``Fable.System.IO.Path.Tests`` =
             ]
         ]
 
+    let joinTests =
+        let testCases = [
+            "1 empty part",
+                [|""|],                     "",                 ""
+            "1 part no dir sep",
+                [|"foo"|],                  "foo",              "foo"
+            "2 parts no dir sep",
+                [|"foo";"bar"|],            "foo/bar",          "foo\\bar"
+            "3 parts no dir sep",
+                [|"foo";"bar";"baz"|],      "foo/bar/baz",      "foo\\bar\\baz"
+            "3 parts some with windows dir sep some without",
+                [|"foo";"bar\\";"baz"|],    "foo/bar\\/baz",    "foo\\bar\\baz"
+            "3 parts some with unix dir sep some without",
+                [|"foo";"bar/";"baz"|],     "foo/bar/baz",      "foo\\bar/baz"
+            "3 parts with some other windows dir sep some without",
+                [|"foo\\";"bar";"baz\\"|],  "foo\\/bar/baz\\",  "foo\\bar\\baz\\"
+            "3 parts with some other unix dir sep some without",
+                [|"foo/";"bar";"baz/"|],    "foo/bar/baz/",     "foo/bar\\baz/"
+            "4 parts, some rooted, some not (windows-style)",
+                [|"C:\\foo";"bar";"D:\\baz";"qux"|], "C:\\foo/bar/D:\\baz/qux", "C:\\foo\\bar\\D:\\baz\\qux"
+            "4 parts, some rooted, some not (unix-style)",
+                [|"/foo";"bar";"/baz";"qux"|],       "/foo/bar/baz/qux",        "/foo\\bar/baz\\qux"
+        ]
+        testList "Join" [
+            testList "IndependentTests" [
+                for (caseName, input, unixExpected, windowsExpected) in testCases ->
+                    testList caseName [
+                        testCase "Windows" (fun () ->
+                            let actual = Fable.Windows.System.IO.Path.Join input
+                            Expect.equal actual windowsExpected "Path.Join Windows"
+                        )
+                        testCase "Unix" (fun () ->
+                            let actual = Fable.Unix.System.IO.Path.Join input
+                            Expect.equal actual unixExpected "Path.Join Unix"
+                        )
+                    ]
+            ]
+            testList "OracleTests" [
+#if !FABLE_COMPILER
+                // these tests compare the output to the BCL implementation to verify that they match for a particular
+                // platform
+                for (caseName, input, unixExpected, windowsExpected) in testCases ->
+                    testList caseName [
+                        testCase osName (fun () ->
+                            let actual = if isWindows then windowsExpected else unixExpected
+                            let expected = global.System.IO.Path.Join input
+                            Expect.equal actual expected ("Path.Join " + osName + " (Oracle)")
+                        )
+                    ]
+#endif
+            ]
+        ]
+
     let directorySeparatorTests = [
         testList "DirectorySeparator" [
 #if !FABLE_COMPILER
@@ -328,6 +381,7 @@ let ``Fable.System.IO.Path.Tests`` =
         yield! invalidFilenameAndPathChars
         yield isPathRootedTests
         yield combineTests
+        yield joinTests
         yield! directorySeparatorTests
         yield getRelativePathTests
     ]
