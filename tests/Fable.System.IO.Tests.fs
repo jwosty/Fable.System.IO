@@ -503,6 +503,10 @@ let ``Fable.System.IO.Path.Tests`` =
                 "foo",              "foo",              "foo"
             "relative path - 1 part with file extension",
                 "foo.txt",          "foo",              "foo"
+            "relative path - 2 part with 2 part file extension (windows dir sep)",
+                "foo\\bar.baz.txt", "foo\\bar.baz",     "bar.baz"
+            "relative path - 2 part with 2 part file extension (unix dir sep)",
+                "foo/bar.baz.txt",  "bar.baz",          "bar.baz"
             "relative path - 3 part with file extension (windows dir sep)",
                 "foo\\bar\\baz.txt","foo\\bar\\baz",    "baz"
             "relative path - 3 part with file extension (unix dir sep)",
@@ -546,6 +550,61 @@ let ``Fable.System.IO.Path.Tests`` =
             ]
         ]
 
+    let getExtension =
+        let testCases = [
+            "empty string",
+                "",                 "",                 ""
+            "relative path - 1 part without file extension",
+                "foo",              "",                 ""
+            "relative path - 1 part with file extension",
+                "foo.txt",          ".txt",             ".txt"
+            "relative path - 2 part with 2 part file extension (windows dir sep)",
+                "foo\\bar.baz.txt", ".txt",             ".txt"
+            "relative path - 2 part with 2 part file extension (unix dir sep)",
+                "foo/bar.baz.txt",  ".txt",             ".txt"
+            "relative path - 3 part with file extension (windows dir sep)",
+                "foo\\bar\\baz.txt",".txt",             ".txt"
+            "relative path - 3 part with file extension (unix dir sep)",
+                "foo/bar/baz.txt",  ".txt",             ".txt"
+            "relative path - 3 part with no file extension (windows dir sep)",
+                "foo\\bar\\baz",    "",                 ""
+            "relative path - 3 part with no file extension (unix dir sep)",
+                "foo/bar/baz",      "",                 ""
+            "relative path - 3 part with trailing sep (windows dir sep)",
+                "foo\\bar\\baz\\",  "",                 ""
+            "relative path - 3 part with trailing sep (unix dir sep)",
+                "foo/bar/baz/",     "",                 ""
+        ]
+        testList "GetExtension" [
+            testList "IndependentTests" [
+                for (caseName, input, unixExpected, windowsExpected) in testCases ->
+                    testList caseName [
+                        testCase "Windows" (fun () ->
+                            let actual = Fable.Windows.System.IO.Path.GetExtension input
+                            Expect.equal actual windowsExpected "Path.GetExtension Windows"
+                        )
+                        testCase "Unix" (fun () ->
+                            let actual = Fable.Unix.System.IO.Path.GetExtension input
+                            Expect.equal actual unixExpected "Path.GetExtension Unix"
+                        )
+                    ]
+            ]
+            testList "OracleTests" [
+#if !FABLE_COMPILER
+                // these tests compare the output to the BCL implementation to verify that they match for a particular
+                // platform
+                for (caseName, input, unixExpected, windowsExpected) in testCases ->
+                    testList caseName [
+                        testCase osName (fun () ->
+                            let actual = if isWindows then windowsExpected else unixExpected
+                            let expected = global.System.IO.Path.GetExtension input
+                            Expect.equal actual expected ("Path.GetExtension " + osName + " (Oracle)")
+                        )
+                    ]
+#endif
+            ]
+        ]
+
     testList "Path" [
         yield! invalidFilenameAndPathChars
         yield isPathRootedTests
@@ -556,6 +615,7 @@ let ``Fable.System.IO.Path.Tests`` =
         yield getDirectoryNameTests
         yield getFileNameTests
         yield getFileNameWithoutExtensionTests
+        yield getExtension
     ]
 
 [<Tests>]

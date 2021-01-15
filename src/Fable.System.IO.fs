@@ -132,18 +132,23 @@ type path internal(directorySeparatorChar: char, altDirectorySeparatorChar: char
         |> Option.map ((+) 1)
         |> Option.defaultValue 0
 
+    member private _.GetExtenionStartI (path: string) =
+        path
+        |> Seq.tryFindIndexBack ((=) '.')
+        |> Option.defaultValue path.Length
+
     member this.GetFileName (path: string) =
         let startI = this.GetFileNameStartI path
         path.[startI .. path.Length - 1]
 
     member this.GetFileNameWithoutExtension (path: string) =
         let startI = this.GetFileNameStartI path
-        let endI =
-            path
-            |> Seq.tryFindIndexBack ((=) '.')
-            |> Option.defaultValue path.Length
-            |> (fun i -> i - 1)
+        let endI = this.GetExtenionStartI path - 1
         path.[startI .. endI]
+
+    member this.GetExtension (path: string) =
+        let startI = this.GetExtenionStartI path
+        path.[startI .. path.Length - 1]
 
     member _.DirectorySeparatorChar : char = directorySeparatorChar
     member _.AltDirectorySeparatorChar : char = altDirectorySeparatorChar
