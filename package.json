@@ -8,7 +8,9 @@
     "pretest": "cd tests/ && dotnet fable ./ --run webpack",
     "test": "mocha ./tests/bin/mocha -t 10000"
   },
-  "dependencies": { },
+  "dependencies": {
+    "platform-detect": "^3.0.1"
+  },
   "devDependencies": {
     "mocha": "^8.2.1",
     "mocha-loader": "^5.1.5",

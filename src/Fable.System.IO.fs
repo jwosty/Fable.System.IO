@@ -1,11 +1,7 @@
-namespace Fable.System
+namespace Fable.System.IO
 
 open System
 open System.Text
-
-module IO =
-    let private (|AllEmptyStrings|_|) (xs: string list) =
-        if xs |> List.forall String.IsNullOrEmpty then Some () else None
 
     type path internal(directorySeparatorChar: char, altDirectorySeparatorChar: char, usesDrives: bool,
                        getInvalidFilenameChars: unit -> char[], getInvalidPathChars: unit -> char[],
@@ -160,3 +156,18 @@ module IO =
             '\\', '/', true, getInvalidFileNameChars, getInvalidPathChars,
             // see https://github.com/dotnet/runtime/blob/6072e4d3a7a2a1493f514cdf4be75a3d56580e84/src/libraries/System.Private.CoreLib/src/System/IO/PathInternal.Windows.cs#L401
             System.String.IsNullOrWhiteSpace)
+
+namespace Fable.System
+
+[<CompilationRepresentation(CompilationRepresentationFlags.ModuleSuffix)>]
+module IO =
+    open System.Runtime.InteropServices
+    let Path =
+        let isWindows =
+#if FABLE_COMPILER
+            PlatformDetect.os.windows || PlatformDetect.os.uwp
+#else
+            RuntimeInformation.IsOSPlatform(OSPlatform.Windows)
+#endif
+        if isWindows then Fable.Windows.System.IO.Path
+        else Fable.Unix.System.IO.Path
