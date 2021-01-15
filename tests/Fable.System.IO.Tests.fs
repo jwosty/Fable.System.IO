@@ -377,6 +377,73 @@ let ``Fable.System.IO.Path.Tests`` =
             ]
         ]
 
+    let getDirectoryNameTests =
+        let testCases = [
+            "empty string",
+                "",                 (null:string),  (null:string)
+            "relative path - 1 part no sep",
+                "foo",              "",             ""
+            "relative path - 1 part trailing sep (unix sep)",
+                "foo/",             "foo",          "foo"
+            "relative path - 1 part trailing sep (windows sep)",
+                "foo\\",            "",             "foo"
+            "relative path - 2 part trailing sep (unix sep)",
+                "foo/bar/",         "foo/bar",      "foo\\bar"
+            "relative path - 2 part trailing sep (windows sep)",
+                "foo\\bar\\",       "",             "foo\\bar"
+            "relative path - 2 part no trailing sep (unix sep)",
+                "foo/bar",          "foo",          "foo"
+            "relative path - 2 part no trailing sep (windows sep)",
+                "foo\\bar",         "",             "foo"
+            "absolute path - 1 part no trailing sep (windows style)",
+                "C:\\foo",          "",             "C:\\"
+            "absolute path - 1 part no trailing sep (unix style)",
+                "/foo",             "/",            "\\"
+            "root path (windows style)",
+                "C:\\",             "",             null
+            "root path (unix style)",
+                "/",                null,           null
+            "explicit relative path - 1 part trailing sep (windows style)",
+                ".\\",              "",             "."
+            "explicit relative path - 1 part trailing sep (unix style)",
+                "./",               ".",            "."
+            "explicit relative path - 1 part no trailing sep",
+                ".",                "",             ""
+            "just whitespaces",
+                "    ",             "",             null
+            "null path",
+                null,               null,           null
+        ]
+        testList "GetDirectoryName" [
+            testList "IndependentTests" [
+                for (caseName, input, unixExpected, windowsExpected) in testCases ->
+                    testList caseName [
+                        testCase "Windows" (fun () ->
+                            let actual = Fable.Windows.System.IO.Path.GetDirectoryName input
+                            Expect.equal actual windowsExpected "Path.GetDirectoryName Windows"
+                        )
+                        testCase "Unix" (fun () ->
+                            let actual = Fable.Unix.System.IO.Path.GetDirectoryName input
+                            Expect.equal actual unixExpected "Path.GetDirectoryName Unix"
+                        )
+                    ]
+            ]
+            testList "OracleTests" [
+#if !FABLE_COMPILER
+                // these tests compare the output to the BCL implementation to verify that they match for a particular
+                // platform
+                for (caseName, input, unixExpected, windowsExpected) in testCases ->
+                    testList caseName [
+                        testCase osName (fun () ->
+                            let actual = if isWindows then windowsExpected else unixExpected
+                            let expected = global.System.IO.Path.GetDirectoryName input
+                            Expect.equal actual expected ("Path.GetDirectoryName " + osName + " (Oracle)")
+                        )
+                    ]
+#endif
+            ]
+        ]
+
     testList "Path" [
         yield! invalidFilenameAndPathChars
         yield isPathRootedTests
@@ -384,6 +451,7 @@ let ``Fable.System.IO.Path.Tests`` =
         yield joinTests
         yield! directorySeparatorTests
         yield getRelativePathTests
+        yield getDirectoryNameTests
     ]
 
 [<Tests>]

@@ -8,23 +8,34 @@ module IO =
         if xs |> List.forall String.IsNullOrEmpty then Some () else None
 
     type path internal(directorySeparatorChar: char, altDirectorySeparatorChar: char, usesDrives: bool,
-                       getInvalidFilenameChars: unit -> char[], getInvalidPathChars: unit -> char[]) =        
+                       getInvalidFilenameChars: unit -> char[], getInvalidPathChars: unit -> char[],
+                       isPathEffectivelyEmpty: string -> bool) =        
         let allDirSeparators = Set.ofList [directorySeparatorChar; altDirectorySeparatorChar]
         let allDirSeparatorsArray = Set.toArray allDirSeparators
 
         let directorySeparatorString = string directorySeparatorChar
 
+        let getRootLength (path: string) =
+            if path.Length = 0 then 0
+            else if allDirSeparators.Contains path.[0] then 1
+            else if path.Length = 1 then 0
+            else if usesDrives then
+                let driveLetter = path.[0]
+                if (path.[1] = ':') && (int driveLetter) >= (int 'A') && (int driveLetter) <= (int 'z') then
+                    3
+                else 0
+            else 0
+
+        let normalizeDirSeparators (path: string) =
+            path
+            |> Seq.map (fun c -> if allDirSeparators.Contains c then directorySeparatorChar else c)
+            |> Seq.toArray
+            |> String
+
         member _.GetInvalidFileNameChars () = getInvalidFilenameChars ()
         member _.GetInvalidPathChars () = getInvalidPathChars ()
 
-        member _.IsPathRooted (path: string) =
-            if path.Length = 0 then false
-            else if allDirSeparators.Contains path.[0] then true
-            else if path.Length = 1 then false
-            else if usesDrives then
-                    let driveLetter = path.[0]
-                    (path.[1] = ':') && (int driveLetter) >= (int 'A') && (int driveLetter) <= (int 'z')
-            else false
+        member _.IsPathRooted (path: string) = getRootLength path > 0
 
         member this.Combine ([<ParamArray>] paths: string[]) =
             if isNull paths then
@@ -50,7 +61,7 @@ module IO =
                     lastChar <- p.[p.Length - 1]
                 sb.ToString ()
 
-        member this.Join ([<ParamArray>] paths: string[]) =
+        member _.Join ([<ParamArray>] paths: string[]) =
             let sb = StringBuilder()
             let mutable lastPathEndsInDirSep = false
 
@@ -101,6 +112,24 @@ module IO =
                     |]
                     String.Join(directorySeparatorString, parts)
 
+        member _.GetDirectoryName (path: string) =
+            if isPathEffectivelyEmpty path then
+                null
+            else
+                let maybeLastDirSepI = path |> Seq.tryFindIndexBack (fun c -> allDirSeparators.Contains c)
+                let rootLength = getRootLength path
+
+                if rootLength = path.Length then
+                    null
+                else
+                    match maybeLastDirSepI with
+                    | Some lastDirSepI ->
+                        // we take the max between rootLen and lastDirSepI because we want to stop it from going backwards
+                        // past into the root (i.e. C:\foo should become C:\ and not C: )
+                        path.[0.. max (rootLength - 1) (lastDirSepI - 1)]
+                        |> normalizeDirSeparators
+                    | None -> ""
+
         member _.DirectorySeparatorChar : char = directorySeparatorChar
         member _.AltDirectorySeparatorChar : char = altDirectorySeparatorChar
 
@@ -108,7 +137,11 @@ namespace Fable.Unix.System
 module IO =
     let private getInvalidFileNameChars () = [|'\000'; '/'|]
     let private getInvalidPathChars () = [|'\000'|]
-    let Path = Fable.System.IO.path('/', '/', false, getInvalidFileNameChars, getInvalidPathChars)
+    let Path =
+        Fable.System.IO.path(
+            '/', '/', false, getInvalidFileNameChars, getInvalidPathChars,
+            // see https://github.com/dotnet/runtime/blob/6072e4d3a7a2a1493f514cdf4be75a3d56580e84/src/libraries/System.Private.CoreLib/src/System/IO/PathInternal.Unix.cs#L88
+            System.String.IsNullOrEmpty)
 
 namespace Fable.Windows.System
 module IO =
@@ -122,4 +155,8 @@ module IO =
           '\009'; '\010'; '\011'; '\012'; '\013'; '\014'; '\015'; '\016'; '\017'; '\018';
           '\019'; '\020'; '\021'; '\022'; '\023'; '\024'; '\025'; '\026'; '\027'; '\028';
           '\029'; '\030'; '\031'|]
-    let Path = Fable.System.IO.path('\\', '/', true, getInvalidFileNameChars, getInvalidPathChars)
+    let Path =
+        Fable.System.IO.path(
+            '\\', '/', true, getInvalidFileNameChars, getInvalidPathChars,
+            // see https://github.com/dotnet/runtime/blob/6072e4d3a7a2a1493f514cdf4be75a3d56580e84/src/libraries/System.Private.CoreLib/src/System/IO/PathInternal.Windows.cs#L401
+            System.String.IsNullOrWhiteSpace)
