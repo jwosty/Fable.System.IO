@@ -127,11 +127,23 @@ type path internal(directorySeparatorChar: char, altDirectorySeparatorChar: char
                     |> normalizeDirSeparators
                 | None -> ""
 
-    member _.GetFileName (path: string) =
-        let maybeLastDirSepI = tryFindLastDirSepI path
-        match maybeLastDirSepI with
-        | Some lastDirSepI -> path.[lastDirSepI+1 .. path.Length - 1]
-        | None -> path
+    member private _.GetFileNameStartI path =
+        tryFindLastDirSepI path
+        |> Option.map ((+) 1)
+        |> Option.defaultValue 0
+
+    member this.GetFileName (path: string) =
+        let startI = this.GetFileNameStartI path
+        path.[startI .. path.Length - 1]
+
+    member this.GetFileNameWithoutExtension (path: string) =
+        let startI = this.GetFileNameStartI path
+        let endI =
+            path
+            |> Seq.tryFindIndexBack ((=) '.')
+            |> Option.defaultValue path.Length
+            |> (fun i -> i - 1)
+        path.[startI .. endI]
 
     member _.DirectorySeparatorChar : char = directorySeparatorChar
     member _.AltDirectorySeparatorChar : char = altDirectorySeparatorChar

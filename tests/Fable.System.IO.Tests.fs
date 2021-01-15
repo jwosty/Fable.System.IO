@@ -448,8 +448,10 @@ let ``Fable.System.IO.Path.Tests`` =
         let testCases = [
             "empty string",
                 "",                 "",                 ""
-            "relative path - 1 part with file extension",
+            "relative path - 1 part without file extension",
                 "foo",              "foo",              "foo"
+            "relative path - 1 part with file extension",
+                "foo.txt",          "foo.txt",          "foo.txt"
             "relative path - 3 part with file extension (windows dir sep)",
                 "foo\\bar\\baz.txt","foo\\bar\\baz.txt","baz.txt"
             "relative path - 3 part with file extension (unix dir sep)",
@@ -493,7 +495,56 @@ let ``Fable.System.IO.Path.Tests`` =
             ]
         ]
 
-
+    let getFileNameWithoutExtensionTests =
+        let testCases = [
+            "empty string",
+                "",                 "",                 ""
+            "relative path - 1 part without file extension",
+                "foo",              "foo",              "foo"
+            "relative path - 1 part with file extension",
+                "foo.txt",          "foo",              "foo"
+            "relative path - 3 part with file extension (windows dir sep)",
+                "foo\\bar\\baz.txt","foo\\bar\\baz",    "baz"
+            "relative path - 3 part with file extension (unix dir sep)",
+                "foo/bar/baz.txt",  "baz",              "baz"
+            "relative path - 3 part with no file extension (windows dir sep)",
+                "foo\\bar\\baz",    "foo\\bar\\baz",    "baz"
+            "relative path - 3 part with no file extension (unix dir sep)",
+                "foo/bar/baz",      "baz",              "baz"
+            "relative path - 3 part with trailing sep (windows dir sep)",
+                "foo\\bar\\baz\\",  "foo\\bar\\baz\\",  ""
+            "relative path - 3 part with trailing sep (unix dir sep)",
+                "foo/bar/baz/",     "",                 ""
+        ]
+        testList "GetFileNameWithoutExtension" [
+            testList "IndependentTests" [
+                for (caseName, input, unixExpected, windowsExpected) in testCases ->
+                    testList caseName [
+                        testCase "Windows" (fun () ->
+                            let actual = Fable.Windows.System.IO.Path.GetFileNameWithoutExtension input
+                            Expect.equal actual windowsExpected "Path.GetFileNameWithoutExtension Windows"
+                        )
+                        testCase "Unix" (fun () ->
+                            let actual = Fable.Unix.System.IO.Path.GetFileNameWithoutExtension input
+                            Expect.equal actual unixExpected "Path.GetFileNameWithoutExtension Unix"
+                        )
+                    ]
+            ]
+            testList "OracleTests" [
+#if !FABLE_COMPILER
+                // these tests compare the output to the BCL implementation to verify that they match for a particular
+                // platform
+                for (caseName, input, unixExpected, windowsExpected) in testCases ->
+                    testList caseName [
+                        testCase osName (fun () ->
+                            let actual = if isWindows then windowsExpected else unixExpected
+                            let expected = global.System.IO.Path.GetFileNameWithoutExtension input
+                            Expect.equal actual expected ("Path.GetFileNameWithoutExtension " + osName + " (Oracle)")
+                        )
+                    ]
+#endif
+            ]
+        ]
 
     testList "Path" [
         yield! invalidFilenameAndPathChars
@@ -504,6 +555,7 @@ let ``Fable.System.IO.Path.Tests`` =
         yield getRelativePathTests
         yield getDirectoryNameTests
         yield getFileNameTests
+        yield getFileNameWithoutExtensionTests
     ]
 
 [<Tests>]
