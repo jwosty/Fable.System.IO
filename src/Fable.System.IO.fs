@@ -28,6 +28,8 @@ type path internal(directorySeparatorChar: char, altDirectorySeparatorChar: char
         |> Seq.toArray
         |> String
 
+    let tryFindLastDirSepI (path: string) = path |> Seq.tryFindIndexBack (fun c -> allDirSeparators.Contains c)
+
     member _.GetInvalidFileNameChars () = getInvalidFilenameChars ()
     member _.GetInvalidPathChars () = getInvalidPathChars ()
 
@@ -112,19 +114,24 @@ type path internal(directorySeparatorChar: char, altDirectorySeparatorChar: char
         if isPathEffectivelyEmpty path then
             null
         else
-            let maybeLastDirSepI = path |> Seq.tryFindIndexBack (fun c -> allDirSeparators.Contains c)
             let rootLength = getRootLength path
 
             if rootLength = path.Length then
                 null
             else
-                match maybeLastDirSepI with
+                match tryFindLastDirSepI path with
                 | Some lastDirSepI ->
                     // we take the max between rootLen and lastDirSepI because we want to stop it from going backwards
                     // past into the root (i.e. C:\foo should become C:\ and not C: )
-                    path.[0.. max (rootLength - 1) (lastDirSepI - 1)]
+                    path.[0 .. max (rootLength - 1) (lastDirSepI - 1)]
                     |> normalizeDirSeparators
                 | None -> ""
+
+    member _.GetFileName (path: string) =
+        let maybeLastDirSepI = tryFindLastDirSepI path
+        match maybeLastDirSepI with
+        | Some lastDirSepI -> path.[lastDirSepI+1 .. path.Length - 1]
+        | None -> path
 
     member _.DirectorySeparatorChar : char = directorySeparatorChar
     member _.AltDirectorySeparatorChar : char = altDirectorySeparatorChar
