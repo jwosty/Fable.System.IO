@@ -4,26 +4,30 @@
 
 To use the library, reference the Fable.System.IO nuget package. When targetting Fable, you also need the ``platform-detect`` NPM package, installed like so:
 
-    npm install platform-detect@3.0.1
+```Shell
+npm install platform-detect@3.0.1
+```
 
 Or:
 
-    yarn add platform-detect@3.0.1
+```Shell
+yarn add platform-detect@3.0.1
+```
 
 Then, wherever you ``open System.IO``, make sure you ``open Fable`` before it. For example, you must do the following:
 
 ```F#
-    open Fable
-    open ...
-    open System.IO
+open Fable
+open ...
+open System.IO
 ```
 
 This will not work:
 
 ```F#
-    open System.IO
-    open ...
-    open Fable
+open System.IO
+open ...
+open Fable
 ```
 
 ``Fable.System.IO`` shadows ``System.IO``, so that any time you use the Path APIs, for example, the ``open Fable`` statement causes the compiler to use ``Fable.System.IO``'s implementations instead of the BCL implementations.
