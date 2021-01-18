@@ -54,6 +54,105 @@ let ``Fable.System.IO.Path.Tests`` =
         ]
     ]
     
+    let getPathRootTests =
+        let testCases = [
+            "empty path",
+                "",     null,   null
+            "whitespace-only path",
+                "    ", "",     null
+            "simple unix-style relative path", "foo/bar", "", ""
+            "simple windows-style relative path", "foo\\bar", "", ""
+            "simple mixed-style relative path", "foo/bar\\baz", "", ""
+
+            "explicit current dir",
+                ".", "", ""
+            "explicit parent dir",
+                "..", "", ""
+            "explicit current dir with trailing unix path separator",
+                "./", "", ""
+            "explicit current dir with trailing windows path separator",
+                ".\\", "", ""
+            "explicit parent dir with trailing unix path separator",
+                "../", "", ""
+            "explicit parent dir with trailing windows path separator",
+                "..\\", "", ""
+
+            "unix root",
+                "/",        "/",    "\\"
+            "simple unix absolute path",
+                "/foo",     "/",    "\\"
+            "simple unix absolute path with trailing separators",
+                "/foo/",    "/",    "\\"
+            // TODO: implement UNC paths
+            //"short UNC path with unix-style separators",
+            //    "//foo",    "//",   "\\\\foo"
+            //"longer UNC path with unix-style separators",
+            //    "//foo/bar","//",   "\\\\foo\\bar"
+            //"another UNC path with unix-style separators",
+            //    "//foo/",   "//foo/","\\\\foo\\"
+            "windows C drive 1 no slash",
+                "C:",       "",     "C:"
+            "windows C drive 2 slash",
+                "C:\\",     "",     "C:\\"
+            "windows C drive subfolder",
+                "C:\\foo",  "",     "C:\\"
+            "windows C drive forward slash",
+                "C:/",      "",     "C:\\"
+            "windows C drive subfolder no slash",
+                "C:foo",    "",     "C:"
+            "windows style root no drive letter",
+                "\\",       "",     "\\"
+            "windows style root subfolder no drive letter",
+                "\\foo",    "",     "\\"
+            "windows D drive forward slash",
+                "D://abc",  "",     "D:\\"
+            "windows z drive slash",
+                "z:\\abc",  "",     "z:\\"
+            "windows Z drive slash",
+                "Z:\\abc",  "",     "Z:\\"
+            "windows a drive slash",
+                "a:\\abc",  "",     "a:\\"
+            "windows A drive slash",
+                "A:\\abc",  "",     "A:\\"
+
+            "UNC named pipe",
+                "\\.\\pipe\\MyPipe", "", "\\"
+            
+            "strange path", "::", "", ""
+        ]
+        testList "GetPathRoot" [
+            testList "IndependentTests" [
+                for (caseName, input, unixExpected, windowsExpected) in testCases ->
+                    testList caseName [
+                        testCase "Windows" (fun () ->
+                            let actual = Fable.Windows.System.IO.Path.GetPathRoot input
+                            Expect.equal actual windowsExpected "Path.GetPathRoot Windows"
+                        )
+                        testCase "Unix" (fun () ->
+                            let actual = Fable.Unix.System.IO.Path.GetPathRoot input
+                            Expect.equal actual unixExpected "Path.GetPathRoot Unix"
+                        )
+                    ]
+            ]
+            testList "OracleTests" [
+#if !FABLE_COMPILER
+                for (caseName, input, unixExpected, windowsExpected) in testCases ->
+                    testList caseName [
+                        if RuntimeInformation.IsOSPlatform OSPlatform.Windows then
+                            testCase "Windows" (fun () ->
+                                let oracle = global.System.IO.Path.GetPathRoot input
+                                Expect.equal windowsExpected oracle "Path.GetPathRoot Windows (Oracle)"
+                            )
+                        else
+                            testCase "Unix" (fun () ->
+                                let oracle = global.System.IO.Path.GetPathRoot input
+                                Expect.equal unixExpected oracle "Path.GetPathRoot Unix (Oracle)"
+                            )
+                    ]
+#endif
+            ]
+        ]
+
     let isPathRootedTests =
         let testCases = [
             "empty path", "", false, false
@@ -399,6 +498,8 @@ let ``Fable.System.IO.Path.Tests`` =
                 "C:\\foo",          "",             "C:\\"
             "absolute path - 1 part no trailing sep (unix style)",
                 "/foo",             "/",            "\\"
+            "absolute path - 2 part no trailing sep nor sep after drive (windows style)",
+                "C:foo",            "",             "C:"
             "root path (windows style)",
                 "C:\\",             "",             null
             "root path (unix style)",
@@ -607,6 +708,7 @@ let ``Fable.System.IO.Path.Tests`` =
 
     testList "Path" [
         yield! invalidFilenameAndPathChars
+        yield getPathRootTests
         yield isPathRootedTests
         yield combineTests
         yield joinTests

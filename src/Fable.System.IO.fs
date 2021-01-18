@@ -18,7 +18,8 @@ type path internal(directorySeparatorChar: char, altDirectorySeparatorChar: char
         else if usesDrives then
             let driveLetter = path.[0]
             if (path.[1] = ':') && (int driveLetter) >= (int 'A') && (int driveLetter) <= (int 'z') then
-                3
+                if path.Length > 2 && allDirSeparators.Contains path.[2] then 3
+                else 2
             else 0
         else 0
 
@@ -29,6 +30,12 @@ type path internal(directorySeparatorChar: char, altDirectorySeparatorChar: char
         |> String
 
     let tryFindLastDirSepI (path: string) = path |> Seq.tryFindIndexBack (fun c -> allDirSeparators.Contains c)
+
+    member _.GetPathRoot (path: string) =
+        let rootLength = getRootLength path
+        if isPathEffectivelyEmpty path then
+            null
+        else path.[0..rootLength-1] |> normalizeDirSeparators
 
     member _.GetInvalidFileNameChars () = getInvalidFilenameChars ()
     member _.GetInvalidPathChars () = getInvalidPathChars ()
@@ -125,7 +132,7 @@ type path internal(directorySeparatorChar: char, altDirectorySeparatorChar: char
                     // past into the root (i.e. C:\foo should become C:\ and not C: )
                     path.[0 .. max (rootLength - 1) (lastDirSepI - 1)]
                     |> normalizeDirSeparators
-                | None -> ""
+                | None -> path.[0 .. (rootLength - 1)]
 
     member private _.GetFileNameStartI path =
         tryFindLastDirSepI path
