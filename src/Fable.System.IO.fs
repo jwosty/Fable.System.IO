@@ -144,31 +144,26 @@ type path internal(directorySeparatorChar: char, altDirectorySeparatorChar: char
         |> Seq.tryFindIndexBack ((=) '.')
         |> Option.defaultValue path.Length
 
+    member private this.GetExtensionI (returnIndexBeforeDot, path: string) =
+        let lastDirSepIOpt = tryFindLastDirSepI path
+        let lastDotI = this.GetLastDotI path - (if returnIndexBeforeDot then 1 else 0)
+        lastDirSepIOpt
+        |> Option.map (fun lastDirSepI ->
+            if lastDotI > lastDirSepI then lastDotI
+            else path.Length)
+        |> Option.defaultValue lastDotI
+
     member this.GetFileName (path: string) =
         let startI = this.GetFileNameStartI path
         path.[startI .. path.Length - 1]
 
     member this.GetFileNameWithoutExtension (path: string) =
         let startI = this.GetFileNameStartI path
-        let lastDotI = this.GetLastDotI path - 1
-        let lastDirSepIOpt = tryFindLastDirSepI path
-        let endI =
-            lastDirSepIOpt
-            |> Option.map (fun lastDirSepI ->
-                if lastDotI > lastDirSepI then lastDotI
-                else path.Length)
-            |> Option.defaultValue lastDotI
+        let endI = this.GetExtensionI (true, path)
         path.[startI .. endI]
 
     member this.GetExtension (path: string) =
-        let lastDotI = this.GetLastDotI path
-        let lastDirSepIOpt = tryFindLastDirSepI path
-        let startI =
-            lastDirSepIOpt
-            |> Option.map (fun lastDirSepI ->
-                if lastDotI > lastDirSepI then lastDotI
-                else path.Length)
-            |> Option.defaultValue lastDotI
+        let startI = this.GetExtensionI (false, path)
         path.[startI .. path.Length - 1]
 
     member _.DirectorySeparatorChar : char = directorySeparatorChar
