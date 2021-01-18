@@ -22,9 +22,10 @@ open ...
 open System.IO
 ```
 
-This will not work:
+The following will **NOT** work:
 
 ```F#
+// Wrong order! This won't work!
 open System.IO
 open ...
 open Fable
@@ -47,6 +48,26 @@ printfn "Path.Combine(\"foo\", \"bar\") = \"%s\"" (Path.Combine ("foo", "bar"))
 
 // This will output "foo/bar" on all systems
 ```
+
+## Supported APIs
+
+Here is a list of currently implemented APIs in Fable.System.IO:
+
+* System.IO
+    * Path ([click here for Microsoft docs](https://docs.microsoft.com/en-us/dotnet/api/system.io.path?view=net-5.0))
+        * ``GetInvalidFileNameChars()``
+        * ``GetInvalidPathChars()``
+        * ``IsPathRooted(string)``
+        * ``Combine(string[])``
+        * ``Join(string, string)``
+        * ``GetRelativePath(string, string)``
+        * ``GetDirectoryName(string)``
+        * ``GetFileName(string)``
+        * ``GetFileNameWithoutExtension(string)``
+        * ``GetExtension(string)``
+        * ``HasExtension(string)``
+        * ``DirectorySeparatorChar : string``
+        * ``AltDirectorySeparatorChar : string``
 
 ## Development
 
