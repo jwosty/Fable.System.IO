@@ -494,6 +494,10 @@ let ``Fable.System.IO.Path.Tests`` =
                 "foo/bar",          "foo",          "foo"
             "relative path - 2 part no trailing sep (windows sep)",
                 "foo\\bar",         "",             "foo"
+            "absolute path - 2 part trailing sep with dot in dir name (unix sep)",
+                "foo.bar/baz/",     "foo.bar/baz",  "foo.bar\\baz"
+            "absolute path - 2 part trailing sep with dot in dir name (windows sep)",
+                "foo.bar\\baz\\",   "",             "foo.bar\\baz"
             "absolute path - 1 part no trailing sep (windows style)",
                 "C:\\foo",          "",             "C:\\"
             "absolute path - 1 part no trailing sep (unix style)",
@@ -620,6 +624,14 @@ let ``Fable.System.IO.Path.Tests`` =
                 "foo\\bar\\baz\\",  "foo\\bar\\baz\\",  ""
             "relative path - 3 part with trailing sep (unix dir sep)",
                 "foo/bar/baz/",     "",                 ""
+            "relative path - 3 part with no file extension and folder with dot in name (windows dir sep)",
+                "foo\\b.ar\\baz",   "foo\\b",           "baz"
+            "relative path - 3 part with no file extension and folder with dot in name (unix dir sep)",
+                "foo/b.ar/baz",     "baz",              "baz"
+            "relative path - 3 part with file extension and folder with dot in name (windows dir sep)",
+                "foo\\b.ar\\baz.qux","foo\\b.ar\\baz",  "baz"
+            "relative path - 3 part with file extension and folder with dot in name (unix dir sep)",
+                "foo/b.ar/baz.qux", "baz",              "baz"
         ]
         testList "GetFileNameWithoutExtension" [
             testList "IndependentTests" [
@@ -667,6 +679,14 @@ let ``Fable.System.IO.Path.Tests`` =
                 "foo\\bar\\baz.txt",".txt",             ".txt"
             "relative path - 3 part with file extension (unix dir sep)",
                 "foo/bar/baz.txt",  ".txt",             ".txt"
+            "relative path - 3 part with no file extension and folder with dot in name (windows dir sep)",
+                "foo\\b.ar\\baz",   ".ar\\baz",         ""
+            "relative path - 3 part with no file extension and folder with dot in name (unix dir sep)",
+                "foo/b.ar/baz",     "",                 ""
+            "relative path - 3 part with file extension and folder with dot in name (windows dir sep)",
+                "foo\\b.ar\\baz.qux",".qux",            ".qux"
+            "relative path - 3 part with file extension and folder with dot in name (unix dir sep)",
+                "foo/b.ar/baz.qux", ".qux",             ".qux"
             "relative path - 3 part with no file extension (windows dir sep)",
                 "foo\\bar\\baz",    "",                 ""
             "relative path - 3 part with no file extension (unix dir sep)",
