@@ -166,6 +166,9 @@ type path internal(directorySeparatorChar: char, altDirectorySeparatorChar: char
         let startI = this.GetExtensionI (false, path)
         path.[startI .. path.Length - 1]
 
+    member this.HasExtension (path: string) =
+        (this.GetExtensionI (false, path)) < (path.Length - 1)
+
     member _.DirectorySeparatorChar : char = directorySeparatorChar
     member _.AltDirectorySeparatorChar : char = altDirectorySeparatorChar
 

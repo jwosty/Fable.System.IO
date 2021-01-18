@@ -726,6 +726,69 @@ let ``Fable.System.IO.Path.Tests`` =
             ]
         ]
 
+    let hasExtensionTests =
+        let testCases = [
+            "empty string",
+                "",                 false,              false
+            "relative path - 1 part without file extension",
+                "foo",              false,              false
+            "relative path - 1 part with file extension",
+                "foo.txt",          true,               true
+            "relative path - 2 part with 2 part file extension (windows dir sep)",
+                "foo\\bar.baz.txt", true,               true
+            "relative path - 2 part with 2 part file extension (unix dir sep)",
+                "foo/bar.baz.txt",  true,               true
+            "relative path - 3 part with file extension (windows dir sep)",
+                "foo\\bar\\baz.txt",true,               true
+            "relative path - 3 part with file extension (unix dir sep)",
+                "foo/bar/baz.txt",  true,               true
+            "relative path - 3 part with no file extension and folder with dot in name (windows dir sep)",
+                "foo\\b.ar\\baz",   true,               false
+            "relative path - 3 part with no file extension and folder with dot in name (unix dir sep)",
+                "foo/b.ar/baz",     false,              false
+            "relative path - 3 part with file extension and folder with dot in name (windows dir sep)",
+                "foo\\b.ar\\baz.qux",true,              true
+            "relative path - 3 part with file extension and folder with dot in name (unix dir sep)",
+                "foo/b.ar/baz.qux", true,               true
+            "relative path - 3 part with no file extension (windows dir sep)",
+                "foo\\bar\\baz",    false,              false
+            "relative path - 3 part with no file extension (unix dir sep)",
+                "foo/bar/baz",      false,              false
+            "relative path - 3 part with trailing sep (windows dir sep)",
+                "foo\\bar\\baz\\",  false,              false
+            "relative path - 3 part with trailing sep (unix dir sep)",
+                "foo/bar/baz/",     false,              false
+        ]
+        testList "HasExtension" [
+            testList "IndependentTests" [
+                for (caseName, input, unixExpected, windowsExpected) in testCases ->
+                    testList caseName [
+                        testCase "Windows" (fun () ->
+                            let actual = Fable.Windows.System.IO.Path.HasExtension input
+                            Expect.equal actual windowsExpected "Path.HasExtension Windows"
+                        )
+                        testCase "Unix" (fun () ->
+                            let actual = Fable.Unix.System.IO.Path.HasExtension input
+                            Expect.equal actual unixExpected "Path.HasExtension Unix"
+                        )
+                    ]
+            ]
+            testList "OracleTests" [
+#if !FABLE_COMPILER
+                // these tests compare the output to the BCL implementation to verify that they match for a particular
+                // platform
+                for (caseName, input, unixExpected, windowsExpected) in testCases ->
+                    testList caseName [
+                        testCase osName (fun () ->
+                            let actual = if isWindows then windowsExpected else unixExpected
+                            let expected = global.System.IO.Path.HasExtension input
+                            Expect.equal actual expected ("Path.HasExtension " + osName + " (Oracle)")
+                        )
+                    ]
+#endif
+            ]
+        ]
+
     testList "Path" [
         yield! invalidFilenameAndPathChars
         yield getPathRootTests
@@ -738,6 +801,7 @@ let ``Fable.System.IO.Path.Tests`` =
         yield getFileNameTests
         yield getFileNameWithoutExtensionTests
         yield getExtension
+        yield hasExtensionTests
     ]
 
 [<Tests>]
