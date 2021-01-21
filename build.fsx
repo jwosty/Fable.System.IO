@@ -91,7 +91,10 @@ let addVersionInfo (versionInfo: PackageVersionInfo) options =
     ] options
 
 let buildCfg = DotNet.BuildConfiguration.fromEnvironVarOrDefault "configuration" DotNet.Release
-let defaultMsbuildParams msbuildParams = msbuildParams |> addVersionInfo currentVersionInfo
+let defaultMsbuildParams msbuildParams =
+    msbuildParams
+    |> addVersionInfo currentVersionInfo
+    |> addProperties ["RepositoryCommit", Git.Information.getCurrentSHA1 "."]
 
 let mkDefaultBuildOptions (options: DotNet.BuildOptions) =
     { options with
