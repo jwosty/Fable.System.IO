@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
+    <RepoDir>$(MSBuildProjectDir)..\</RepoDir>
+  </PropertyGroup>
+  <Import Project="..\VersionInfo.props"/>
+  <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
     <OutputType>Library</OutputType>
   </PropertyGroup>

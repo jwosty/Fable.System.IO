@@ -1,0 +1,491 @@
+runOrBuild ({ Script = Some "build.fsx"
+  ScriptArguments = ["-t"; "Pack"]
+  FsiArgLine = []
+  Debug = false
+  NoCache = false
+  RestoreOnlyGroup = false
+  VerboseLevel = Verbose
+  IsBuild = false })
+FAKE 5 - F# Make (5.20.3) (this line is written to standard error, see https://github.com/fsharp/FAKE/issues/2066)
+prepareAndRunScriptRedirect(Script: build.fsx, fsiOptions: "")
+Writing 'C:\Users\jwost\source\repos\Fable.System.IO\.fake\build.fsx\intellisense.fsx'
+Restoring with paket...
+The last restore is still up to date. Nothing left to do.
+Known dependencies: 
+	 - ref: C:\Users\jwost\.nuget\packages\netstandard.library\2.0.3\build\netstandard2.0\ref\Microsoft.Win32.Primitives.dll (4.0.3.0)
+	 - ref: C:\Users\jwost\.nuget\packages\netstandard.library\2.0.3\build\netstandard2.0\ref\mscorlib.dll (4.0.0.0)
+	 - ref: C:\Users\jwost\.nuget\packages\netstandard.library\2.0.3\build\netstandard2.0\ref\netstandard.dll (2.0.0.0)
+	 - ref: C:\Users\jwost\.nuget\packages\netstandard.library\2.0.3\build\netstandard2.0\ref\System.AppContext.dll (4.1.2.0)
+	 - ref: C:\Users\jwost\.nuget\packages\netstandard.library\2.0.3\build\netstandard2.0\ref\System.Collections.Concurrent.dll (4.0.11.0)
+	 - ref: C:\Users\jwost\.nuget\packages\netstandard.library\2.0.3\build\netstandard2.0\ref\System.Collections.dll (4.0.11.0)
+	 - ref: C:\Users\jwost\.nuget\packages\netstandard.library\2.0.3\build\netstandard2.0\ref\System.Collections.NonGeneric.dll (4.0.3.0)
+	 - ref: C:\Users\jwost\.nuget\packages\netstandard.library\2.0.3\build\netstandard2.0\ref\System.Collections.Specialized.dll (4.0.3.0)
+	 - ref: C:\Users\jwost\.nuget\packages\netstandard.library\2.0.3\build\netstandard2.0\ref\System.ComponentModel.Composition.dll (4.0.0.0)
+	 - ref: C:\Users\jwost\.nuget\packages\netstandard.library\2.0.3\build\netstandard2.0\ref\System.ComponentModel.dll (4.0.1.0)
+	 - ref: C:\Users\jwost\.nuget\packages\netstandard.library\2.0.3\build\netstandard2.0\ref\System.ComponentModel.EventBasedAsync.dll (4.0.11.0)
+	 - ref: C:\Users\jwost\.nuget\packages\netstandard.library\2.0.3\build\netstandard2.0\ref\System.ComponentModel.Primitives.dll (4.1.2.0)
+	 - ref: C:\Users\jwost\.nuget\packages\netstandard.library\2.0.3\build\netstandard2.0\ref\System.ComponentModel.TypeConverter.dll (4.1.2.0)
+	 - ref: C:\Users\jwost\.nuget\packages\netstandard.library\2.0.3\build\netstandard2.0\ref\System.Console.dll (4.0.2.0)
+	 - ref: C:\Users\jwost\.nuget\packages\netstandard.library\2.0.3\build\netstandard2.0\ref\System.Core.dll (4.0.0.0)
+	 - ref: C:\Users\jwost\.nuget\packages\netstandard.library\2.0.3\build\netstandard2.0\ref\System.Data.Common.dll (4.1.2.0)
+	 - ref: C:\Users\jwost\.nuget\packages\netstandard.library\2.0.3\build\netstandard2.0\ref\System.Data.dll (4.0.0.0)
+	 - ref: C:\Users\jwost\.nuget\packages\netstandard.library\2.0.3\build\netstandard2.0\ref\System.Diagnostics.Contracts.dll (4.0.1.0)
+	 - ref: C:\Users\jwost\.nuget\packages\netstandard.library\2.0.3\build\netstandard2.0\ref\System.Diagnostics.Debug.dll (4.0.11.0)
+	 - ref: C:\Users\jwost\.nuget\packages\netstandard.library\2.0.3\build\netstandard2.0\ref\System.Diagnostics.FileVersionInfo.dll (4.0.2.0)
+	 - ref: C:\Users\jwost\.nuget\packages\netstandard.library\2.0.3\build\netstandard2.0\ref\System.Diagnostics.Process.dll (4.1.2.0)
+	 - ref: C:\Users\jwost\.nuget\packages\netstandard.library\2.0.3\build\netstandard2.0\ref\System.Diagnostics.StackTrace.dll (4.0.4.0)
+	 - ref: C:\Users\jwost\.nuget\packages\netstandard.library\2.0.3\build\netstandard2.0\ref\System.Diagnostics.TextWriterTraceListener.dll (4.0.2.0)
+	 - ref: C:\Users\jwost\.nuget\packages\netstandard.library\2.0.3\build\netstandard2.0\ref\System.Diagnostics.Tools.dll (4.0.1.0)
+	 - ref: C:\Users\jwost\.nuget\packages\netstandard.library\2.0.3\build\netstandard2.0\ref\System.Diagnostics.TraceSource.dll (4.0.2.0)
+	 - ref: C:\Users\jwost\.nuget\packages\netstandard.library\2.0.3\build\netstandard2.0\ref\System.Diagnostics.Tracing.dll (4.1.2.0)
+	 - ref: C:\Users\jwost\.nuget\packages\netstandard.library\2.0.3\build\netstandard2.0\ref\System.dll (4.0.0.0)
+	 - ref: C:\Users\jwost\.nuget\packages\netstandard.library\2.0.3\build\netstandard2.0\ref\System.Drawing.dll (4.0.0.0)
+	 - ref: C:\Users\jwost\.nuget\packages\netstandard.library\2.0.3\build\netstandard2.0\ref\System.Drawing.Primitives.dll (4.0.2.0)
+	 - ref: C:\Users\jwost\.nuget\packages\netstandard.library\2.0.3\build\netstandard2.0\ref\System.Dynamic.Runtime.dll (4.0.11.0)
+	 - ref: C:\Users\jwost\.nuget\packages\netstandard.library\2.0.3\build\netstandard2.0\ref\System.Globalization.Calendars.dll (4.0.3.0)
+	 - ref: C:\Users\jwost\.nuget\packages\netstandard.library\2.0.3\build\netstandard2.0\ref\System.Globalization.dll (4.0.11.0)
+	 - ref: C:\Users\jwost\.nuget\packages\netstandard.library\2.0.3\build\netstandard2.0\ref\System.Globalization.Extensions.dll (4.0.3.0)
+	 - ref: C:\Users\jwost\.nuget\packages\netstandard.library\2.0.3\build\netstandard2.0\ref\System.IO.Compression.dll (4.1.3.0)
+	 - ref: C:\Users\jwost\.nuget\packages\netstandard.library\2.0.3\build\netstandard2.0\ref\System.IO.Compression.FileSystem.dll (4.0.0.0)
+	 - ref: C:\Users\jwost\.nuget\packages\netstandard.library\2.0.3\build\netstandard2.0\ref\System.IO.Compression.ZipFile.dll (4.0.3.0)
+	 - ref: C:\Users\jwost\.nuget\packages\netstandard.library\2.0.3\build\netstandard2.0\ref\System.IO.dll (4.1.2.0)
+	 - ref: C:\Users\jwost\.nuget\packages\netstandard.library\2.0.3\build\netstandard2.0\ref\System.IO.FileSystem.dll (4.0.3.0)
+	 - ref: C:\Users\jwost\.nuget\packages\netstandard.library\2.0.3\build\netstandard2.0\ref\System.IO.FileSystem.DriveInfo.dll (4.0.2.0)
+	 - ref: C:\Users\jwost\.nuget\packages\netstandard.library\2.0.3\build\netstandard2.0\ref\System.IO.FileSystem.Primitives.dll (4.0.3.0)
+	 - ref: C:\Users\jwost\.nuget\packages\netstandard.library\2.0.3\build\netstandard2.0\ref\System.IO.FileSystem.Watcher.dll (4.0.2.0)
+	 - ref: C:\Users\jwost\.nuget\packages\netstandard.library\2.0.3\build\netstandard2.0\ref\System.IO.IsolatedStorage.dll (4.0.2.0)
+	 - ref: C:\Users\jwost\.nuget\packages\netstandard.library\2.0.3\build\netstandard2.0\ref\System.IO.MemoryMappedFiles.dll (4.0.2.0)
+	 - ref: C:\Users\jwost\.nuget\packages\netstandard.library\2.0.3\build\netstandard2.0\ref\System.IO.Pipes.dll (4.0.2.0)
+	 - ref: C:\Users\jwost\.nuget\packages\netstandard.library\2.0.3\build\netstandard2.0\ref\System.IO.UnmanagedMemoryStream.dll (4.0.3.0)
+	 - ref: C:\Users\jwost\.nuget\packages\netstandard.library\2.0.3\build\netstandard2.0\ref\System.Linq.dll (4.1.2.0)
+	 - ref: C:\Users\jwost\.nuget\packages\netstandard.library\2.0.3\build\netstandard2.0\ref\System.Linq.Expressions.dll (4.1.2.0)
+	 - ref: C:\Users\jwost\.nuget\packages\netstandard.library\2.0.3\build\netstandard2.0\ref\System.Linq.Parallel.dll (4.0.1.0)
+	 - ref: C:\Users\jwost\.nuget\packages\netstandard.library\2.0.3\build\netstandard2.0\ref\System.Linq.Queryable.dll (4.0.1.0)
+	 - ref: C:\Users\jwost\.nuget\packages\netstandard.library\2.0.3\build\netstandard2.0\ref\System.Net.dll (4.0.0.0)
+	 - ref: C:\Users\jwost\.nuget\packages\netstandard.library\2.0.3\build\netstandard2.0\ref\System.Net.Http.dll (4.1.2.0)
+	 - ref: C:\Users\jwost\.nuget\packages\netstandard.library\2.0.3\build\netstandard2.0\ref\System.Net.NameResolution.dll (4.0.2.0)
+	 - ref: C:\Users\jwost\.nuget\packages\netstandard.library\2.0.3\build\netstandard2.0\ref\System.Net.NetworkInformation.dll (4.1.2.0)
+	 - ref: C:\Users\jwost\.nuget\packages\netstandard.library\2.0.3\build\netstandard2.0\ref\System.Net.Ping.dll (4.0.2.0)
+	 - ref: C:\Users\jwost\.nuget\packages\netstandard.library\2.0.3\build\netstandard2.0\ref\System.Net.Primitives.dll (4.0.11.0)
+	 - ref: C:\Users\jwost\.nuget\packages\netstandard.library\2.0.3\build\netstandard2.0\ref\System.Net.Requests.dll (4.0.11.0)
+	 - ref: C:\Users\jwost\.nuget\packages\netstandard.library\2.0.3\build\netstandard2.0\ref\System.Net.Security.dll (4.0.2.0)
+	 - ref: C:\Users\jwost\.nuget\packages\netstandard.library\2.0.3\build\netstandard2.0\ref\System.Net.Sockets.dll (4.1.2.0)
+	 - ref: C:\Users\jwost\.nuget\packages\netstandard.library\2.0.3\build\netstandard2.0\ref\System.Net.WebHeaderCollection.dll (4.0.1.0)
+	 - ref: C:\Users\jwost\.nuget\packages\netstandard.library\2.0.3\build\netstandard2.0\ref\System.Net.WebSockets.Client.dll (4.0.2.0)
+	 - ref: C:\Users\jwost\.nuget\packages\netstandard.library\2.0.3\build\netstandard2.0\ref\System.Net.WebSockets.dll (4.0.2.0)
+	 - ref: C:\Users\jwost\.nuget\packages\netstandard.library\2.0.3\build\netstandard2.0\ref\System.Numerics.dll (4.0.0.0)
+	 - ref: C:\Users\jwost\.nuget\packages\netstandard.library\2.0.3\build\netstandard2.0\ref\System.ObjectModel.dll (4.0.11.0)
+	 - ref: C:\Users\jwost\.nuget\packages\netstandard.library\2.0.3\build\netstandard2.0\ref\System.Reflection.dll (4.1.2.0)
+	 - ref: C:\Users\jwost\.nuget\packages\netstandard.library\2.0.3\build\netstandard2.0\ref\System.Reflection.Extensions.dll (4.0.1.0)
+	 - ref: C:\Users\jwost\.nuget\packages\netstandard.library\2.0.3\build\netstandard2.0\ref\System.Reflection.Primitives.dll (4.0.1.0)
+	 - ref: C:\Users\jwost\.nuget\packages\netstandard.library\2.0.3\build\netstandard2.0\ref\System.Resources.Reader.dll (4.0.2.0)
+	 - ref: C:\Users\jwost\.nuget\packages\netstandard.library\2.0.3\build\netstandard2.0\ref\System.Resources.ResourceManager.dll (4.0.1.0)
+	 - ref: C:\Users\jwost\.nuget\packages\netstandard.library\2.0.3\build\netstandard2.0\ref\System.Resources.Writer.dll (4.0.2.0)
+	 - ref: C:\Users\jwost\.nuget\packages\netstandard.library\2.0.3\build\netstandard2.0\ref\System.Runtime.CompilerServices.VisualC.dll (4.0.2.0)
+	 - ref: C:\Users\jwost\.nuget\packages\netstandard.library\2.0.3\build\netstandard2.0\ref\System.Runtime.dll (4.1.2.0)
+	 - ref: C:\Users\jwost\.nuget\packages\netstandard.library\2.0.3\build\netstandard2.0\ref\System.Runtime.Extensions.dll (4.1.2.0)
+	 - ref: C:\Users\jwost\.nuget\packages\netstandard.library\2.0.3\build\netstandard2.0\ref\System.Runtime.Handles.dll (4.0.1.0)
+	 - ref: C:\Users\jwost\.nuget\packages\netstandard.library\2.0.3\build\netstandard2.0\ref\System.Runtime.InteropServices.dll (4.1.2.0)
+	 - ref: C:\Users\jwost\.nuget\packages\netstandard.library\2.0.3\build\netstandard2.0\ref\System.Runtime.InteropServices.RuntimeInformation.dll (4.0.2.0)
+	 - ref: C:\Users\jwost\.nuget\packages\netstandard.library\2.0.3\build\netstandard2.0\ref\System.Runtime.Numerics.dll (4.0.1.0)
+	 - ref: C:\Users\jwost\.nuget\packages\netstandard.library\2.0.3\build\netstandard2.0\ref\System.Runtime.Serialization.dll (4.0.0.0)
+	 - ref: C:\Users\jwost\.nuget\packages\netstandard.library\2.0.3\build\netstandard2.0\ref\System.Runtime.Serialization.Formatters.dll (4.0.2.0)
+	 - ref: C:\Users\jwost\.nuget\packages\netstandard.library\2.0.3\build\netstandard2.0\ref\System.Runtime.Serialization.Json.dll (4.0.1.0)
+	 - ref: C:\Users\jwost\.nuget\packages\netstandard.library\2.0.3\build\netstandard2.0\ref\System.Runtime.Serialization.Primitives.dll (4.1.3.0)
+	 - ref: C:\Users\jwost\.nuget\packages\netstandard.library\2.0.3\build\netstandard2.0\ref\System.Runtime.Serialization.Xml.dll (4.1.3.0)
+	 - ref: C:\Users\jwost\.nuget\packages\netstandard.library\2.0.3\build\netstandard2.0\ref\System.Security.Claims.dll (4.0.3.0)
+	 - ref: C:\Users\jwost\.nuget\packages\netstandard.library\2.0.3\build\netstandard2.0\ref\System.Security.Cryptography.Algorithms.dll (4.2.2.0)
+	 - ref: C:\Users\jwost\.nuget\packages\netstandard.library\2.0.3\build\netstandard2.0\ref\System.Security.Cryptography.Csp.dll (4.0.2.0)
+	 - ref: C:\Users\jwost\.nuget\packages\netstandard.library\2.0.3\build\netstandard2.0\ref\System.Security.Cryptography.Encoding.dll (4.0.2.0)
+	 - ref: C:\Users\jwost\.nuget\packages\netstandard.library\2.0.3\build\netstandard2.0\ref\System.Security.Cryptography.Primitives.dll (4.0.2.0)
+	 - ref: C:\Users\jwost\.nuget\packages\netstandard.library\2.0.3\build\netstandard2.0\ref\System.Security.Cryptography.X509Certificates.dll (4.1.2.0)
+	 - ref: C:\Users\jwost\.nuget\packages\netstandard.library\2.0.3\build\netstandard2.0\ref\System.Security.Principal.dll (4.0.1.0)
+	 - ref: C:\Users\jwost\.nuget\packages\netstandard.library\2.0.3\build\netstandard2.0\ref\System.Security.SecureString.dll (4.0.2.0)
+	 - ref: C:\Users\jwost\.nuget\packages\netstandard.library\2.0.3\build\netstandard2.0\ref\System.ServiceModel.Web.dll (4.0.0.0)
+	 - ref: C:\Users\jwost\.nuget\packages\netstandard.library\2.0.3\build\netstandard2.0\ref\System.Text.Encoding.dll (4.0.11.0)
+	 - ref: C:\Users\jwost\.nuget\packages\netstandard.library\2.0.3\build\netstandard2.0\ref\System.Text.Encoding.Extensions.dll (4.0.11.0)
+	 - ref: C:\Users\jwost\.nuget\packages\netstandard.library\2.0.3\build\netstandard2.0\ref\System.Text.RegularExpressions.dll (4.1.1.0)
+	 - ref: C:\Users\jwost\.nuget\packages\netstandard.library\2.0.3\build\netstandard2.0\ref\System.Threading.dll (4.0.11.0)
+	 - ref: C:\Users\jwost\.nuget\packages\netstandard.library\2.0.3\build\netstandard2.0\ref\System.Threading.Overlapped.dll (4.0.3.0)
+	 - ref: C:\Users\jwost\.nuget\packages\netstandard.library\2.0.3\build\netstandard2.0\ref\System.Threading.Tasks.dll (4.0.11.0)
+	 - ref: C:\Users\jwost\.nuget\packages\netstandard.library\2.0.3\build\netstandard2.0\ref\System.Threading.Tasks.Parallel.dll (4.0.1.0)
+	 - ref: C:\Users\jwost\.nuget\packages\netstandard.library\2.0.3\build\netstandard2.0\ref\System.Threading.Thread.dll (4.0.2.0)
+	 - ref: C:\Users\jwost\.nuget\packages\netstandard.library\2.0.3\build\netstandard2.0\ref\System.Threading.ThreadPool.dll (4.0.12.0)
+	 - ref: C:\Users\jwost\.nuget\packages\netstandard.library\2.0.3\build\netstandard2.0\ref\System.Threading.Timer.dll (4.0.1.0)
+	 - ref: C:\Users\jwost\.nuget\packages\netstandard.library\2.0.3\build\netstandard2.0\ref\System.Transactions.dll (4.0.0.0)
+	 - ref: C:\Users\jwost\.nuget\packages\netstandard.library\2.0.3\build\netstandard2.0\ref\System.ValueTuple.dll (4.0.2.0)
+	 - ref: C:\Users\jwost\.nuget\packages\netstandard.library\2.0.3\build\netstandard2.0\ref\System.Web.dll (4.0.0.0)
+	 - ref: C:\Users\jwost\.nuget\packages\netstandard.library\2.0.3\build\netstandard2.0\ref\System.Windows.dll (4.0.0.0)
+	 - ref: C:\Users\jwost\.nuget\packages\netstandard.library\2.0.3\build\netstandard2.0\ref\System.Xml.dll (4.0.0.0)
+	 - ref: C:\Users\jwost\.nuget\packages\netstandard.library\2.0.3\build\netstandard2.0\ref\System.Xml.Linq.dll (4.0.0.0)
+	 - ref: C:\Users\jwost\.nuget\packages\netstandard.library\2.0.3\build\netstandard2.0\ref\System.Xml.ReaderWriter.dll (4.1.1.0)
+	 - ref: C:\Users\jwost\.nuget\packages\netstandard.library\2.0.3\build\netstandard2.0\ref\System.Xml.Serialization.dll (4.0.0.0)
+	 - ref: C:\Users\jwost\.nuget\packages\netstandard.library\2.0.3\build\netstandard2.0\ref\System.Xml.XDocument.dll (4.0.11.0)
+	 - ref: C:\Users\jwost\.nuget\packages\netstandard.library\2.0.3\build\netstandard2.0\ref\System.Xml.XmlDocument.dll (4.0.3.0)
+	 - ref: C:\Users\jwost\.nuget\packages\netstandard.library\2.0.3\build\netstandard2.0\ref\System.Xml.XmlSerializer.dll (4.0.11.0)
+	 - ref: C:\Users\jwost\.nuget\packages\netstandard.library\2.0.3\build\netstandard2.0\ref\System.Xml.XPath.dll (4.0.3.0)
+	 - ref: C:\Users\jwost\.nuget\packages\netstandard.library\2.0.3\build\netstandard2.0\ref\System.Xml.XPath.XDocument.dll (4.0.3.0)
+	 - lib: C:\Users\jwost\.nuget\packages\system.threading.tasks.dataflow\5.0.0\lib\netstandard2.0\System.Threading.Tasks.Dataflow.dll (5.0.0.0)
+	 - ref: C:\Users\jwost\.nuget\packages\system.threading.tasks.dataflow\5.0.0\lib\netstandard2.0\System.Threading.Tasks.Dataflow.dll (5.0.0.0)
+	 - lib: C:\Users\jwost\.nuget\packages\system.security.principal.windows\5.0.0\lib\netstandard2.0\System.Security.Principal.Windows.dll (5.0.0.0)
+	 - ref: C:\Users\jwost\.nuget\packages\system.security.principal.windows\5.0.0\ref\netstandard2.0\System.Security.Principal.Windows.dll (5.0.0.0)
+	 - lib: C:\Users\jwost\.nuget\packages\system.security.cryptography.openssl\5.0.0\lib\netstandard2.0\System.Security.Cryptography.OpenSsl.dll (4.1.0.0)
+	 - ref: C:\Users\jwost\.nuget\packages\system.security.cryptography.openssl\5.0.0\ref\netstandard2.0\System.Security.Cryptography.OpenSsl.dll (4.1.0.0)
+	 - lib: C:\Users\jwost\.nuget\packages\system.security.cryptography.cng\5.0.0\lib\netstandard2.0\System.Security.Cryptography.Cng.dll (4.3.0.0)
+	 - ref: C:\Users\jwost\.nuget\packages\system.security.cryptography.cng\5.0.0\ref\netstandard2.0\System.Security.Cryptography.Cng.dll (4.3.0.0)
+	 - lib: C:\Users\jwost\.nuget\packages\system.runtime.compilerservices.unsafe\5.0.0\lib\netstandard2.0\System.Runtime.CompilerServices.Unsafe.dll (5.0.0.0)
+	 - ref: C:\Users\jwost\.nuget\packages\system.runtime.compilerservices.unsafe\5.0.0\ref\netstandard2.0\System.Runtime.CompilerServices.Unsafe.dll (5.0.0.0)
+	 - lib: C:\Users\jwost\.nuget\packages\system.reflection.typeextensions\4.7.0\lib\netstandard2.0\System.Reflection.TypeExtensions.dll (4.1.5.0)
+	 - ref: C:\Users\jwost\.nuget\packages\system.reflection.typeextensions\4.7.0\ref\netstandard2.0\System.Reflection.TypeExtensions.dll (4.1.2.0)
+	 - lib: C:\Users\jwost\.nuget\packages\system.numerics.vectors\4.5.0\lib\netstandard2.0\System.Numerics.Vectors.dll (4.1.4.0)
+	 - ref: C:\Users\jwost\.nuget\packages\system.numerics.vectors\4.5.0\ref\netstandard2.0\System.Numerics.Vectors.dll (4.1.3.0)
+	 - lib: C:\Users\jwost\.nuget\packages\system.codedom\5.0.0\lib\netstandard2.0\System.CodeDom.dll (5.0.0.0)
+	 - ref: C:\Users\jwost\.nuget\packages\system.codedom\5.0.0\ref\netstandard2.0\System.CodeDom.dll (5.0.0.0)
+	 - lib: C:\Users\jwost\.nuget\packages\system.buffers\4.5.1\lib\netstandard2.0\System.Buffers.dll (4.0.3.0)
+	 - ref: C:\Users\jwost\.nuget\packages\system.buffers\4.5.1\ref\netstandard2.0\System.Buffers.dll (4.0.2.0)
+	 - lib: C:\Users\jwost\.nuget\packages\nuget.versioning\5.8.0\lib\netstandard2.0\NuGet.Versioning.dll (5.8.0.6930)
+	 - ref: C:\Users\jwost\.nuget\packages\nuget.versioning\5.8.0\lib\netstandard2.0\NuGet.Versioning.dll (5.8.0.6930)
+	 - lib: C:\Users\jwost\.nuget\packages\nuget.frameworks\5.8.0\lib\netstandard2.0\NuGet.Frameworks.dll (5.8.0.6930)
+	 - ref: C:\Users\jwost\.nuget\packages\nuget.frameworks\5.8.0\lib\netstandard2.0\NuGet.Frameworks.dll (5.8.0.6930)
+	 - lib: C:\Users\jwost\.nuget\packages\newtonsoft.json\12.0.3\lib\netstandard2.0\Newtonsoft.Json.dll (12.0.0.0)
+	 - ref: C:\Users\jwost\.nuget\packages\newtonsoft.json\12.0.3\lib\netstandard2.0\Newtonsoft.Json.dll (12.0.0.0)
+	 - native: C:\Users\jwost\.nuget\packages\mono.posix.netstandard\1.0.0\runtimes\win-x64\native\MonoPosixHelper.dll
+	 - native: C:\Users\jwost\.nuget\packages\mono.posix.netstandard\1.0.0\runtimes\win-x64\native\libMonoPosixHelper.dll
+	 - lib: C:\Users\jwost\.nuget\packages\mono.posix.netstandard\1.0.0\runtimes\win-x64\lib\netstandard2.0\Mono.Posix.NETStandard.dll (1.0.0.0)
+	 - ref: C:\Users\jwost\.nuget\packages\mono.posix.netstandard\1.0.0\ref\netstandard2.0\Mono.Posix.NETStandard.dll (1.0.0.0)
+	 - lib: C:\Users\jwost\.nuget\packages\fsharp.core\4.7.0\lib\netstandard2.0\FSharp.Core.dll (4.7.0.0)
+	 - ref: C:\Users\jwost\.nuget\packages\fsharp.core\4.7.0\lib\netstandard2.0\FSharp.Core.dll (4.7.0.0)
+	 - lib: C:\Users\jwost\.nuget\packages\system.threading.tasks.extensions\4.5.4\lib\netstandard2.0\System.Threading.Tasks.Extensions.dll (4.2.0.1)
+	 - ref: C:\Users\jwost\.nuget\packages\system.threading.tasks.extensions\4.5.4\lib\netstandard2.0\System.Threading.Tasks.Extensions.dll (4.2.0.1)
+	 - lib: C:\Users\jwost\.nuget\packages\system.text.encoding.codepages\5.0.0\runtimes\win\lib\netstandard2.0\System.Text.Encoding.CodePages.dll (5.0.0.0)
+	 - ref: C:\Users\jwost\.nuget\packages\system.text.encoding.codepages\5.0.0\lib\netstandard2.0\System.Text.Encoding.CodePages.dll (5.0.0.0)
+	 - lib: C:\Users\jwost\.nuget\packages\system.security.accesscontrol\5.0.0\lib\netstandard2.0\System.Security.AccessControl.dll (5.0.0.0)
+	 - ref: C:\Users\jwost\.nuget\packages\system.security.accesscontrol\5.0.0\ref\netstandard2.0\System.Security.AccessControl.dll (5.0.0.0)
+	 - lib: C:\Users\jwost\.nuget\packages\system.memory\4.5.4\lib\netstandard2.0\System.Memory.dll (4.0.1.1)
+	 - ref: C:\Users\jwost\.nuget\packages\system.memory\4.5.4\lib\netstandard2.0\System.Memory.dll (4.0.1.1)
+	 - lib: C:\Users\jwost\.nuget\packages\nuget.common\5.8.0\lib\netstandard2.0\NuGet.Common.dll (5.8.0.6930)
+	 - ref: C:\Users\jwost\.nuget\packages\nuget.common\5.8.0\lib\netstandard2.0\NuGet.Common.dll (5.8.0.6930)
+	 - lib: C:\Users\jwost\.nuget\packages\fparsec\1.1.1\lib\netstandard2.0\FParsec.dll (1.1.1.0)
+	 - lib: C:\Users\jwost\.nuget\packages\fparsec\1.1.1\lib\netstandard2.0\FParsecCS.dll (1.1.1.0)
+	 - ref: C:\Users\jwost\.nuget\packages\fparsec\1.1.1\lib\netstandard2.0\FParsec.dll (1.1.1.0)
+	 - ref: C:\Users\jwost\.nuget\packages\fparsec\1.1.1\lib\netstandard2.0\FParsecCS.dll (1.1.1.0)
+	 - lib: C:\Users\jwost\.nuget\packages\fake.core.string\5.19.1\lib\netstandard2.0\Fake.Core.String.dll (5.19.1.0)
+	 - ref: C:\Users\jwost\.nuget\packages\fake.core.string\5.19.1\lib\netstandard2.0\Fake.Core.String.dll (5.19.1.0)
+	 - lib: C:\Users\jwost\.nuget\packages\fake.core.environment\5.19.1\lib\netstandard2.0\Fake.Core.Environment.dll (5.19.1.0)
+	 - ref: C:\Users\jwost\.nuget\packages\fake.core.environment\5.19.1\lib\netstandard2.0\Fake.Core.Environment.dll (5.19.1.0)
+	 - lib: C:\Users\jwost\.nuget\packages\fake.core.context\5.19.1\lib\netstandard2.0\Fake.Core.Context.dll (5.19.1.0)
+	 - ref: C:\Users\jwost\.nuget\packages\fake.core.context\5.19.1\lib\netstandard2.0\Fake.Core.Context.dll (5.19.1.0)
+	 - lib: C:\Users\jwost\.nuget\packages\system.threading.thread\4.3.0\lib\netstandard1.3\System.Threading.Thread.dll (4.0.1.0)
+	 - lib: C:\Users\jwost\.nuget\packages\system.security.permissions\5.0.0\lib\netstandard2.0\System.Security.Permissions.dll (5.0.0.0)
+	 - ref: C:\Users\jwost\.nuget\packages\system.security.permissions\5.0.0\ref\netstandard2.0\System.Security.Permissions.dll (5.0.0.0)
+	 - lib: C:\Users\jwost\.nuget\packages\system.security.cryptography.protecteddata\5.0.0\runtimes\win\lib\netstandard2.0\System.Security.Cryptography.ProtectedData.dll (5.0.0.0)
+	 - ref: C:\Users\jwost\.nuget\packages\system.security.cryptography.protecteddata\5.0.0\ref\netstandard2.0\System.Security.Cryptography.ProtectedData.dll (5.0.0.0)
+	 - lib: C:\Users\jwost\.nuget\packages\system.runtime.interopservices.windowsruntime\4.3.0\lib\netstandard1.3\System.Runtime.InteropServices.WindowsRuntime.dll (4.0.2.0)
+	 - ref: C:\Users\jwost\.nuget\packages\system.runtime.interopservices.windowsruntime\4.3.0\ref\netstandard1.0\System.Runtime.InteropServices.WindowsRuntime.dll (4.0.0.0)
+	 - lib: C:\Users\jwost\.nuget\packages\system.resources.extensions\5.0.0\lib\netstandard2.0\System.Resources.Extensions.dll (5.0.0.0)
+	 - ref: C:\Users\jwost\.nuget\packages\system.resources.extensions\5.0.0\lib\netstandard2.0\System.Resources.Extensions.dll (5.0.0.0)
+	 - lib: C:\Users\jwost\.nuget\packages\system.io.filesystem.primitives\4.3.0\lib\netstandard1.3\System.IO.FileSystem.Primitives.dll (4.0.2.0)
+	 - lib: C:\Users\jwost\.nuget\packages\system.formats.asn1\5.0.0\lib\netstandard2.0\System.Formats.Asn1.dll (5.0.0.0)
+	 - ref: C:\Users\jwost\.nuget\packages\system.formats.asn1\5.0.0\lib\netstandard2.0\System.Formats.Asn1.dll (5.0.0.0)
+	 - lib: C:\Users\jwost\.nuget\packages\system.diagnostics.diagnosticsource\5.0.1\lib\netstandard1.3\System.Diagnostics.DiagnosticSource.dll (5.0.0.0)
+	 - ref: C:\Users\jwost\.nuget\packages\system.diagnostics.diagnosticsource\5.0.1\lib\netstandard1.3\System.Diagnostics.DiagnosticSource.dll (5.0.0.0)
+	 - lib: C:\Users\jwost\.nuget\packages\system.collections.immutable\5.0.0\lib\netstandard2.0\System.Collections.Immutable.dll (5.0.0.0)
+	 - ref: C:\Users\jwost\.nuget\packages\system.collections.immutable\5.0.0\lib\netstandard2.0\System.Collections.Immutable.dll (5.0.0.0)
+	 - lib: C:\Users\jwost\.nuget\packages\microsoft.win32.registry\5.0.0\runtimes\win\lib\netstandard2.0\Microsoft.Win32.Registry.dll (5.0.0.0)
+	 - ref: C:\Users\jwost\.nuget\packages\microsoft.win32.registry\5.0.0\ref\netstandard2.0\Microsoft.Win32.Registry.dll (5.0.0.0)
+	 - lib: C:\Users\jwost\.nuget\packages\fake.core.fakevar\5.19.1\lib\netstandard2.0\Fake.Core.FakeVar.dll (5.19.1.0)
+	 - ref: C:\Users\jwost\.nuget\packages\fake.core.fakevar\5.19.1\lib\netstandard2.0\Fake.Core.FakeVar.dll (5.19.1.0)
+	 - lib: C:\Users\jwost\.nuget\packages\fake.core.commandlineparsing\5.19.1\lib\netstandard2.0\Fake.Core.CommandLineParsing.dll (5.19.1.0)
+	 - ref: C:\Users\jwost\.nuget\packages\fake.core.commandlineparsing\5.19.1\lib\netstandard2.0\Fake.Core.CommandLineParsing.dll (5.19.1.0)
+	 - lib: C:\Users\jwost\.nuget\packages\system.threading.threadpool\4.3.0\lib\netstandard1.3\System.Threading.ThreadPool.dll (4.0.11.0)
+	 - lib: C:\Users\jwost\.nuget\packages\system.threading\4.3.0\lib\netstandard1.3\System.Threading.dll (4.0.12.0)
+	 - lib: C:\Users\jwost\.nuget\packages\system.security.cryptography.pkcs\5.0.1\runtimes\win\lib\netstandard2.0\System.Security.Cryptography.Pkcs.dll (4.0.4.0)
+	 - ref: C:\Users\jwost\.nuget\packages\system.security.cryptography.pkcs\5.0.1\ref\netstandard2.0\System.Security.Cryptography.Pkcs.dll (4.0.3.2)
+	 - lib: C:\Users\jwost\.nuget\packages\system.reflection.metadata\5.0.0\lib\netstandard2.0\System.Reflection.Metadata.dll (5.0.0.0)
+	 - ref: C:\Users\jwost\.nuget\packages\system.reflection.metadata\5.0.0\lib\netstandard2.0\System.Reflection.Metadata.dll (5.0.0.0)
+	 - lib: C:\Users\jwost\.nuget\packages\system.reactive\5.0.0\lib\netstandard2.0\System.Reactive.dll (5.0.0.0)
+	 - ref: C:\Users\jwost\.nuget\packages\system.reactive\5.0.0\lib\netstandard2.0\System.Reactive.dll (5.0.0.0)
+	 - lib: C:\Users\jwost\.nuget\packages\nuget.configuration\5.8.0\lib\netstandard2.0\NuGet.Configuration.dll (5.8.0.6930)
+	 - ref: C:\Users\jwost\.nuget\packages\nuget.configuration\5.8.0\lib\netstandard2.0\NuGet.Configuration.dll (5.8.0.6930)
+	 - lib: C:\Users\jwost\.nuget\packages\microsoft.build.framework\16.8.0\lib\netstandard2.0\Microsoft.Build.Framework.dll (15.1.0.0)
+	 - ref: C:\Users\jwost\.nuget\packages\microsoft.build.framework\16.8.0\lib\netstandard2.0\Microsoft.Build.Framework.dll (15.1.0.0)
+	 - lib: C:\Users\jwost\.nuget\packages\fake.core.trace\5.19.1\lib\netstandard2.0\Fake.Core.Trace.dll (5.19.1.0)
+	 - ref: C:\Users\jwost\.nuget\packages\fake.core.trace\5.19.1\lib\netstandard2.0\Fake.Core.Trace.dll (5.19.1.0)
+	 - lib: C:\Users\jwost\.nuget\packages\blackfox.vswhere\1.1.0\lib\netstandard2.0\BlackFox.VsWhere.dll (1.1.0.0)
+	 - ref: C:\Users\jwost\.nuget\packages\blackfox.vswhere\1.1.0\lib\netstandard2.0\BlackFox.VsWhere.dll (1.1.0.0)
+	 - lib: C:\Users\jwost\.nuget\packages\system.security.cryptography.xml\5.0.0\lib\netstandard2.0\System.Security.Cryptography.Xml.dll (5.0.0.0)
+	 - ref: C:\Users\jwost\.nuget\packages\system.security.cryptography.xml\5.0.0\ref\netstandard2.0\System.Security.Cryptography.Xml.dll (5.0.0.0)
+	 - lib: C:\Users\jwost\.nuget\packages\system.reactive.providers\5.0.0\lib\netstandard2.0\System.Reactive.Providers.dll (3.0.6000.0)
+	 - ref: C:\Users\jwost\.nuget\packages\system.reactive.providers\5.0.0\lib\netstandard2.0\System.Reactive.Providers.dll (3.0.6000.0)
+	 - lib: C:\Users\jwost\.nuget\packages\system.reactive.platformservices\5.0.0\lib\netstandard2.0\System.Reactive.PlatformServices.dll (3.0.6000.0)
+	 - ref: C:\Users\jwost\.nuget\packages\system.reactive.platformservices\5.0.0\lib\netstandard2.0\System.Reactive.PlatformServices.dll (3.0.6000.0)
+	 - lib: C:\Users\jwost\.nuget\packages\system.reactive.linq\5.0.0\lib\netstandard2.0\System.Reactive.Linq.dll (3.0.6000.0)
+	 - ref: C:\Users\jwost\.nuget\packages\system.reactive.linq\5.0.0\lib\netstandard2.0\System.Reactive.Linq.dll (3.0.6000.0)
+	 - lib: C:\Users\jwost\.nuget\packages\system.reactive.interfaces\5.0.0\lib\netstandard2.0\System.Reactive.Interfaces.dll (3.0.6000.0)
+	 - ref: C:\Users\jwost\.nuget\packages\system.reactive.interfaces\5.0.0\lib\netstandard2.0\System.Reactive.Interfaces.dll (3.0.6000.0)
+	 - lib: C:\Users\jwost\.nuget\packages\system.reactive.core\5.0.0\lib\netstandard2.0\System.Reactive.Core.dll (3.0.6000.0)
+	 - ref: C:\Users\jwost\.nuget\packages\system.reactive.core\5.0.0\lib\netstandard2.0\System.Reactive.Core.dll (3.0.6000.0)
+	 - lib: C:\Users\jwost\.nuget\packages\nuget.packaging\5.8.0\lib\netstandard2.0\NuGet.Packaging.dll (5.8.0.6930)
+	 - ref: C:\Users\jwost\.nuget\packages\nuget.packaging\5.8.0\lib\netstandard2.0\NuGet.Packaging.dll (5.8.0.6930)
+	 - lib: C:\Users\jwost\.nuget\packages\microsoft.build.utilities.core\16.8.0\lib\netstandard2.0\Microsoft.Build.Utilities.Core.dll (15.1.0.0)
+	 - ref: C:\Users\jwost\.nuget\packages\microsoft.build.utilities.core\16.8.0\lib\netstandard2.0\Microsoft.Build.Utilities.Core.dll (15.1.0.0)
+	 - lib: C:\Users\jwost\.nuget\packages\fsharp.control.reactive\4.4.0\lib\netstandard2.0\FSharp.Control.Reactive.dll (4.4.0.0)
+	 - ref: C:\Users\jwost\.nuget\packages\fsharp.control.reactive\4.4.0\lib\netstandard2.0\FSharp.Control.Reactive.dll (4.4.0.0)
+	 - lib: C:\Users\jwost\.nuget\packages\fake.core.tasks\5.19.1\lib\netstandard2.0\Fake.Core.Tasks.dll (5.19.1.0)
+	 - ref: C:\Users\jwost\.nuget\packages\fake.core.tasks\5.19.1\lib\netstandard2.0\Fake.Core.Tasks.dll (5.19.1.0)
+	 - lib: C:\Users\jwost\.nuget\packages\nuget.protocol\5.8.0\lib\netstandard2.0\NuGet.Protocol.dll (5.8.0.6930)
+	 - ref: C:\Users\jwost\.nuget\packages\nuget.protocol\5.8.0\lib\netstandard2.0\NuGet.Protocol.dll (5.8.0.6930)
+	 - lib: C:\Users\jwost\.nuget\packages\system.threading.overlapped\4.3.0\runtimes\win\lib\netstandard1.3\System.Threading.Overlapped.dll (4.0.2.0)
+	 - lib: C:\Users\jwost\.nuget\packages\system.text.regularexpressions\4.3.1\lib\netstandard1.6\System.Text.RegularExpressions.dll (4.1.1.1)
+	 - lib: C:\Users\jwost\.nuget\packages\system.security.cryptography.primitives\4.3.0\lib\netstandard1.3\System.Security.Cryptography.Primitives.dll (4.0.1.0)
+	 - lib: C:\Users\jwost\.nuget\packages\system.runtime.numerics\4.3.0\lib\netstandard1.3\System.Runtime.Numerics.dll (4.0.2.0)
+	 - lib: C:\Users\jwost\.nuget\packages\system.linq\4.3.0\lib\netstandard1.6\System.Linq.dll (4.1.1.0)
+	 - lib: C:\Users\jwost\.nuget\packages\system.globalization.extensions\4.3.0\runtimes\win\lib\netstandard1.3\System.Globalization.Extensions.dll (4.0.2.0)
+	 - lib: C:\Users\jwost\.nuget\packages\system.diagnostics.process\4.3.0\runtimes\win\lib\netstandard1.4\System.Diagnostics.Process.dll (4.1.1.0)
+	 - lib: C:\Users\jwost\.nuget\packages\system.diagnostics.fileversioninfo\4.3.0\runtimes\win\lib\netstandard1.3\System.Diagnostics.FileVersionInfo.dll (4.0.1.0)
+	 - lib: C:\Users\jwost\.nuget\packages\system.collections.concurrent\4.3.0\lib\netstandard1.3\System.Collections.Concurrent.dll (4.0.13.0)
+	 - lib: C:\Users\jwost\.nuget\packages\microsoft.build.tasks.core\16.8.0\lib\netstandard2.0\Microsoft.Build.Tasks.Core.dll (15.1.0.0)
+	 - ref: C:\Users\jwost\.nuget\packages\microsoft.build.tasks.core\16.8.0\lib\netstandard2.0\Microsoft.Build.Tasks.Core.dll (15.1.0.0)
+	 - lib: C:\Users\jwost\.nuget\packages\system.xml.readerwriter\4.3.1\lib\netstandard1.3\System.Xml.ReaderWriter.dll (4.1.0.0)
+	 - lib: C:\Users\jwost\.nuget\packages\system.security.cryptography.encoding\4.3.0\runtimes\win\lib\netstandard1.3\System.Security.Cryptography.Encoding.dll (4.0.1.0)
+	 - lib: C:\Users\jwost\.nuget\packages\system.io.filesystem.watcher\4.3.0\runtimes\win\lib\netstandard1.3\System.IO.FileSystem.Watcher.dll (4.0.1.0)
+	 - lib: C:\Users\jwost\.nuget\packages\msbuild.structuredlogger\2.1.272\lib\netstandard2.0\StructuredLogger.dll (2.1.0.0)
+	 - ref: C:\Users\jwost\.nuget\packages\msbuild.structuredlogger\2.1.272\lib\netstandard2.0\StructuredLogger.dll (2.1.0.0)
+	 - lib: C:\Users\jwost\.nuget\packages\fake.core.semver\5.19.1\lib\netstandard2.0\Fake.Core.SemVer.dll (5.19.1.0)
+	 - ref: C:\Users\jwost\.nuget\packages\fake.core.semver\5.19.1\lib\netstandard2.0\Fake.Core.SemVer.dll (5.19.1.0)
+	 - lib: C:\Users\jwost\.nuget\packages\system.xml.xpath\4.3.0\lib\netstandard1.3\System.Xml.XPath.dll (4.0.2.0)
+	 - lib: C:\Users\jwost\.nuget\packages\system.xml.xmldocument\4.3.0\lib\netstandard1.3\System.Xml.XmlDocument.dll (4.0.2.0)
+	 - lib: C:\Users\jwost\.nuget\packages\system.xml.xdocument\4.3.0\lib\netstandard1.3\System.Xml.XDocument.dll (4.0.12.0)
+	 - lib: C:\Users\jwost\.nuget\packages\system.security.cryptography.algorithms\4.3.1\runtimes\win\lib\netstandard1.6\System.Security.Cryptography.Algorithms.dll (4.2.1.1)
+	 - lib: C:\Users\jwost\.nuget\packages\fake.io.filesystem\5.19.1\lib\netstandard2.0\Fake.IO.FileSystem.dll (5.19.1.0)
+	 - ref: C:\Users\jwost\.nuget\packages\fake.io.filesystem\5.19.1\lib\netstandard2.0\Fake.IO.FileSystem.dll (5.19.1.0)
+	 - lib: C:\Users\jwost\.nuget\packages\system.xml.xpath.xmldocument\4.3.0\lib\netstandard1.3\System.Xml.XPath.XmlDocument.dll (4.0.2.0)
+	 - ref: C:\Users\jwost\.nuget\packages\system.xml.xpath.xmldocument\4.3.0\ref\netstandard1.3\System.Xml.XPath.XmlDocument.dll (4.0.2.0)
+	 - lib: C:\Users\jwost\.nuget\packages\system.xml.xpath.xdocument\4.3.0\lib\netstandard1.3\System.Xml.XPath.XDocument.dll (4.0.2.0)
+	 - lib: C:\Users\jwost\.nuget\packages\system.security.cryptography.csp\4.3.0\runtimes\win\lib\netstandard1.3\System.Security.Cryptography.Csp.dll (4.0.1.0)
+	 - lib: C:\Users\jwost\.nuget\packages\fake.core.process\5.19.1\lib\netstandard2.0\Fake.Core.Process.dll (5.19.1.0)
+	 - ref: C:\Users\jwost\.nuget\packages\fake.core.process\5.19.1\lib\netstandard2.0\Fake.Core.Process.dll (5.19.1.0)
+	 - lib: C:\Users\jwost\.nuget\packages\system.security.cryptography.x509certificates\4.3.2\runtimes\win\lib\netstandard1.6\System.Security.Cryptography.X509Certificates.dll (4.1.1.2)
+	 - lib: C:\Users\jwost\.nuget\packages\fake.tools.git\5.19.1\lib\netstandard2.0\Fake.Tools.Git.dll (5.19.1.0)
+	 - ref: C:\Users\jwost\.nuget\packages\fake.tools.git\5.19.1\lib\netstandard2.0\Fake.Tools.Git.dll (5.19.1.0)
+	 - lib: C:\Users\jwost\.nuget\packages\fake.dotnet.msbuild\5.19.1\lib\netstandard2.0\Fake.DotNet.MSBuild.dll (5.19.1.0)
+	 - ref: C:\Users\jwost\.nuget\packages\fake.dotnet.msbuild\5.19.1\lib\netstandard2.0\Fake.DotNet.MSBuild.dll (5.19.1.0)
+	 - lib: C:\Users\jwost\.nuget\packages\fake.core.xml\5.19.1\lib\netstandard2.0\Fake.Core.Xml.dll (5.19.1.0)
+	 - ref: C:\Users\jwost\.nuget\packages\fake.core.xml\5.19.1\lib\netstandard2.0\Fake.Core.Xml.dll (5.19.1.0)
+	 - lib: C:\Users\jwost\.nuget\packages\fake.core.target\5.19.1\lib\netstandard2.0\Fake.Core.Target.dll (5.19.1.0)
+	 - ref: C:\Users\jwost\.nuget\packages\fake.core.target\5.19.1\lib\netstandard2.0\Fake.Core.Target.dll (5.19.1.0)
+	 - lib: C:\Users\jwost\.nuget\packages\fake.net.http\5.19.1\lib\netstandard2.0\Fake.Net.Http.dll (5.19.1.0)
+	 - ref: C:\Users\jwost\.nuget\packages\fake.net.http\5.19.1\lib\netstandard2.0\Fake.Net.Http.dll (5.19.1.0)
+	 - lib: C:\Users\jwost\.nuget\packages\fake.dotnet.nuget\5.19.1\lib\netstandard2.0\Fake.DotNet.NuGet.dll (5.19.1.0)
+	 - ref: C:\Users\jwost\.nuget\packages\fake.dotnet.nuget\5.19.1\lib\netstandard2.0\Fake.DotNet.NuGet.dll (5.19.1.0)
+	 - lib: C:\Users\jwost\.nuget\packages\fake.dotnet.cli\5.19.1\lib\netstandard2.0\Fake.DotNet.Cli.dll (5.19.1.0)
+	 - ref: C:\Users\jwost\.nuget\packages\fake.dotnet.cli\5.19.1\lib\netstandard2.0\Fake.DotNet.Cli.dll (5.19.1.0)
+	 - lib: C:\Users\jwost\.nuget\packages\fake.dotnet.paket\5.19.1\lib\netstandard2.0\Fake.DotNet.Paket.dll (5.19.1.0)
+	 - ref: C:\Users\jwost\.nuget\packages\fake.dotnet.paket\5.19.1\lib\netstandard2.0\Fake.DotNet.Paket.dll (5.19.1.0)
+Using cache
+Trying to resolve: netstandard, Version=2.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51
+Redirect assembly load to known assembly: netstandard, Version=2.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51 (Some
+  "C:\Program Files\dotnet\shared\Microsoft.NETCore.App\2.1.23\netstandard.dll")
+Trying to resolve: FSharp.Core, Version=4.7.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a
+Redirect assembly load to known assembly: FSharp.Core, Version=4.7.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a (None)
+Trying to resolve: Fake.DotNet.Cli, Version=5.19.1.0, Culture=neutral, PublicKeyToken=null
+Global resolve event: Fake.DotNet.Cli, Version=5.19.1.0, Culture=neutral, PublicKeyToken=null
+Could not find assembly in the default load-context: Fake.DotNet.Cli, Version=5.19.1.0, Culture=neutral, PublicKeyToken=null
+Redirect assembly load to known assembly: Fake.DotNet.Cli, Version=5.19.1.0, Culture=neutral, PublicKeyToken=null (Some
+  "C:\Users\jwost\.nuget\packages\fake.dotnet.cli\5.19.1\lib\netstandard2.0\Fake.DotNet.Cli.dll")
+Redirect assembly load to previously loaded assembly: netstandard, Version=2.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51
+Trying to resolve: Fake.Core.Target, Version=5.19.1.0, Culture=neutral, PublicKeyToken=null
+Global resolve event: Fake.Core.Target, Version=5.19.1.0, Culture=neutral, PublicKeyToken=null
+Could not find assembly in the default load-context: Fake.Core.Target, Version=5.19.1.0, Culture=neutral, PublicKeyToken=null
+Redirect assembly load to known assembly: Fake.Core.Target, Version=5.19.1.0, Culture=neutral, PublicKeyToken=null (Some
+  "C:\Users\jwost\.nuget\packages\fake.core.target\5.19.1\lib\netstandard2.0\Fake.Core.Target.dll")
+Redirect assembly load to previously loaded assembly: netstandard, Version=2.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51
+Trying to resolve: Fake.Core.Trace, Version=5.19.1.0, Culture=neutral, PublicKeyToken=null
+Global resolve event: Fake.Core.Trace, Version=5.19.1.0, Culture=neutral, PublicKeyToken=null
+Could not find assembly in the default load-context: Fake.Core.Trace, Version=5.19.1.0, Culture=neutral, PublicKeyToken=null
+Redirect assembly load to known assembly: Fake.Core.Trace, Version=5.19.1.0, Culture=neutral, PublicKeyToken=null (Some
+  "C:\Users\jwost\.nuget\packages\fake.core.trace\5.19.1\lib\netstandard2.0\Fake.Core.Trace.dll")
+Redirect assembly load to previously loaded assembly: netstandard, Version=2.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51
+Redirect assembly load to previously loaded assembly: FSharp.Core, Version=4.7.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a
+Redirect assembly load to previously loaded assembly: FSharp.Core, Version=4.7.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a
+Redirect assembly load to previously loaded assembly: FSharp.Core, Version=4.7.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a
+Trying to resolve: Fake.Core.Environment, Version=5.19.1.0, Culture=neutral, PublicKeyToken=null
+Global resolve event: Fake.Core.Environment, Version=5.19.1.0, Culture=neutral, PublicKeyToken=null
+Could not find assembly in the default load-context: Fake.Core.Environment, Version=5.19.1.0, Culture=neutral, PublicKeyToken=null
+Redirect assembly load to known assembly: Fake.Core.Environment, Version=5.19.1.0, Culture=neutral, PublicKeyToken=null (Some
+  "C:\Users\jwost\.nuget\packages\fake.core.environment\5.19.1\lib\netstandard2.0\Fake.Core.Environment.dll")
+Redirect assembly load to previously loaded assembly: netstandard, Version=2.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51
+Redirect assembly load to previously loaded assembly: FSharp.Core, Version=4.7.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a
+Trying to resolve: Fake.Core.FakeVar, Version=5.19.1.0, Culture=neutral, PublicKeyToken=null
+Global resolve event: Fake.Core.FakeVar, Version=5.19.1.0, Culture=neutral, PublicKeyToken=null
+Could not find assembly in the default load-context: Fake.Core.FakeVar, Version=5.19.1.0, Culture=neutral, PublicKeyToken=null
+Redirect assembly load to known assembly: Fake.Core.FakeVar, Version=5.19.1.0, Culture=neutral, PublicKeyToken=null (Some
+  "C:\Users\jwost\.nuget\packages\fake.core.fakevar\5.19.1\lib\netstandard2.0\Fake.Core.FakeVar.dll")
+Redirect assembly load to previously loaded assembly: netstandard, Version=2.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51
+Redirect assembly load to previously loaded assembly: FSharp.Core, Version=4.7.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a
+Trying to resolve: Fake.Core.Context, Version=5.19.1.0, Culture=neutral, PublicKeyToken=null
+Redirect assembly from 'Fake.Core.Context, Version=5.19.1.0, Culture=neutral, PublicKeyToken=null' to 'Fake.Core.Context, Version=5.20.3.0, Culture=neutral, PublicKeyToken=null' (None)
+line 30!
+changelog text: # Changelog
+
+## 0.1.0
+
+* Initial version - implement most of System.IO.Path
+
+##
+
+currentVersionInfo: { versionName = "0.1.0"
+  versionChanges = "ΓÇó Initial version - implement most of System.IO.Path" }
+Trying to resolve: Fake.Core.CommandLineParsing, Version=5.19.1.0, Culture=neutral, PublicKeyToken=null
+Could not find assembly in the default load-context: Fake.Core.CommandLineParsing, Version=5.19.1.0, Culture=neutral, PublicKeyToken=null
+Redirect assembly load to known assembly: Fake.Core.CommandLineParsing, Version=5.19.1.0, Culture=neutral, PublicKeyToken=null (Some
+  "C:\Users\jwost\.nuget\packages\fake.core.commandlineparsing\5.19.1\lib\netstandard2.0\Fake.Core.CommandLineParsing.dll")
+Redirect assembly load to previously loaded assembly: netstandard, Version=2.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51
+Redirect assembly load to previously loaded assembly: FSharp.Core, Version=4.7.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a
+Trying to resolve: FParsecCS, Version=1.0.3.0, Culture=neutral, PublicKeyToken=null
+Could not find assembly in the default load-context: FParsecCS, Version=1.0.3.0, Culture=neutral, PublicKeyToken=null
+Redirect assembly from 'FParsecCS, Version=1.0.3.0, Culture=neutral, PublicKeyToken=null' to 'FParsecCS, Version=1.1.1.0, Culture=neutral, PublicKeyToken=null' (Some
+  "C:\Users\jwost\.nuget\packages\fparsec\1.1.1\lib\netstandard2.0\FParsecCS.dll")
+Redirect assembly load to previously loaded assembly: netstandard, Version=2.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51
+Trying to resolve: FParsec, Version=1.0.3.0, Culture=neutral, PublicKeyToken=null
+Could not find assembly in the default load-context: FParsec, Version=1.0.3.0, Culture=neutral, PublicKeyToken=null
+Redirect assembly from 'FParsec, Version=1.0.3.0, Culture=neutral, PublicKeyToken=null' to 'FParsec, Version=1.1.1.0, Culture=neutral, PublicKeyToken=null' (Some
+  "C:\Users\jwost\.nuget\packages\fparsec\1.1.1\lib\netstandard2.0\FParsec.dll")
+Redirect assembly load to previously loaded assembly: netstandard, Version=2.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51
+Redirect assembly from 'FSharp.Core, Version=4.4.3.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a' to previous loaded assembly 'FSharp.Core, Version=4.7.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a'
+Redirect assembly from 'FSharp.Core, Version=4.4.3.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a' to previous loaded assembly 'FSharp.Core, Version=4.7.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a'
+Trying to resolve: System.Runtime, Version=4.1.2.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a
+Redirect assembly load to known assembly: System.Runtime, Version=4.1.2.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a (Some
+  "C:\Program Files\dotnet\shared\Microsoft.NETCore.App\2.1.23\System.Runtime.dll")
+Redirect assembly from 'System.Runtime, Version=4.1.2.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a' to previous loaded assembly 'System.Runtime, Version=4.2.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a'
+Trying to resolve: System.Globalization, Version=4.0.11.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a
+Redirect assembly load to known assembly: System.Globalization, Version=4.0.11.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a (Some
+  "C:\Program Files\dotnet\shared\Microsoft.NETCore.App\2.1.23\System.Globalization.dll")
+Redirect assembly from 'Fake.Core.Context, Version=5.19.1.0, Culture=neutral, PublicKeyToken=null' to previous loaded assembly 'Fake.Core.Context, Version=5.20.3.0, Culture=neutral, PublicKeyToken=null'
+Trying to resolve: System.Reactive, Version=4.3.0.0, Culture=neutral, PublicKeyToken=94bc3704cddfc263
+Global resolve event: System.Reactive, Version=4.3.0.0, Culture=neutral, PublicKeyToken=94bc3704cddfc263
+Could not find assembly in the default load-context: System.Reactive, Version=4.3.0.0, Culture=neutral, PublicKeyToken=94bc3704cddfc263
+Redirect assembly from 'System.Reactive, Version=4.3.0.0, Culture=neutral, PublicKeyToken=94bc3704cddfc263' to 'System.Reactive, Version=5.0.0.0, Culture=neutral, PublicKeyToken=94bc3704cddfc263' (Some
+  "C:\Users\jwost\.nuget\packages\system.reactive\5.0.0\lib\netstandard2.0\System.Reactive.dll")
+Redirect assembly load to previously loaded assembly: netstandard, Version=2.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51
+Trying to resolve: FSharp.Control.Reactive, Version=4.2.0.0, Culture=neutral, PublicKeyToken=null
+Global resolve event: FSharp.Control.Reactive, Version=4.2.0.0, Culture=neutral, PublicKeyToken=null
+Could not find assembly in the default load-context: FSharp.Control.Reactive, Version=4.2.0.0, Culture=neutral, PublicKeyToken=null
+Redirect assembly from 'FSharp.Control.Reactive, Version=4.2.0.0, Culture=neutral, PublicKeyToken=null' to 'FSharp.Control.Reactive, Version=4.4.0.0, Culture=neutral, PublicKeyToken=null' (Some
+  "C:\Users\jwost\.nuget\packages\fsharp.control.reactive\4.4.0\lib\netstandard2.0\FSharp.Control.Reactive.dll")
+Redirect assembly load to previously loaded assembly: netstandard, Version=2.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51
+Redirect assembly load to previously loaded assembly: FSharp.Core, Version=4.7.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a
+run Pack
+Building project with version: LocalBuild
+Shortened DependencyGraph for Target Pack:
+<== Pack
+
+The running order is:
+Group - 1
+  - Pack
+Starting target 'Pack'
+ --- Packing NuGet packages --- 
+Trying to resolve: Fake.Core.Process, Version=5.19.1.0, Culture=neutral, PublicKeyToken=null
+Global resolve event: Fake.Core.Process, Version=5.19.1.0, Culture=neutral, PublicKeyToken=null
+Could not find assembly in the default load-context: Fake.Core.Process, Version=5.19.1.0, Culture=neutral, PublicKeyToken=null
+Redirect assembly load to known assembly: Fake.Core.Process, Version=5.19.1.0, Culture=neutral, PublicKeyToken=null (Some
+  "C:\Users\jwost\.nuget\packages\fake.core.process\5.19.1\lib\netstandard2.0\Fake.Core.Process.dll")
+Redirect assembly load to previously loaded assembly: netstandard, Version=2.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51
+Trying to resolve: Fake.DotNet.MSBuild, Version=5.19.1.0, Culture=neutral, PublicKeyToken=null
+Global resolve event: Fake.DotNet.MSBuild, Version=5.19.1.0, Culture=neutral, PublicKeyToken=null
+Could not find assembly in the default load-context: Fake.DotNet.MSBuild, Version=5.19.1.0, Culture=neutral, PublicKeyToken=null
+Redirect assembly load to known assembly: Fake.DotNet.MSBuild, Version=5.19.1.0, Culture=neutral, PublicKeyToken=null (Some
+  "C:\Users\jwost\.nuget\packages\fake.dotnet.msbuild\5.19.1\lib\netstandard2.0\Fake.DotNet.MSBuild.dll")
+Redirect assembly load to previously loaded assembly: netstandard, Version=2.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51
+Starting task 'DotNet:pack': src\Fable.System.IO.fsproj
+Redirect assembly load to previously loaded assembly: FSharp.Core, Version=4.7.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a
+Trying to resolve: Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed
+Could not find assembly in the default load-context: Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed
+Redirect assembly load to known assembly: Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed (Some
+  "C:\Users\jwost\.nuget\packages\newtonsoft.json\12.0.3\lib\netstandard2.0\Newtonsoft.Json.dll")
+Redirect assembly load to previously loaded assembly: netstandard, Version=2.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51
+Trying to resolve: Fake.IO.FileSystem, Version=5.19.1.0, Culture=neutral, PublicKeyToken=null
+Global resolve event: Fake.IO.FileSystem, Version=5.19.1.0, Culture=neutral, PublicKeyToken=null
+Could not find assembly in the default load-context: Fake.IO.FileSystem, Version=5.19.1.0, Culture=neutral, PublicKeyToken=null
+Redirect assembly load to known assembly: Fake.IO.FileSystem, Version=5.19.1.0, Culture=neutral, PublicKeyToken=null (Some
+  "C:\Users\jwost\.nuget\packages\fake.io.filesystem\5.19.1\lib\netstandard2.0\Fake.IO.FileSystem.dll")
+Redirect assembly load to previously loaded assembly: netstandard, Version=2.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51
+Redirect assembly load to previously loaded assembly: FSharp.Core, Version=4.7.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a
+Redirect assembly load to previously loaded assembly: FSharp.Core, Version=4.7.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a
+Trying to resolve: BlackFox.VsWhere, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+Global resolve event: BlackFox.VsWhere, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+Could not find assembly in the default load-context: BlackFox.VsWhere, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+Redirect assembly from 'BlackFox.VsWhere, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null' to 'BlackFox.VsWhere, Version=1.1.0.0, Culture=neutral, PublicKeyToken=null' (Some
+  "C:\Users\jwost\.nuget\packages\blackfox.vswhere\1.1.0\lib\netstandard2.0\BlackFox.VsWhere.dll")
+Redirect assembly load to previously loaded assembly: netstandard, Version=2.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51
+Redirect assembly from 'FSharp.Core, Version=4.4.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a' to previous loaded assembly 'FSharp.Core, Version=4.7.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a'
+Redirect assembly from 'System.Runtime, Version=4.1.2.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a' to previous loaded assembly 'System.Runtime, Version=4.2.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a'
+Trying to resolve: System.Collections.Immutable, Version=1.2.5.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a
+Redirect assembly load to known assembly: System.Collections.Immutable, Version=1.2.5.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a (Some
+  "C:\Users\jwost\.nuget\packages\fake-cli\5.20.3\tools\netcoreapp2.1\any\System.Collections.Immutable.dll")
+Redirect assembly load to previously loaded assembly: System.Collections.Immutable, Version=1.2.5.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a
+Redirect assembly from 'Fake.Core.Context, Version=5.19.1.0, Culture=neutral, PublicKeyToken=null' to previous loaded assembly 'Fake.Core.Context, Version=5.20.3.0, Culture=neutral, PublicKeyToken=null'
+C:\Users\jwost\source\repos\Fable.System.IO> "C:\Program Files\dotnet\dotnet.EXE"  msbuild /version /nologo (In: false, Out: true, Err: true)
+Trying to resolve: System.Buffers, Version=4.0.2.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51
+Redirect assembly load to known assembly: System.Buffers, Version=4.0.2.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51 (Some
+  "C:\Program Files\dotnet\shared\Microsoft.NETCore.App\2.1.23\System.Buffers.dll")
+16.8.0.52002
+C:\Users\jwost\source\repos\Fable.System.IO> "C:\Program Files\dotnet\dotnet.EXE"  pack "src\Fable.System.IO.fsproj" --configuration Release /nodeReuse:False /p:VersionPrefix=0.1.0 "/p:PackageReleaseNotes=ΓÇó Initial version - implement most of System.IO.Path" "/bl:C:\Users\jwost\AppData\Local\Temp\tmp77F0.tmp.binlog" (In: false, Out: false, Err: false)
+Microsoft (R) Build Engine version 16.8.0+126527ff1 for .NET
+Copyright (C) Microsoft Corporation. All rights reserved.
+
+C:\Program Files\dotnet\sdk\5.0.101\MSBuild.dll -distributedlogger:Microsoft.DotNet.Tools.MSBuild.MSBuildLogger,C:\Program Files\dotnet\sdk\5.0.101\dotnet.dll*Microsoft.DotNet.Tools.MSBuild.MSBuildForwardingLogger,C:\Program Files\dotnet\sdk\5.0.101\dotnet.dll -maxcpucount -property:Configuration=Release /p:VersionPrefix=0.1.0 /p:PackageReleaseNotes=ΓÇó Initial version - implement most of System.IO.Path -restore -target:pack -verbosity:m /bl:C:\Users\jwost\AppData\Local\Temp\tmp77F0.tmp.binlog /nodeReuse:False src\Fable.System.IO.fsproj
+  Determining projects to restore...
+  All projects are up-to-date for restore.
+  Fable.System.IO -> C:\Users\jwost\source\repos\Fable.System.IO\src\bin\Release\netstandard2.0\Fable.System.IO.dll
+  Paket version 5.257.0
+  Performance:
+   - Runtime: 523 milliseconds
+C:\Users\jwost\source\repos\Fable.System.IO\.paket\Paket.Restore.targets(317,5): error NU5030: The license file 'LICENSE' does not exist in the package. [C:\Users\jwost\source\repos\Fable.System.IO\src\Fable.System.IO.fsproj]
+Trying to resolve: StructuredLogger, Version=2.0.152.0, Culture=neutral, PublicKeyToken=d4c7181801cb6448
+Global resolve event: StructuredLogger, Version=2.0.152.0, Culture=neutral, PublicKeyToken=d4c7181801cb6448
+Could not find assembly in the default load-context: StructuredLogger, Version=2.0.152.0, Culture=neutral, PublicKeyToken=d4c7181801cb6448
+Redirect assembly from 'StructuredLogger, Version=2.0.152.0, Culture=neutral, PublicKeyToken=d4c7181801cb6448' to 'StructuredLogger, Version=2.1.0.0, Culture=neutral, PublicKeyToken=d4c7181801cb6448' (Some
+  "C:\Users\jwost\.nuget\packages\msbuild.structuredlogger\2.1.272\lib\netstandard2.0\StructuredLogger.dll")
+Redirect assembly load to previously loaded assembly: netstandard, Version=2.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51
+Trying to resolve: Microsoft.Build.Framework, Version=15.1.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a
+Global resolve event: Microsoft.Build.Framework, Version=15.1.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a
+Could not find assembly in the default load-context: Microsoft.Build.Framework, Version=15.1.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a
+Redirect assembly load to known assembly: Microsoft.Build.Framework, Version=15.1.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a (Some
+  "C:\Users\jwost\.nuget\packages\microsoft.build.framework\16.8.0\lib\netstandard2.0\Microsoft.Build.Framework.dll")
+Redirect assembly load to previously loaded assembly: netstandard, Version=2.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51
+PackTask: C:\Users\jwost\source\repos\Fable.System.IO\.paket\Paket.Restore.targets(317,5): error NU5030: The license file 'LICENSE' does not exist in the package.
+Finished (TagStatus.Failed) 'DotNet:pack' in 00:00:03.0953458
+Finished (TagStatus.Failed) 'Pack' in 00:00:03.1077709
+
+---------------------------------------------------------------------
+Build Time Report
+---------------------------------------------------------------------
+Target     Duration
+------     --------
+Pack       00:00:03.1048076   (Exception of type 'Fake.DotNet.MSBuildException' was thrown.)
+Total:     00:00:03.1643905
+Status:    Failure
+---------------------------------------------------------------------
+saving cache...
+Script reported an error, see standard error for details.
+Script reported an error:
+-> BuildFailedException: Target 'Pack' failed.
+   StackTrace:
+        at Fake.Core.TargetModule.raiseIfError(OptionalTargetContext context) in D:\a\1\s\src\app\Fake.Core.Target\Target.fs:line 991
+        at Fake.Core.TargetModule.runOrDefault(String defaultTarget) in D:\a\1\s\src\app\Fake.Core.Target\Target.fs:line 1173
+        at <StartupCode$build_7E875FD04AD78F8DABC77F0215C225C27CDB3C1AAB66F74E9F23FC4B8B8F61FE>.$Build$fsx.main@() in C:\Users\jwost\source\repos\Fable.System.IO\build.fsx:line 159
+-> One or more errors occurred. (Exception of type 'Fake.DotNet.MSBuildException' was thrown.)
+-> MSBuildException: Exception of type 'Fake.DotNet.MSBuildException' was thrown.
+   StackTrace:
+        at Fake.DotNet.MSBuild.handleAfterRun(String command, FSharpOption`1 binLogPath, Int32 exitCode, String project) in D:\a\1\s\src\app\Fake.DotNet.MSBuild\MSBuild.fs:line 756
+        at Fake.DotNet.DotNet.pack(FSharpFunc`2 setParams, String project) in D:\a\1\s\src\app\Fake.DotNet.Cli\DotNet.fs:line 1318
+        at Build.clo@138-18.Invoke(TargetParameter _arg5) in C:\Users\jwost\source\repos\Fable.System.IO\build.fsx:line 140
+        at Fake.Core.TargetModule.runSimpleInternal(TargetContext context, Target target) in D:\a\1\s\src\app\Fake.Core.Target\Target.fs:line 300
+Performance:
+ - Cli parsing: 217 milliseconds
+ - Packages: 90 milliseconds
+ - Script analyzing: 27 milliseconds
+ - Script running: 3 seconds
+ - Script cleanup: 8 milliseconds
+ - Runtime: 4 seconds

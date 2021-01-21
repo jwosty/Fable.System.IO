@@ -1,0 +1,18 @@
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Copyright>© John Wostenberg 2021</Copyright>
+    <Company>Fable.System.IO Contributors</Company>
+    <Description>Lightweight Fable-compatible reimplementation of System.IO.Path in pure F#</Description>
+    <Authors>John Wostenberg</Authors>
+    <RepositoryType>git</RepositoryType>
+    <RepositoryUrl>https://github.com/jwosty/Fable.System.IO</RepositoryUrl>
+    <PackageProjectUrl>https://github.com/jwosty/Fable.System.IO</PackageProjectUrl>
+    <PackageTags>fsharp;fable</PackageTags>
+    <PackageLicenseFile>LICENSE</PackageLicenseFile>
+    <GenerateDocumentationFile>false</GenerateDocumentationFile>
+    <FsDocsLicenseLink>$(RepositoryUrl)/blob/master/LICENSE</FsDocsLicenseLink>
+  </PropertyGroup>
+  <ItemGroup>
+    <None Include="$(RepoDir)\LICENSE" Pack="true" PackagePath=""/>
+  </ItemGroup>
+</Project>
