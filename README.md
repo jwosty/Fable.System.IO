@@ -14,35 +14,17 @@ Or:
 yarn add platform-detect@3.0.1
 ```
 
-Then, wherever you ``open System.IO``, make sure you ``open Fable`` before it. For example, you must do the following:
-
-```F#
-open Fable
-open ...
-open System.IO
-```
-
-The following will **NOT** work:
-
-```F#
-// Wrong order! This won't work!
-open System.IO
-open ...
-open Fable
-```
-
-``Fable.System.IO`` shadows ``System.IO``, so that any time you use the Path APIs, for example, the ``open Fable`` statement causes the compiler to use ``Fable.System.IO``'s implementations instead of the BCL implementations.
+Then, replace all occurrences of ``open System.IO`` with ``open Fable.System.IO``.
 
 Fable.System.IO will behave the same as the browser's current platform, as detected by [platform-detect](https://www.npmjs.com/package/platform-detect). In other words, when running in a Unix agent, it will use ``/`` as the directory separator; and in a Windows agent, it will use ``\`` instead.
 
 ## Choosing OS to emulate
 
-By default, this library will emulate the path behavior for the current detected operating system. If you want to make it always behave like Windows, you can ``open Fable.Windows``. To always emulate Unix path behavior, ``open Fable.Unix``. For example:
+By default, this library will emulate the path behavior for the current detected operating system. If you want to force Windows path behavior, you can ``open Fable.Windows.System.IO``. Likewise, to force Unix path behavior, ``open Fable.Unix.System.IO``. For example:
 
 ```F#
 open Fable
-open System.IO
-open Fable.Unix
+open Fable.Unix.System.IO
 
 printfn "Path.Combine(\"foo\", \"bar\") = \"%s\"" (Path.Combine ("foo", "bar"))
 
