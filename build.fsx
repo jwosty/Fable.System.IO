@@ -128,7 +128,8 @@ Target.create "Restore" (fun _ ->
     DotNet.exec id "tool" "restore" |> Trace.logfn "%O"
     DotNet.exec id "paket" "restore" |> Trace.logfn "%O"
     DotNet.restore id |> Trace.logfn "%O"
-    Shell.Exec (yarnCmd.Value, "install") |> ignore
+    if Shell.Exec (yarnCmd.Value, "install") <> 0 then
+        failwith "yarn install failed"
 )
 
 Target.create "Build" (fun _ ->
@@ -140,7 +141,7 @@ Target.create "Test" (fun _ ->
     Trace.log " --- Running tests --- "
     DotNet.test mkDefaultTestOptions solution
     if Shell.Exec (yarnCmd.Value, "test") <> 0 then
-        failwith "Yarn tests failed"
+        failwith "yarn test failed"
 )
 
 Target.create "Pack" (fun _ ->
