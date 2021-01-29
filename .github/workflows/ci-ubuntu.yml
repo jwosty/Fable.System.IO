@@ -1,3 +1,5 @@
+name: CI
+
 on:
   push:
     branches: [ master ]
@@ -5,8 +7,9 @@ on:
     branches: [ master ]
 
 jobs:
-  CI (Windows):
-    runs-on: windows-latest
+  ci-ubuntu:
+    name: CI (Ubuntu)
+    runs-on: ubuntu-latest
 
     steps:
     - uses: actions/checkout@v2
@@ -23,12 +26,5 @@ jobs:
         yarn install
     - name: Build
       run: dotnet fake build -t Build
-    - name: Pack
-      run: dotnet fake build -t Pack
-    - name: Upload artifacts
-      uses: actions/upload-artifact@v2
-      with:
-        name: fsharp.system.io-windows
-        path: artifacts
     - name: Test
       run: dotnet fake build -t Test
