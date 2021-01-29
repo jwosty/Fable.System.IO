@@ -1,4 +1,4 @@
-# Fable.System.IO
+# Fable.System.IO [![Nuget](https://img.shields.io/nuget/v/Fable.System.IO.svg?maxAge=0&colorB=brightgreen&label=Fable.System.IO)](https://www.nuget.org/packages/Fable.System.IO)
 
 ``Fable.System.IO`` is a no-dependency, F#-only implementation of certain parts of the ``System.IO`` API. At the moment, this library only implements most of the methods in ``System.IO.Path``. This library is built to be completely Fable-compatible, and behave exactly the same whether targetting .NET or Javascript.
 
