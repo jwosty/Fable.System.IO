@@ -203,13 +203,16 @@ module IO =
 namespace Fable.System
 
 module IO =
-#if !FABLE_COMPILER
+#if FABLE_COMPILER
+    open Fable.Extras.Platform
+#else
     open System.Runtime.InteropServices
 #endif
+
     let Path =
         let isWindows =
 #if FABLE_COMPILER
-            PlatformDetect.os.windows || PlatformDetect.os.uwp
+            JSe.Platform.is.windows || JSe.Platform.is.uwp
 #else
             RuntimeInformation.IsOSPlatform(OSPlatform.Windows)
 #endif
