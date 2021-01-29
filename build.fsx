@@ -139,7 +139,8 @@ Target.create "Build" (fun _ ->
 Target.create "Test" (fun _ ->
     Trace.log " --- Running tests --- "
     DotNet.test mkDefaultTestOptions solution
-    Shell.Exec (yarnCmd.Value, "test") |> ignore
+    if Shell.Exec (yarnCmd.Value, "test") <> 0 then
+        failwith "Yarn tests failed"
 )
 
 Target.create "Pack" (fun _ ->
