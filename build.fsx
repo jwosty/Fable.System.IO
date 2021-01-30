@@ -147,7 +147,8 @@ Target.create "Pack" (fun _ ->
     project
     |> DotNet.pack (
         mkDefaultPackOptions
-        >> (fun options -> { options with OutputPath = Some artifactsDir }))
+        >> (fun options -> { options with OutputPath = Some artifactsDir })
+    )
 )
 
 Target.create "TestAll" ignore
@@ -160,6 +161,7 @@ open Fake.Core.TargetOperators
 
 "Restore"
     ==> "Build"
+    ==> "Pack"
     ==> "All"
 
 "Test"
