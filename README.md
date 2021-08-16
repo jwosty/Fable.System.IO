@@ -2,23 +2,11 @@
 
 ``Fable.System.IO`` is a no-dependency, F#-only implementation of certain parts of the ``System.IO`` API. At the moment, this library only implements most of the methods in ``System.IO.Path``. This library is built to be completely Fable-compatible, and behave exactly the same whether targetting .NET or Javascript.
 
-To use the library, reference the Fable.System.IO nuget package. When targetting Fable, you also need the ``platform-detect`` NPM package, installed like so:
-
-```Shell
-npm install platform-detect@3.0.1
-```
-
-Or:
-
-```Shell
-yarn add platform-detect@3.0.1
-```
-
-Then, replace all occurrences of ``open System.IO`` with ``open Fable.System.IO``.
+To use the library, first reference the [Fable.System.IO NuGet package](https://www.nuget.org/packages/Fable.System.IO/). Then, replace all occurrences of ``open System.IO`` with ``open Fable.System.IO``.
 
 Fable.System.IO will behave the same as the browser's current platform, as detected by [platform-detect](https://www.npmjs.com/package/platform-detect). In other words, when running in a Unix agent, it will use ``/`` as the directory separator; and in a Windows agent, it will use ``\`` instead.
 
-## Choosing OS to emulate
+## Choosing emulated OS
 
 By default, this library will emulate the path behavior for the current detected operating system. If you want to force Windows path behavior, you can ``open Fable.Windows.System.IO``. Likewise, to force Unix path behavior, ``open Fable.Unix.System.IO``. For example:
 

@@ -13,7 +13,6 @@
   <ItemGroup>
     <Content Include="*.fsproj; **\*.fs; **\*.fsi" PackagePath="fable\" />
     <Content Remove="**\obj\**\*" />
-    <Compile Include="PlatformDetect.fs" />
     <Compile Include="Fable.System.IO.fs" />
   </ItemGroup>
   <Import Project="..\.paket\Paket.Restore.targets" />

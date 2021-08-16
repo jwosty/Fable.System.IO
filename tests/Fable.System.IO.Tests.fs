@@ -812,6 +812,11 @@ let testSuite =
 
 [<EntryPoint>]
 let main args =
+
+    // Notice how we never actually reference Fable.System.IO.Path from the test suite, and are thus able to avoid
+    // issue #5 (https://github.com/jwosty/Fable.System.IO/pull/7), as we don't need to test platform detection,
+    // and the platform detection functionality from Fable.Extras crashes under Mocha.
+
 #if FABLE_COMPILER
     Mocha.runTests testSuite
 #else

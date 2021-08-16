@@ -2,6 +2,7 @@ source https://api.nuget.org/v3/index.json
 
 framework: auto-detect
 
+nuget Fable.Extras
 nuget Fable.Mocha 2.9.1
 nuget FSharp.Core 4.7.2
 nuget Expecto ~> 9.0.2
