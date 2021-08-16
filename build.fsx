@@ -33,7 +33,7 @@ let yarnCmd =
     lazy (
         Trace.log "GOT HERE yarnCmd"
         let result =
-            match ProcessUtils.tryFindFileOnPath "yarn" with
+            match ProcessUtils.tryFindFileOnPath "yarnpkg" with
             | Some yarn -> yarn
             | None -> failwith "cmd not found: yarn"
         Trace.logfn "DONE yarnCmd: %s" result
