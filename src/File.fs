@@ -1,6 +1,7 @@
 ﻿namespace Fable.System.IOImpl
 
-type file(files: Map<string,string>) =
-    member this.ReadAllText path =
-        files.[path]
+type IIOApi =
+    abstract member ReadAllText: string -> string
 
+type file(fileApi: IIOApi) =
+    member this.ReadAllText path = fileApi.ReadAllText path

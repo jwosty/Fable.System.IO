@@ -6,6 +6,9 @@
     <GenerateProgramFile>false</GenerateProgramFile>
   </PropertyGroup>
   <ItemGroup>
+    <Content Include="real-file.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <None Include="webpack.config.js" />
     <None Include="paket.references" />
     <Compile Include="Utils.fs" />
@@ -13,6 +16,7 @@
     <Compile Include="File.Tests.fs" />
     <Compile Include="Program.fs" />
   </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <ProjectReference Include="..\src\Fable.System.IO.fsproj" />
   </ItemGroup>

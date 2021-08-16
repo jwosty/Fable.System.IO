@@ -14,7 +14,13 @@ open Utils
 //}
 
 
+let makeIOApi (paths: (string*string) seq) =
+    let pathMap = Map.ofSeq paths
+    { new Fable.System.IOImpl.IIOApi with
+        member this.ReadAllText path = pathMap.[path]
+    }
 
+let normalizeNewlines (str: string) = str.Replace ("\r\n", "\n")
 
 [<Tests>]
 let Tests =
@@ -26,7 +32,7 @@ let Tests =
                 let files =
                     [   "foo.txt", "This is foo.txt"
                         "bar.txt", "Hello\nfrom bar.txt"
-                    ] |> Map.ofList
+                    ] |> makeIOApi
                 let file = new Fable.System.IOImpl.file(files)
                 do
                     let actual = file.ReadAllText "foo.txt"
@@ -39,13 +45,28 @@ let Tests =
             testCase "Same simple file with different contents" (fun () ->
                 let files =
                     [   "foo.txt", "Greetings from foo.txt"
-                    ] |> Map.ofList
+                    ] |> makeIOApi
                 let file = new Fable.System.IOImpl.file(files) 
                 do
                     let actual = file.ReadAllText "foo.txt"
                     Expect.equal actual "Greetings from foo.txt" "foo.txt contents"
             )
+            testList "Smoke" [
+#if FABLE_COMPILER
+#else
+                let realFileExpectedContents = String.Join (Environment.NewLine, ["This is a real file on disk";"Line 2"])
+                testCase "Real file from relative path" (fun () ->
+                    let actual = Fable.System.IO.File.ReadAllText "real-file.txt"
+                    Expect.equal actual realFileExpectedContents "real-file.txt contents"
+                )
+                testCase "Real file from absolute path" (fun () ->
+                    let runtimeDir =
+                        System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetEntryAssembly().Location)
+                    let actual = Fable.System.IO.File.ReadAllText (System.IO.Path.Combine (runtimeDir, "real-file.txt"))
+                    Expect.equal actual realFileExpectedContents "real-file.txt contents"
+                )
+#endif
+            ]
         ]
-        
     ]
 
