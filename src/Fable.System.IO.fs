@@ -174,8 +174,8 @@ type path internal(directorySeparatorChar: char, altDirectorySeparatorChar: char
 
 namespace Fable.Unix.System
 module IO =
-    let private getInvalidFileNameChars () = [|'\000'; '/'|]
-    let private getInvalidPathChars () = [|'\000'|]
+    let getInvalidFileNameChars () = [|'\000'; '/'|]
+    let getInvalidPathChars () = [|'\000'|]
     let Path =
         Fable.System.IOImpl.path(
             '/', '/', false, getInvalidFileNameChars, getInvalidPathChars,
@@ -184,16 +184,16 @@ module IO =
 
 namespace Fable.Windows.System
 module IO =
-    let private getInvalidFileNameChars () =
+    let getInvalidFileNameChars () =
         [|'"'; '<'; '>'; '|'; '\000'; '\001'; '\002'; '\003'; '\004'; '\005'; '\006';
-          '\007'; '\b'; '\009'; '\010'; '\011'; '\012'; '\013'; '\014'; '\015'; '\016';
-          '\017'; '\018'; '\019'; '\020'; '\021'; '\022'; '\023'; '\024'; '\025'; '\026';
-          '\027'; '\028'; '\029'; '\030'; '\031'; ':'; '*'; '?'; '\\'; '/'|]
-    let private getInvalidPathChars () =
+            '\007'; '\b'; '\009'; '\010'; '\011'; '\012'; '\013'; '\014'; '\015'; '\016';
+            '\017'; '\018'; '\019'; '\020'; '\021'; '\022'; '\023'; '\024'; '\025'; '\026';
+            '\027'; '\028'; '\029'; '\030'; '\031'; ':'; '*'; '?'; '\\'; '/'|]
+    let getInvalidPathChars () =
         [|'|'; '\000'; '\001'; '\002'; '\003'; '\004'; '\005'; '\006'; '\007'; '\b';
-          '\009'; '\010'; '\011'; '\012'; '\013'; '\014'; '\015'; '\016'; '\017'; '\018';
-          '\019'; '\020'; '\021'; '\022'; '\023'; '\024'; '\025'; '\026'; '\027'; '\028';
-          '\029'; '\030'; '\031'|]
+            '\009'; '\010'; '\011'; '\012'; '\013'; '\014'; '\015'; '\016'; '\017'; '\018';
+            '\019'; '\020'; '\021'; '\022'; '\023'; '\024'; '\025'; '\026'; '\027'; '\028';
+            '\029'; '\030'; '\031'|]
     let Path =
         Fable.System.IOImpl.path(
             '\\', '/', true, getInvalidFileNameChars, getInvalidPathChars,
@@ -202,19 +202,30 @@ module IO =
 
 namespace Fable.System
 
-module IO =
 #if FABLE_COMPILER
-    open Fable.Extras.Platform
+open Fable.Extras.Platform
 #else
-    open System.Runtime.InteropServices
+open System.Runtime.InteropServices
 #endif
 
-    let Path =
-        let isWindows =
+[<Sealed; AbstractClass>]
+type IO private() =
+    static let mutable pathImpl = None
+
+    // Use a lazily-initialized property, so that we don't unnecessarily trigger the platform detection in scenarios
+    // where it can crash stuff (like under the Mocha test environment) (see PR #7)
+    static member Path =
+        match pathImpl with
+        | Some p -> p
+        | None ->
+            let isWindows =
 #if FABLE_COMPILER
-            JSe.Platform.is.windows || JSe.Platform.is.uwp
+                JSe.Platform.is.windows || JSe.Platform.is.uwp
 #else
-            RuntimeInformation.IsOSPlatform(OSPlatform.Windows)
+                RuntimeInformation.IsOSPlatform(OSPlatform.Windows)
 #endif
-        if isWindows then Fable.Windows.System.IO.Path
-        else Fable.Unix.System.IO.Path
+            let p =
+                if isWindows then Fable.Windows.System.IO.Path
+                else Fable.Unix.System.IO.Path
+            pathImpl <- Some p
+            p
