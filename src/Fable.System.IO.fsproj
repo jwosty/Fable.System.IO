@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Project Sdk="Microsoft.NET.Sdk">
+  <Import Project="..\SourceLink.props" />
   <PropertyGroup>
+    <!-- Used in VersionInfo.props; thus we must specify it before we import that project -->
     <RepoDir>$(MSBuildProjectDir)..\</RepoDir>
   </PropertyGroup>
   <Import Project="..\VersionInfo.props" />
