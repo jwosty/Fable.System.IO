@@ -8,7 +8,10 @@
   <ItemGroup>
     <None Include="webpack.config.js" />
     <None Include="paket.references" />
+    <Compile Include="Utils.fs" />
     <Compile Include="Path.Tests.fs" />
+    <Compile Include="File.Tests.fs" />
+    <Compile Include="Program.fs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\src\Fable.System.IO.fsproj" />

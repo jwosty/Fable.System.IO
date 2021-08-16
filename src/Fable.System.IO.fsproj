@@ -13,6 +13,7 @@
   <ItemGroup>
     <Content Remove="**\obj\**\*" />
     <Compile Include="Path.fs" />
+    <Compile Include="File.fs" />
   </ItemGroup>
   <Import Project="..\.paket\Paket.Restore.targets" />
 </Project>
