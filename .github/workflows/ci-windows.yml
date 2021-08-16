@@ -34,5 +34,4 @@ jobs:
         name: fsharp.system.io-windows
         path: artifacts
     - name: Test
-      # run: dotnet fake build -t Test
-      run: dotnet test # I can't figure out why `yarn test` is blowing up in Ubuntu CI (it works in WSL for me)
+      run: dotnet fake build -t Test
