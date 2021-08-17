@@ -33,4 +33,4 @@ type IO private() =
             p
 
     static member val File =
-        new Fable.System.IOImpl.file(new FileApi())
+        new Fable.System.IOImpl.file((FileApi() :> IOImpl.IIOApi), Unchecked.defaultof<_>)

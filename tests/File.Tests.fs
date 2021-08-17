@@ -20,6 +20,8 @@ let makeIOApi (paths: (string*string) seq) =
         member this.ReadAllText path = pathMap.[path]
     }
 
+let emptyIOApi = makeIOApi []
+
 let normalizeNewlines (str: string) = str.Replace ("\r\n", "\n")
 
 [<Tests>]
@@ -33,7 +35,7 @@ let Tests =
                     [   "foo.txt", "This is foo.txt"
                         "bar.txt", "Hello\nfrom bar.txt"
                     ] |> makeIOApi
-                let file = new Fable.System.IOImpl.file(files)
+                let file = new Fable.System.IOImpl.file(files, emptyIOApi)
                 do
                     let actual = file.ReadAllText "foo.txt"
                     Expect.equal actual "This is foo.txt" "foo.txt contents"
@@ -44,15 +46,98 @@ let Tests =
             )
             testCase "Same simple file with different contents" (fun () ->
                 let files =
-                    [   "foo.txt", "Greetings from foo.txt"
-                    ] |> makeIOApi
-                let file = new Fable.System.IOImpl.file(files) 
+                    [   "foo.txt", "Greetings from foo.txt" ] |> makeIOApi
+                let file = new Fable.System.IOImpl.file(files, emptyIOApi) 
                 do
                     let actual = file.ReadAllText "foo.txt"
                     Expect.equal actual "Greetings from foo.txt" "foo.txt contents"
             )
+            testCase "Absolute file path" (fun () ->
+                let files =
+                    [   "C:\\foo\\fruit list.txt", "banana apple pear"
+                        "/foo/fruit list.txt", "banana apple pear"
+                    ] |> makeIOApi
+                let file = new Fable.System.IOImpl.file(files, emptyIOApi)
+                do
+                    Expect.equal
+                        (file.ReadAllText "C:\\foo\\fruit list.txt")
+                        "banana apple pear" "fruit list.txt"
+
+                    Expect.equal
+                        (file.ReadAllText "/foo/fruit list.txt")
+                        "banana apple pear" "fruit list.txt"
+            )
+            testCase "Web page contents from absolute URI" (fun () ->
+                let webFiles =
+                    [   "https://example.com/mock-web-data.json", "{ \"data\": \"Hello, world\" }"
+                    ] |> makeIOApi
+                let file = new Fable.System.IOImpl.file((fun () -> failwith "bang"), webFiles)
+                let actual = file.ReadAllText "https://example.com/mock-web-data.json"
+                Expect.equal actual "{ \"data\": \"Hello, world\" }" "mock-web-data.json"
+            )
+            testCase "Mix of files and web files through absolute paths and URIs" (fun () ->
+                let files =
+                    [   "foo.txt", "This is foo.txt" ] |> makeIOApi
+                let webFiles =
+                    [   "https://example.com/mock-web-data.json", "{ \"foo\": \"bar\" }"
+                    ] |> makeIOApi
+                let file = new Fable.System.IOImpl.file(files, webFiles)
+
+                Expect.equal
+                    (file.ReadAllText "https://example.com/mock-web-data.json")
+                    "{ \"foo\": \"bar\" }"
+                    "mock-web-data.json contents"
+
+                Expect.equal
+                    (file.ReadAllText "foo.txt")
+                    "This is foo.txt"
+                    "foo.txt contents"
+            )
+            testCase "Relative paths as web files given no file API" (fun () ->
+                let webFiles =
+                    [   "https://example.com/some-mock-data.json", "{ \"foo\": \"bar\" }"
+                        "https://example.com/foo/bar/baz.txt", "hello"
+                    ] |> makeIOApi
+                let file = new Fable.System.IOImpl.file((fun () -> Uri "https://example.com/"), webFiles)
+
+                Expect.equal
+                    (file.ReadAllText "some-mock-data.json")
+                    "{ \"foo\": \"bar\" }"
+                    "some-mock-data.json contents"
+
+                Expect.equal
+                    (file.ReadAllText "foo/bar/baz.txt")
+                    "hello"
+                    "foo/bar/baz.txt contents"
+            )
+            testCase "Relative path as web file with different base URLs" (fun () ->
+                let webFiles =
+                    [   "https://foo.bar.com/some/file.txt", "Hello, world"
+                    ] |> makeIOApi
+
+                do
+                    let file = new Fable.System.IOImpl.file((fun () -> Uri "https://foo.bar.com/index.html"), webFiles)
+
+                    Expect.equal
+                        (file.ReadAllText "some/file.txt")
+                        "Hello, world"
+                        "some/file.txt contents"
+
+                do
+                    let file = new Fable.System.IOImpl.file((fun () -> Uri "https://foo.bar.com/some/where.html"), webFiles)
+
+                    Expect.equal
+                        (file.ReadAllText "file.txt")
+                        "Hello, world"
+                        "some/file.txt contents from within some/"
+            )
             testList "Smoke" [
 #if FABLE_COMPILER
+                //testCase "Real web page contents from relative path" (fun () ->
+                //    let actual = Fable.System.IO.File.ReadAllText "mock-web-data.json"
+
+                //    Expect.equal actual "{ \"data\": \"Hello, world\" }"
+                //)
 #else
                 let realFileExpectedContents = String.Join (Environment.NewLine, ["This is a real file on disk";"Line 2"])
                 testCase "Real file from relative path" (fun () ->
