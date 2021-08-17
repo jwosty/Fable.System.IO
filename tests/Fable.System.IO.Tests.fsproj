@@ -16,7 +16,6 @@
     <Compile Include="File.Tests.fs" />
     <Compile Include="Program.fs" />
   </ItemGroup>
-  <ItemGroup />
   <ItemGroup>
     <ProjectReference Include="..\src\Fable.System.IO.fsproj" />
   </ItemGroup>

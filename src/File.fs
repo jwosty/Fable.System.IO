@@ -1,6 +1,17 @@
 ﻿namespace Fable.System.IOImpl
 open System
 
+#if FABLE_COMPILER
+module internal Extensions =
+    // Fable doesn't provide this method
+    type Uri with
+        static member TryCreate (uri, uriKind: UriKind) =
+            try true, Uri (uri, uriKind)
+            with e ->
+                false, null
+open Extensions
+#endif
+
 type IIOApi =
     abstract member ReadAllText: string -> string
 
@@ -16,7 +27,7 @@ type file(fileAprOrCurrentPageGetter: Choice<IIOApi, (unit -> Uri)>, webApi: IIO
                 else Unknown ()
             else
                 RelativePath ()
-
+        
         match Uri.TryCreate (path, UriKind.RelativeOrAbsolute) with
         | false, _ -> invalidArg (nameof(path)) "Path format could not be identified"
         | true, pathAsUri ->

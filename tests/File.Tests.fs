@@ -1,4 +1,4 @@
-﻿module Fable.System.IO.File.Tests
+﻿module Fable.System.IO.File
 open System
 #if FABLE_COMPILER
 open Fable.Mocha
@@ -7,11 +7,6 @@ open System.Runtime.InteropServices
 open Expecto
 #endif
 open Utils
-
-//let mockFileApi (pathMap:  = {
-//    new Fable.System.IOImpl.IOApi with
-//        member this.ReadAllText ()
-//}
 
 
 let makeIOApi (paths: (string*string) seq) =
@@ -25,9 +20,7 @@ let emptyIOApi = makeIOApi []
 let normalizeNewlines (str: string) = str.Replace ("\r\n", "\n")
 
 [<Tests>]
-let Tests =
-    //let mockFableImpl = 
-
+let tests =
     testList "File" [
         testList "ReadAllText" [
             testCase "Simple files" (fun () ->
@@ -52,10 +45,11 @@ let Tests =
                     let actual = file.ReadAllText "foo.txt"
                     Expect.equal actual "Greetings from foo.txt" "foo.txt contents"
             )
+#if !FABLE_COMPILER
             testCase "Absolute file path" (fun () ->
                 let files =
                     [   "C:\\foo\\fruit list.txt", "banana apple pear"
-                        "/foo/fruit list.txt", "banana apple pear"
+                        "/foo/fruit list.txt", "banana apple pear" // TODO: this case could potentially be made to work under Fable
                     ] |> makeIOApi
                 let file = new Fable.System.IOImpl.file(files, emptyIOApi)
                 do
@@ -67,6 +61,7 @@ let Tests =
                         (file.ReadAllText "/foo/fruit list.txt")
                         "banana apple pear" "fruit list.txt"
             )
+#endif
             testCase "Web page contents from absolute URI" (fun () ->
                 let webFiles =
                     [   "https://example.com/mock-web-data.json", "{ \"data\": \"Hello, world\" }"
@@ -151,6 +146,11 @@ let Tests =
                     Expect.equal actual realFileExpectedContents "real-file.txt contents"
                 )
 #endif
+                testCase "Real web file from absolute URI" (fun () ->
+                    let page = Fable.System.IO.File.ReadAllText "https://www.google.com/"
+                    printfn "PAGE CONTENTS: %s" page
+                    Expect.isTrue (page.Length > 20) "google.com page length > 20 chars"
+                )
             ]
         ]
     ]
