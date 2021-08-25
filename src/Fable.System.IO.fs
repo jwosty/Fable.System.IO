@@ -51,6 +51,7 @@ type private FileApi() =
 #endif
         member this.ReadAllLines path = System.IO.File.ReadAllLines path
         member this.ReadAllText path = System.IO.File.ReadAllText path
+        member this.ReadLines path =  System.IO.File.ReadLines path
 
 type private WebApi() =
     inherit IOImpl.IOApi()

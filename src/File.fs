@@ -1,5 +1,6 @@
 ﻿namespace Fable.System.IOImpl
 open System
+open System.Collections.Generic
 
 #if FABLE_COMPILER
 module internal Extensions =
@@ -20,6 +21,7 @@ type IIOApi =
 #endif
     abstract member ReadAllLines: pathOrUri:string -> string[]
     abstract member ReadAllText: pathOrUri:string -> string
+    abstract member ReadLines: pathOrUri:string -> IEnumerable<string>
 
 [<AbstractClass>]
 type IOApi() =
@@ -44,6 +46,7 @@ type IOApi() =
             let text = this.ReadAllText pathOrUri
             splitLines text
         member this.ReadAllText pathOrUri : string = this.ReadAllText pathOrUri
+        member this.ReadLines pathOrUri : IEnumerable<string> = upcast (this :> IIOApi).ReadAllLines pathOrUri
 
 type file(fileApiOrCurrentPageGetter: Choice<IIOApi, (unit -> Uri)>, webApi: IIOApi) =
     let getIoForPath path =
@@ -88,3 +91,9 @@ type file(fileApiOrCurrentPageGetter: Choice<IIOApi, (unit -> Uri)>, webApi: IIO
     member this.ReadAllText path =
         let io, path' = getIoForPath path
         io.ReadAllText path'
+
+    member this.ReadLines path : IEnumerable<string> =
+        let io, path' = getIoForPath path
+        // would be nice to have this actually lazy on Fable -- but XHR doesn't support streaming, so we'd have to use
+        // something else
+        io.ReadLines path'

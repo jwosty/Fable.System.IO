@@ -6,6 +6,7 @@
     <GenerateProgramFile>false</GenerateProgramFile>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="FableMochaExtensions.fs" />
     <Content Include="real-file.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

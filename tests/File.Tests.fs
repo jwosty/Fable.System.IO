@@ -195,7 +195,7 @@ let tests =
                 //    Expect.equal actual "{ \"data\": \"Hello, world\" }"
                 //)
 #else
-                let realFileExpectedContents = [|"This is a real file on disk";"Line 2"|]
+                let realFileExpectedContents = realFileLines
                 yield! mkTestReadAllLines "Real file from relative path" (fun readAllLines -> async {
                     let! actual = readAllLines Fable.System.IO.File "real-file.txt"
                     Expect.equal actual realFileExpectedContents "real-file.txt contents"
@@ -212,6 +212,70 @@ let tests =
                     Expect.isTrue (page.Length > 5) "google.com page length > 5 lines"
                 })
                 ]
+        ]
+        let mkTestReadLines syncName test = [testCase syncName (fun () -> test (fun (f:f) -> f.ReadLines))]
+        testList "ReadLines" [
+            yield! mkTestReadLines "Unix newlines" (fun readLines ->
+                let files =
+                    [   "foo.txt", "This is foo.txt"
+                        "bar.txt", "Hello\nfrom bar.txt\n\nand also line 4"
+                    ] |> makeIOApi
+                let webFiles =
+                    [   "https://example.com/hello.txt", "Hello\nLovely\t world!\n\n"
+                    ] |> makeIOApi
+                let file = new Fable.System.IOImpl.file(files, webFiles)
+                let actual1 = readLines file "foo.txt"
+                Expect.sequenceEqual actual1 ["This is foo.txt"] "foo.txt contents"
+            
+                let actual2 = readLines file "bar.txt"
+                Expect.sequenceEqual actual2 ["Hello"; "from bar.txt"; ""; "and also line 4"] "bar.txt contents"
+            
+                let actual3 = readLines file "https://example.com/hello.txt"
+                Expect.sequenceEqual actual3 ["Hello"; "Lovely\t world!"; ""; ""] "hello.txt web contents"
+            )
+            yield! mkTestReadLines "Windows newlines" (fun readLines ->
+                let files =
+                    [   "foo.txt", "This is foo.txt"
+                        "bar.txt", "Hello\r\nfrom bar.txt\r\n\r\nand also line 4"
+                    ] |> makeIOApi
+                let webFiles =
+                    [   "https://example.com/hello.txt", "Hello\r\nLovely\t world!\r\n\r\n"
+                    ] |> makeIOApi
+                let file = new Fable.System.IOImpl.file(files, webFiles)
+                let actual1 = readLines file "foo.txt"
+                Expect.sequenceEqual actual1 ["This is foo.txt"] "foo.txt contents"
+            
+                let actual2 = readLines file "bar.txt"
+                Expect.sequenceEqual actual2 ["Hello"; "from bar.txt"; ""; "and also line 4"] "bar.txt contents"
+            
+                let actual3 = readLines file "https://example.com/hello.txt"
+                Expect.sequenceEqual actual3 ["Hello"; "Lovely\t world!"; ""; ""] "hello.txt web contents"
+            )
+            testList "Smoke" [
+#if FABLE_COMPILER
+                //testCase "Real web page contents from relative path" (fun () ->
+                //    let actual = Fable.System.IO.File.ReadAllText "mock-web-data.json"
+            
+                //    Expect.equal actual "{ \"data\": \"Hello, world\" }"
+                //)
+#else
+                let realFileExpectedContents = seq realFileLines
+                yield! mkTestReadLines "Real file from relative path" (fun readLines ->
+                    let actual = readLines Fable.System.IO.File "real-file.txt"
+                    Expect.sequenceEqual actual realFileExpectedContents "real-file.txt contents"
+                )
+                yield! mkTestReadLines "Real file from absolute path" (fun readLines ->
+                    let runtimeDir =
+                        System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetEntryAssembly().Location)
+                    let actual = readLines Fable.System.IO.File (System.IO.Path.Combine (runtimeDir, "real-file.txt"))
+                    Expect.sequenceEqual actual realFileExpectedContents "real-file.txt contents"
+                )
+#endif
+                yield! mkTestReadLines "Real web file from absolute URI" (fun readLines ->
+                    let page = readLines Fable.System.IO.File "https://www.google.com/"
+                    Expect.isTrue (Seq.length page > 5) "google.com page length > 5 lines"
+                )
+            ]
         ]
     ]
 
