@@ -6,6 +6,7 @@ function resolve(relativePath) {
 
 module.exports = {
     entry: resolve('./Program.fs.js'),
+    target: 'node',
     output: {
         path: __dirname,
         filename: 'bin/mocha/bundle.js',

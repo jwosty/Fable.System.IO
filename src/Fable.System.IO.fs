@@ -1,5 +1,5 @@
 ﻿namespace Fable.System
-open Fable.SimpleHttp
+//open Fable.SimpleHttp
 #if FABLE_COMPILER
 open Fable.Extras.Platform
 #else
@@ -10,23 +10,21 @@ open Fable
 open Fable.Core
 open Fable.Core.JsInterop
 
+open Browser
+open Browser.Types
+
 #if FABLE_COMPILER
 type private WebApi() =
+    let createXhr path useAsync =
+        let xhr = XMLHttpRequest.Create()
+        xhr.``open`` ("get", path, useAsync)
+        xhr
 
     interface IOImpl.IIOApi with
         member this.ReadAllText path =
-            let mutable result = None
-            Async.StartImmediate <| async {
-                printfn "GETTING PATH: %A" path
-                let! resp = Http.get path
-                printfn "GOT RESPONSE: %A" resp
-                match resp with
-                | 200, response ->
-                    result <- Some response
-                | statusCode, _ -> failwithf "The server returned an error: %d" statusCode
-            }
-            while (result = None) do ()
-            result.Value
+            let xhr = createXhr path false
+            xhr.send ()
+            xhr.responseText
 
 #else
 type private FileApi() =
@@ -68,7 +66,7 @@ type IO private() =
 
     static member val File : Fable.System.IOImpl.file =
 #if FABLE_COMPILER
-        let getCurrentPage () = System.Uri Browser.Dom.document.location.href
+        let getCurrentPage () = failwith "bang" //System.Uri Browser.Dom.document.location.href
         new Fable.System.IOImpl.file(getCurrentPage, WebApi())
 #else
         new Fable.System.IOImpl.file(FileApi(), WebApi())
