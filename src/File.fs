@@ -50,8 +50,19 @@ type IOApi() =
 
 type file(fileApiOrCurrentPageGetter: Choice<IIOApi, (unit -> Uri)>, webApi: IIOApi) =
     let getIoForPath path =
-        let (|RelativePath|Url|LocalPath|Unknown|) (p: Uri) =
-            if p.IsAbsoluteUri then
+        // RelativePath and AbsolutePath are ambiguous -- they could represent a URL *OR* a file path.
+        // Thus, their behavior depends on whether we have a file api or not. If no file api, then we will later treat
+        // it as a URL.
+        // Url is straightforward -- something like http://website.com/blah
+        // As well as LocalPath -- this can only either be a full windows-style path (like C:\\foo\\bar) or
+        // a file URI, like file:\\foo\\bar
+        // Note, that as a consequence, Unix-style naked file paths are ambiguous absolute paths
+        let (|RelativePath|AbsolutePath|Url|LocalPath|Unknown|) (p: Uri, originalString) =
+            // use Windows logic as to not break the JS test suite (see Fable.System.IO.fs)
+            // TODO: Can't use Uri.OriginalString due to https://github.com/fable-compiler/Fable/issues/2520
+            if Fable.Windows.System.IO.Path.IsPathRooted originalString then
+                AbsolutePath ()
+            elif p.IsAbsoluteUri then
                 if p.Scheme = "file" then LocalPath ()
                 else if p.Scheme = "http" || p.Scheme = "https" then Url ()
                 else Unknown ()
@@ -61,14 +72,20 @@ type file(fileApiOrCurrentPageGetter: Choice<IIOApi, (unit -> Uri)>, webApi: IIO
         match Uri.TryCreate (path, UriKind.RelativeOrAbsolute) with
         | false, _ -> invalidArg (nameof(path)) "Path format could not be identified"
         | true, pathAsUri ->
-            match fileApiOrCurrentPageGetter, pathAsUri with
-            | Choice1Of2 fApi, (LocalPath | RelativePath) -> fApi, path
+            match fileApiOrCurrentPageGetter, (pathAsUri, path) with
+            // .NET + local, relative, or absolute path = file system
+            | Choice1Of2 fApi, (LocalPath | RelativePath | AbsolutePath) -> fApi, path
+            // .NET or Fable + URL = HTTP
             | _, Url -> webApi, path
-            | Choice2Of2 getCurrentPage, RelativePath ->
+            // Fable + relative or absolute path = HTTP
+            | Choice2Of2 getCurrentPage, (RelativePath | AbsolutePath) ->
+                // Interpret the path relative to the current website/page.
+                // For example, reading "/css/something.css" from "example.org/pages/something.html" will fetch
+                // "example.org/css/something.css".
                 let uri' = Uri(getCurrentPage (), path)
                 webApi, uri'.AbsoluteUri
             | Choice1Of2 _, Unknown -> invalidArg (nameof(path)) "Path was not recognized as a local file path or URL"
-            | Choice2Of2 _, (LocalPath | Unknown) -> invalidArg (nameof(path)) "Path was not recognized as a local file path or URL"
+            | Choice2Of2 _, (LocalPath | Unknown) -> invalidArg (nameof(path)) "Path was not recognized as a URL"
 
     new(fileApi: IIOApi, webApi) = file(Choice1Of2 fileApi, webApi)
     new(getCurrentPage: (unit -> Uri), webApi) = file(Choice2Of2 getCurrentPage, webApi)
