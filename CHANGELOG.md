@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.2.0
+
+* Implement some File APIs (such as File.ReadAllText, File.ReadAllLines, File.ReadLines, and async versions of these)
+* Eliminate NPM runtime dependencies
+
 ## 0.1.1
 
 * Remove Expecto dependency
