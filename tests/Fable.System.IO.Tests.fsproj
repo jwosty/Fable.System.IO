@@ -6,9 +6,16 @@
     <GenerateProgramFile>false</GenerateProgramFile>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="FableMochaExtensions.fs" />
+    <Content Include="real-file.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <None Include="webpack.config.js" />
     <None Include="paket.references" />
-    <Compile Include="Fable.System.IO.Tests.fs" />
+    <Compile Include="Utils.fs" />
+    <Compile Include="Path.Tests.fs" />
+    <Compile Include="File.Tests.fs" />
+    <Compile Include="Program.fs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\src\Fable.System.IO.fsproj" />

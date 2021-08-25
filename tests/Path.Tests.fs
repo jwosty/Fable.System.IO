@@ -1,4 +1,4 @@
-module Fable.System.IO.Tests
+module Fable.System.IO.Path
 open System
 #if FABLE_COMPILER
 open Fable.Mocha
@@ -6,11 +6,7 @@ open Fable.Mocha
 open System.Runtime.InteropServices
 open Expecto
 #endif
-
-#if FABLE_COMPILER
-type TestsAttribute() = inherit Attribute()
-#endif
-
+open Utils
 
 let arrayToStr (array: 'a[]) =
     "[|" + System.String.Join (";", array) + "|]"
@@ -20,7 +16,7 @@ let isWindows = RuntimeInformation.IsOSPlatform OSPlatform.Windows
 let osName = if isWindows then "Windows" else "Unix"
 #endif
 
-let ``Fable.System.IO.Path.Tests`` =
+let tests =
     let invalidFilenameAndPathChars = [
         testList "InvalidFileNameChars" [
 #if !FABLE_COMPILER
@@ -804,21 +800,5 @@ let ``Fable.System.IO.Path.Tests`` =
         yield hasExtensionTests
     ]
 
-[<Tests>]
-let testSuite =
-    testList "Fable" [
-        ``Fable.System.IO.Path.Tests``
-    ]
 
-[<EntryPoint>]
-let main args =
 
-    // Notice how we never actually reference Fable.System.IO.Path from the test suite, and are thus able to avoid
-    // issue #5 (https://github.com/jwosty/Fable.System.IO/pull/7), as we don't need to test platform detection,
-    // and the platform detection functionality from Fable.Extras crashes under Mocha.
-
-#if FABLE_COMPILER
-    Mocha.runTests testSuite
-#else
-    runTestsWithArgs defaultConfig args testSuite
-#endif

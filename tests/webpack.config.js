@@ -5,7 +5,8 @@ function resolve(relativePath) {
 }
 
 module.exports = {
-    entry: resolve('./Fable.System.IO.tests.fs.js'),
+    entry: resolve('./Program.fs.js'),
+    target: 'node',
     output: {
         path: __dirname,
         filename: 'bin/mocha/bundle.js',
