@@ -15,9 +15,35 @@ open Extensions
 
 type IIOApi =
 #if NETSTANDARD2_1
-    abstract member AsyncReadAllText: string -> Async<string>
+    abstract member AsyncReadAllLines: pathOrUri:string -> Async<string[]>
+    abstract member AsyncReadAllText: pathOrUri:string -> Async<string>
 #endif
-    abstract member ReadAllText: string -> string
+    abstract member ReadAllLines: pathOrUri:string -> string[]
+    abstract member ReadAllText: pathOrUri:string -> string
+
+[<AbstractClass>]
+type IOApi() =
+    let splitLines (text: string) =
+        let r = System.Text.RegularExpressions.Regex("\r\n|\n")
+        r.Split text
+
+#if NETSTANDARD2_1
+    abstract member AsyncReadAllText: pathOrUri:string -> Async<string>
+#endif
+    abstract member ReadAllText: pathOrUri:string -> string
+
+    interface IIOApi with
+#if NETSTANDARD2_1
+        member this.AsyncReadAllLines pathOrUri : Async<string[]> = async {
+            let! text = this.AsyncReadAllText pathOrUri
+            return splitLines text
+        }
+        member this.AsyncReadAllText pathOrUri : Async<string> = this.AsyncReadAllText pathOrUri
+#endif
+        member this.ReadAllLines pathOrUri : string [] = 
+            let text = this.ReadAllText pathOrUri
+            splitLines text
+        member this.ReadAllText pathOrUri : string = this.ReadAllText pathOrUri
 
 type file(fileApiOrCurrentPageGetter: Choice<IIOApi, (unit -> Uri)>, webApi: IIOApi) =
     let getIoForPath path =
@@ -45,11 +71,19 @@ type file(fileApiOrCurrentPageGetter: Choice<IIOApi, (unit -> Uri)>, webApi: IIO
     new(getCurrentPage: (unit -> Uri), webApi) = file(Choice2Of2 getCurrentPage, webApi)
 
 #if NETSTANDARD2_1
+    member this.AsyncReadAllLines path : Async<string[]> = async {
+        let io, path' = getIoForPath path
+        return! io.AsyncReadAllLines path'
+    }
     member this.AsyncReadAllText path = async {
         let io, path' = getIoForPath path
         return! io.AsyncReadAllText path'
     }
 #endif
+
+    member this.ReadAllLines path : string[] =
+        let io, path' = getIoForPath path
+        io.ReadAllLines path'
 
     member this.ReadAllText path =
         let io, path' = getIoForPath path

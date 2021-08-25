@@ -15,52 +15,56 @@ open Browser.Types
 
 #if FABLE_COMPILER
 type private WebApi() =
+    inherit IOImpl.IOApi()
     let createXhr path useAsync =
         let xhr = XMLHttpRequest.Create()
         xhr.``open`` ("get", path, useAsync)
         xhr
 
-    interface IOImpl.IIOApi with
-        member this.AsyncReadAllText path =
-            Async.FromContinuations (fun (cont, econt, ccont) ->
-                let xhr = createXhr path true
-                xhr.send ()
-                xhr.onreadystatechange <- (fun _ ->
-                    if xhr.readyState = ReadyState.Done then
-                        cont xhr.responseText
-                )
-            )
-        
-        member this.ReadAllText path =
-            let xhr = createXhr path false
+#if NETSTANDARD2_1
+    override this.AsyncReadAllText path =
+        Async.FromContinuations (fun (cont, econt, ccont) ->
+            let xhr = createXhr path true
             xhr.send ()
-            xhr.responseText
+            xhr.onreadystatechange <- (fun _ ->
+                if xhr.readyState = ReadyState.Done then
+                    cont xhr.responseText
+            )
+        )
+#endif
+        
+    override this.ReadAllText path =
+        let xhr = createXhr path false
+        xhr.send ()
+        xhr.responseText
 
 #else
 type private FileApi() =
     interface IOImpl.IIOApi with
 #if NETSTANDARD2_1
+        member this.AsyncReadAllLines path = async {
+            return! Async.AwaitTask (System.IO.File.ReadAllLinesAsync path)
+        }
         member this.AsyncReadAllText path = async {
-            let! result = Async.AwaitTask (System.IO.File.ReadAllTextAsync path)
-            return result
+            return! Async.AwaitTask (System.IO.File.ReadAllTextAsync path)
         }
 #endif
+        member this.ReadAllLines path = System.IO.File.ReadAllLines path
         member this.ReadAllText path = System.IO.File.ReadAllText path
 
-
 type private WebApi() =
+    inherit IOImpl.IOApi()
     let makeWc () = new System.Net.WebClient()
     
-    interface IOImpl.IIOApi with
 #if NETSTANDARD2_1
-        member this.AsyncReadAllText path = async {
-            use wc = makeWc ()
-            return! Async.AwaitTask (wc.DownloadStringTaskAsync path)
-        }
+    override this.AsyncReadAllText path = async {
+        use wc = makeWc ()
+        return! Async.AwaitTask (wc.DownloadStringTaskAsync path)
+    }
 #endif
-        member this.ReadAllText path =
-            use wc = makeWc ()
-            wc.DownloadString path
+    override this.ReadAllText path =
+        use wc = makeWc ()
+        wc.DownloadString path
 #endif
 
 [<Sealed; AbstractClass>]
