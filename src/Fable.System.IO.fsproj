@@ -7,7 +7,7 @@
   </PropertyGroup>
   <Import Project="..\VersionInfo.props" />
   <PropertyGroup>
-    <TargetFramework>netstandard2.0</TargetFramework>
+    <TargetFrameworks>netstandard2.1;netstandard2.0</TargetFrameworks>
     <OutputType>Library</OutputType>
   </PropertyGroup>
   <ItemGroup>

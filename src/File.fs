@@ -14,18 +14,13 @@ open Extensions
 #endif
 
 type IIOApi =
+#if NETSTANDARD2_1
     abstract member AsyncReadAllText: string -> Async<string>
+#endif
     abstract member ReadAllText: string -> string
 
-type file(fileAprOrCurrentPageGetter: Choice<IIOApi, (unit -> Uri)>, webApi: IIOApi) =
-    new(fileApi: IIOApi, webApi) = file(Choice1Of2 fileApi, webApi)
-    new(getCurrentPage: (unit -> Uri), webApi) = file(Choice2Of2 getCurrentPage, webApi)
-
-    member this.AsyncReadAllText path = async {
-        return raise (NotImplementedException())
-    }
-
-    member this.ReadAllText path =
+type file(fileApiOrCurrentPageGetter: Choice<IIOApi, (unit -> Uri)>, webApi: IIOApi) =
+    let getIoForPath path =
         let (|RelativePath|Url|LocalPath|Unknown|) (p: Uri) =
             if p.IsAbsoluteUri then
                 if p.Scheme = "file" then LocalPath ()
@@ -37,11 +32,25 @@ type file(fileAprOrCurrentPageGetter: Choice<IIOApi, (unit -> Uri)>, webApi: IIO
         match Uri.TryCreate (path, UriKind.RelativeOrAbsolute) with
         | false, _ -> invalidArg (nameof(path)) "Path format could not be identified"
         | true, pathAsUri ->
-            match fileAprOrCurrentPageGetter, pathAsUri with
-            | Choice1Of2 fApi, (LocalPath | RelativePath) -> fApi.ReadAllText path
-            | _, Url -> webApi.ReadAllText path
+            match fileApiOrCurrentPageGetter, pathAsUri with
+            | Choice1Of2 fApi, (LocalPath | RelativePath) -> fApi, path
+            | _, Url -> webApi, path
             | Choice2Of2 getCurrentPage, RelativePath ->
                 let uri' = Uri(getCurrentPage (), path)
-                webApi.ReadAllText uri'.AbsoluteUri
+                webApi, uri'.AbsoluteUri
             | Choice1Of2 _, Unknown -> invalidArg (nameof(path)) "Path was not recognized as a local file path or URL"
             | Choice2Of2 _, (LocalPath | Unknown) -> invalidArg (nameof(path)) "Path was not recognized as a local file path or URL"
+
+    new(fileApi: IIOApi, webApi) = file(Choice1Of2 fileApi, webApi)
+    new(getCurrentPage: (unit -> Uri), webApi) = file(Choice2Of2 getCurrentPage, webApi)
+
+#if NETSTANDARD2_1
+    member this.AsyncReadAllText path = async {
+        let io, path' = getIoForPath path
+        return! io.AsyncReadAllText path'
+    }
+#endif
+
+    member this.ReadAllText path =
+        let io, path' = getIoForPath path
+        io.ReadAllText path'

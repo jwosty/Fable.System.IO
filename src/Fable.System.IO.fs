@@ -21,7 +21,16 @@ type private WebApi() =
         xhr
 
     interface IOImpl.IIOApi with
-        member this.AsyncReadAllText path = async { return "" }
+        member this.AsyncReadAllText path =
+            Async.FromContinuations (fun (cont, econt, ccont) ->
+                let xhr = createXhr path true
+                xhr.send ()
+                xhr.onreadystatechange <- (fun _ ->
+                    if xhr.readyState = ReadyState.Done then
+                        cont xhr.responseText
+                )
+            )
+        
         member this.ReadAllText path =
             let xhr = createXhr path false
             xhr.send ()
@@ -30,9 +39,12 @@ type private WebApi() =
 #else
 type private FileApi() =
     interface IOImpl.IIOApi with
+#if NETSTANDARD2_1
         member this.AsyncReadAllText path = async {
-            return raise (System.NotImplementedException())
+            let! result = Async.AwaitTask (System.IO.File.ReadAllTextAsync path)
+            return result
         }
+#endif
         member this.ReadAllText path = System.IO.File.ReadAllText path
 
 
@@ -40,11 +52,12 @@ type private WebApi() =
     let makeWc () = new System.Net.WebClient()
     
     interface IOImpl.IIOApi with
+#if NETSTANDARD2_1
         member this.AsyncReadAllText path = async {
             use wc = makeWc ()
-            //return! Async.AwaitTask (wc.DownloadStringTaskAsync path)
-            return ""
+            return! Async.AwaitTask (wc.DownloadStringTaskAsync path)
         }
+#endif
         member this.ReadAllText path =
             use wc = makeWc ()
             wc.DownloadString path
