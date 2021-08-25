@@ -14,7 +14,6 @@
     "mocha-loader": "^5.1.5",
     "w3c-xmlhttprequest": "^3.0.3",
     "webpack": "^4.45.0",
-    "webpack-cli": "^4.2.0",
-    "xmlhttprequest": "^1.8.0"
+    "webpack-cli": "^4.2.0"
   }
 }

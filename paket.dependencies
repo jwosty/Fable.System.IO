@@ -9,6 +9,7 @@ nuget Expecto ~> 9.0.2
 nuget Microsoft.NET.Test.Sdk
 nuget YoloDev.Expecto.TestSdk
 
+group Build
 
     source https://api.nuget.org/v3/index.json
     storage: none
