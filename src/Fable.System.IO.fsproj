@@ -12,6 +12,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Content Remove="**\obj\**\*" />
+    <Content Include="*.fsproj; **\*.fs; **\*.fsi" PackagePath="fable\" />
     <Compile Include="Path.fs" />
     <Compile Include="File.fs" />
     <Compile Include="Fable.System.IO.fs" />
