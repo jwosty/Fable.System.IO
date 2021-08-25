@@ -1,10 +1,38 @@
 # Fable.System.IO [![Nuget](https://img.shields.io/nuget/v/Fable.System.IO.svg?maxAge=0&colorB=brightgreen&label=Fable.System.IO)](https://www.nuget.org/packages/Fable.System.IO) ![CI (Windows)](https://github.com/jwosty/Fable.System.IO/workflows/CI%20(Windows)/badge.svg) ![CI (Ubuntu)](https://github.com/jwosty/Fable.System.IO/workflows/CI%20(Ubuntu)/badge.svg)
 
-``Fable.System.IO`` is a no-dependency, F#-only implementation of certain parts of the ``System.IO`` API. At the moment, this library only implements most of the methods in ``System.IO.Path``. This library is built to be completely Fable-compatible, and behave exactly the same whether targetting .NET or Javascript.
+``Fable.System.IO`` is a Fable-compatible implementation of Path and some of the File APIs from .NET. This library is built to behave identically to the real .NET APIs, whether using it from .NET or Javascript.
 
-To use the library, first reference the [Fable.System.IO NuGet package](https://www.nuget.org/packages/Fable.System.IO/). Then, replace all occurrences of ``open System.IO`` with ``open Fable.System.IO``.
+To use the library, just reference the [Fable.System.IO NuGet package](https://www.nuget.org/packages/Fable.System.IO/) and replace all occurrences of ``open System.IO`` with ``open Fable.System.IO``.
 
 Fable.System.IO will behave the same as the browser's current platform, as detected by [platform-detect](https://www.npmjs.com/package/platform-detect). In other words, when running in a Unix agent, it will use ``/`` as the directory separator; and in a Windows agent, it will use ``\`` instead.
+
+## File APIs in Fable?!
+
+Fable.System.IO gives File read operations the ability to make web requests, and will most of the time "do the right thing" when used in a Fable context. For example (works in .NET and Fable):
+
+```fsharp
+open Fable.System.IO // Don't forget this!
+// Get the index page of Google.
+let google = File.ReadAllText "https://google.com"
+```
+
+Or, if we're on example.org/foo/bar.html, and you want to get a file right beside the html page called data.csv:
+
+```fsharp
+// If running in Fable, and browser is at example.org/foo/bar.html, this fetches example.org/foo/data.csv
+// If running on .NET, this will behave as usual (read the file from the current working directory)
+let data = File.ReadAllLines "./data.csv"
+```
+
+Or, if we're on example.org/foo/bar.html and you want to read example.org/some/thing/else.json, asynchronously:
+
+```fsharp
+async {
+    let! data = File.AsyncReadAllLines "../some/thing/else.json"
+    // alternatively
+    let! data = File.AsyncReadAllLines "/some/thing/else.json"
+}
+```
 
 ## Choosing emulated OS
 
@@ -24,7 +52,7 @@ printfn "Path.Combine(\"foo\", \"bar\") = \"%s\"" (Path.Combine ("foo", "bar"))
 Here is a list of currently implemented APIs in Fable.System.IO:
 
 * System.IO
-    * Path ([click here for Microsoft docs](https://docs.microsoft.com/en-us/dotnet/api/system.io.path?view=net-5.0))
+    * Path (static methods) ([Microsoft docs here](https://docs.microsoft.com/en-us/dotnet/api/system.io.path?view=net-5.0))
         * ``GetInvalidFileNameChars()``
         * ``GetInvalidPathChars()``
         * ``IsPathRooted(string)``
@@ -38,6 +66,14 @@ Here is a list of currently implemented APIs in Fable.System.IO:
         * ``HasExtension(string)``
         * ``DirectorySeparatorChar : string``
         * ``AltDirectorySeparatorChar : string``
+    * File (static methods) ([Microsoft docs here](https://docs.microsoft.com/en-us/dotnet/api/system.io.file?view=net-5.0))
+        * File.ReadAllLines
+        * *File.AsyncReadAllLines<sup>†</sup>*
+        * File.ReadAllText
+        * *File.AsyncReadAllText<sup>†</sup>*
+        * File.ReadLines
+
+† Convenience methods (not part of the BCL) that can be used in place of the asynchronous Task<'T> variations. You can safely use these instead of the BCL async methods on both .NET and Fable runtimes.
 
 ## Development
 
@@ -51,4 +87,17 @@ dotnet paket restore
 dotnet fable build -t Test
 ```
 
-All the .NET tests include "Oracle" tests cases, which test the API against the BCL implementation. Therefore, for complete testing, one should make sure to run the test suite under a Windows system _and_ a Unix system. The GitHub CI runs the full test suite under Windows and Ubuntu.
+To run the test suite only under .NET, use:
+
+```Shell
+dotnet test
+```
+
+To run the test suite only under node, use:
+
+```Shell
+yarn test
+```
+
+
+The Path tests include "Oracle" tests cases, which test the API against the BCL implementation. Therefore, for complete testing, one should make sure to run the test suite under a Windows system _and_ a Unix system. The GitHub CI runs the full test suite under Windows and Ubuntu.
