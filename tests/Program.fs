@@ -17,9 +17,7 @@ module EntryPoint =
             Fable.System.IO.File.tests
         ]
 
-    //[<Import("XMLHttpRequest", from="w3c-xmlhttprequest")>]
-    //let XMLHttpRequest: obj = jsNative
-    [<ImportDefault("xhr2")>]
+    [<Import("XMLHttpRequest", "xmlhttprequest")>]
     let XMLHttpRequest: obj = jsNative
 
     [<Emit("global.XMLHttpRequest = $0")>]

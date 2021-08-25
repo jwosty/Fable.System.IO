@@ -8,13 +8,13 @@
     "pretest": "cd tests/ && dotnet fable ./ --run webpack",
     "test": "mocha ./tests/bin/mocha -t 10000"
   },
-  "dependencies": {
-    "xhr2": "^0.2.1"
-  },
+  "dependencies": {},
   "devDependencies": {
     "mocha": "^8.2.1",
     "mocha-loader": "^5.1.5",
+    "w3c-xmlhttprequest": "^3.0.3",
     "webpack": "^4.45.0",
-    "webpack-cli": "^4.2.0"
+    "webpack-cli": "^4.2.0",
+    "xmlhttprequest": "^1.8.0"
   }
 }
