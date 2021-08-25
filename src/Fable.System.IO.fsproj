@@ -11,6 +11,7 @@
     <OutputType>Library</OutputType>
   </PropertyGroup>
   <ItemGroup>
+    <Content Include="*.fsproj; **\*.fs; **\*.fsi" PackagePath="fable\" />
     <Content Remove="**\obj\**\*" />
     <Compile Include="Path.fs" />
     <Compile Include="File.fs" />
