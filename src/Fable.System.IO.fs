@@ -21,6 +21,7 @@ type private WebApi() =
         xhr
 
     interface IOImpl.IIOApi with
+        member this.AsyncReadAllText path = async { return "" }
         member this.ReadAllText path =
             let xhr = createXhr path false
             xhr.send ()
@@ -29,17 +30,24 @@ type private WebApi() =
 #else
 type private FileApi() =
     interface IOImpl.IIOApi with
+        member this.AsyncReadAllText path = async {
+            return raise (System.NotImplementedException())
+        }
         member this.ReadAllText path = System.IO.File.ReadAllText path
-type private WebApi() =
-    let webClient = new System.Net.WebClient()
-    let _webClientLock = obj()
 
+
+type private WebApi() =
+    let makeWc () = new System.Net.WebClient()
+    
     interface IOImpl.IIOApi with
+        member this.AsyncReadAllText path = async {
+            use wc = makeWc ()
+            //return! Async.AwaitTask (wc.DownloadStringTaskAsync path)
+            return ""
+        }
         member this.ReadAllText path =
-            // WebClient does not allow concurrent access
-            lock _webClientLock (fun () ->
-                webClient.DownloadString path
-            )
+            use wc = makeWc ()
+            wc.DownloadString path
 #endif
 
 [<Sealed; AbstractClass>]

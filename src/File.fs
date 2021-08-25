@@ -3,7 +3,8 @@ open System
 
 #if FABLE_COMPILER
 module internal Extensions =
-    // Fable doesn't provide this method
+    // TODO: we can get rid of this when Fable 3.2.10 hits NuGet:
+    // https://github.com/fable-compiler/Fable/releases/tag/3.2.10
     type Uri with
         static member TryCreate (uri, uriKind: UriKind) =
             try true, Uri (uri, uriKind)
@@ -13,11 +14,16 @@ open Extensions
 #endif
 
 type IIOApi =
+    abstract member AsyncReadAllText: string -> Async<string>
     abstract member ReadAllText: string -> string
 
 type file(fileAprOrCurrentPageGetter: Choice<IIOApi, (unit -> Uri)>, webApi: IIOApi) =
     new(fileApi: IIOApi, webApi) = file(Choice1Of2 fileApi, webApi)
     new(getCurrentPage: (unit -> Uri), webApi) = file(Choice2Of2 getCurrentPage, webApi)
+
+    member this.AsyncReadAllText path = async {
+        return raise (NotImplementedException())
+    }
 
     member this.ReadAllText path =
         let (|RelativePath|Url|LocalPath|Unknown|) (p: Uri) =
