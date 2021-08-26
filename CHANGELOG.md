@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.2.1
+
+* Update package description
+
 ## 0.2.0
 
 * Implement some File APIs (such as File.ReadAllText, File.ReadAllLines, File.ReadLines, and async versions of these)

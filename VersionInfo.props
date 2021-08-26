@@ -3,7 +3,7 @@
   <PropertyGroup>
     <Copyright>© John Wostenberg 2021</Copyright>
     <Company>Fable.System.IO Contributors</Company>
-    <Description>Lightweight Fable-compatible reimplementation of System.IO.Path in pure F#</Description>
+    <Description>Lightweight System.IO.Path and System.IO.File for Fable</Description>
     <Authors>John Wostenberg</Authors>
     <RepositoryType>git</RepositoryType>
     <RepositoryUrl>https://github.com/jwosty/Fable.System.IO</RepositoryUrl>
