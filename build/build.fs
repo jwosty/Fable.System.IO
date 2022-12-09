@@ -35,8 +35,7 @@ let runDotNet cmd workingDir =
 type PackageVersionInfo = { versionName: string; versionChanges: string }
 
 let scrapeChangelog () =
-    let changelog = System.IO.File.ReadAllText "CHANGELOG.md"
-    Trace.logfn "changelog text: %O" changelog
+    let changelog = File.ReadAllText "CHANGELOG.md"
     let regex = Regex("""## (?<Version>.*)\n+(?<Changes>(.|\n)*?)##""")
     let result = seq {
         for m in regex.Matches changelog ->

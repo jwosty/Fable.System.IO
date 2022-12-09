@@ -1,5 +1,7 @@
 # Changelog
 
+## 0.2.2-alpha
+
 ## 0.2.1
 
 * Update package description
