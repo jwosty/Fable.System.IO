@@ -34,4 +34,4 @@ jobs:
         name: fsharp.system.io-windows
         path: artifacts
     - name: Test
-      run: dotnet fake build -t Test
+      run: .\build.cmd -t Test
