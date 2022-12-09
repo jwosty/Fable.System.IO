@@ -50,7 +50,7 @@ let scrapeChangelog () =
     result
 
 let changelog = scrapeChangelog () |> Seq.toList
-Trace.logfn "changelog: %O"
+
 let currentVersionInfo =
     List.tryHead changelog
     |> Option.defaultWith (fun () -> failwithf "Version info not found!")

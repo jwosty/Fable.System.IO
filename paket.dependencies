@@ -3,7 +3,7 @@ source https://api.nuget.org/v3/index.json
 framework: auto-detect
 
 nuget Fable.Extras
-nuget Fable.Mocha 2.9.1
+nuget Fable.Mocha 2.15.0
 nuget FSharp.Core 4.7.2
 nuget Expecto ~> 9.0.2
 nuget Microsoft.NET.Test.Sdk
@@ -13,14 +13,13 @@ group Build
     source https://api.nuget.org/v3/index.json
     storage: none
     framework: net6.0
-
-    nuget FSharp.Core 4.7.2
-    nuget Fake.Core.Target ~> 5.19.1
-    nuget Fake.DotNet.Cli ~> 5.19.1
-    nuget Fake.DotNet.MSBuild ~> 5.19.1
-    nuget Fake.DotNet.Paket ~> 5.19.1
-    nuget Fake.Tools.Git ~> 5.19.1
-    nuget Microsoft.Build ~> 17.2.0
-    nuget Microsoft.Build.Framework ~> 17.2.0
+    
+    nuget Fake.Core.Target ~> 5.23
+    nuget Fake.DotNet.Cli ~> 5.19
+    nuget Fake.DotNet.MSBuild ~> 5.19
+    nuget Fake.DotNet.Paket ~> 5.19
+    nuget Fake.Tools.Git ~> 5.19
+    nuget Microsoft.Build ~> 17.2
+    nuget Microsoft.Build.Framework ~> 17.2
 
     
