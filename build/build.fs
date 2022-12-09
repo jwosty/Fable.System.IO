@@ -1,22 +1,4 @@
-﻿#if FAKE
-#load ".fake/build.fsx/intellisense.fsx"
-#endif
-
-// F# 4.7 due to https://github.com/fsharp/FAKE/issues/2001
-#r "paket:
-nuget FSharp.Core 4.7.0
-nuget Fake.Core.Target
-nuget Fake.DotNet.Cli
-nuget Fake.DotNet.MSBuild
-nuget Fake.DotNet.Paket
-nuget Fake.Tools.Git //"
-
-#if !FAKE
-#r "netstandard"
-// #r "Facades/netstandard" // https://github.com/ionide/ionide-vscode-fsharp/issues/839#issuecomment-396296095
-#endif
-
-open System
+﻿open System
 open System.Text.RegularExpressions
 open System.IO
 open Fake.Core
@@ -31,12 +13,11 @@ Trace.log "line 30!"
 
 let yarnCmd =
     lazy (
-        Trace.log "GOT HERE yarnCmd"
         let result =
             match ProcessUtils.tryFindFileOnPath "yarnpkg" with
             | Some yarn -> yarn
             | None -> failwith "cmd not found: yarn"
-        Trace.logfn "DONE yarnCmd: %s" result
+        Trace.logfn "Executed yarnCmd: %s" result
         result
         )
 
@@ -114,60 +95,75 @@ let mkDefaultTestOptions (options: DotNet.TestOptions) =
         MSBuildParams = defaultMsbuildParams options.MSBuildParams
     }
 
-Target.create "Clean" (fun _ ->
+let Clean _ =
     Trace.log " --- Cleaning --- "
     
     DotNet.exec id "clean" "" |> ignore
     File.deleteAll !!(Path.Combine("**","*.fs.js"))
     
     Shell.cleanDir artifactsDir
-)
 
-Target.create "Restore" (fun _ ->
+let Restore _ =
     Trace.log " --- Restoring --- "
     DotNet.exec id "tool" "restore" |> Trace.logfn "%O"
     DotNet.exec id "paket" "restore" |> Trace.logfn "%O"
     DotNet.restore id |> Trace.logfn "%O"
     if Shell.Exec (yarnCmd.Value, "install") <> 0 then
         failwith "yarn install failed"
-)
 
-Target.create "Build" (fun _ ->
+let Build _ =
     Trace.log " --- Building --- "
     project |> DotNet.build mkDefaultBuildOptions
-)
 
-Target.create "Test" (fun _ ->
+let Test _ =
     Trace.log " --- Running tests --- "
     DotNet.test mkDefaultTestOptions solution
     if Shell.Exec (yarnCmd.Value, "test") <> 0 then
         failwith "yarn test failed"
-)
 
-Target.create "Pack" (fun _ ->
+let Pack _ =
     Trace.log " --- Packing NuGet packages --- "
     project
     |> DotNet.pack (
         mkDefaultPackOptions
         >> (fun options -> { options with OutputPath = Some artifactsDir })
     )
-)
 
-Target.create "TestAll" ignore
 
-Target.create "All" ignore
 
 open Fake.Core.TargetOperators
 
 // *** Define Dependencies ***
 
-"Restore"
-    ==> "Build"
-    ==> "Pack"
-    ==> "All"
+let initTargets () =
+    Target.create "Clean" Clean
+    Target.create "Restore" Restore
+    Target.create "Build" Build
+    Target.create "Test" Test
+    Target.create "Pack" Pack
+    Target.create "TestAll" ignore
+    Target.create "All" ignore
+    
+    "Restore"
+        ==> "Build"
+        ==> "Pack"
+        ==> "All"
+        |> ignore
 
-"Test"
-    ==> "TestAll"
+    "Test"
+        ==> "TestAll"
+        |> ignore
+    ()
 
-// *** Start Build ***
-Target.runOrDefault "Build"
+[<EntryPoint>]
+let main argv =
+    argv
+    |> Array.toList
+    |> Context.FakeExecutionContext.Create false "build.fsx"
+    |> Context.RuntimeContext.Fake
+    |> Context.setExecutionContext
+    initTargets ()
+    Target.runOrDefaultWithArguments "Build"
+
+    0
+

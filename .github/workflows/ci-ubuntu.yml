@@ -16,7 +16,7 @@ jobs:
     - name: Setup .NET
       uses: actions/setup-dotnet@v1
       with:
-        dotnet-version: 5.0.101
+        dotnet-version: 6.0.400
     - name: Setup Node.js
       uses: actions/setup-node@v2
     - name: Restore dependencies
@@ -25,7 +25,7 @@ jobs:
         dotnet paket restore
         yarn install
     - name: Build
-      run: dotnet fake build -t Build
+      run: ./build.sh -t Build
     - name: Test
       # run: dotnet fake build -t Test
       run: dotnet test # I can't figure out why `yarn test` is blowing up in Ubuntu CI (it works in WSL for me)
