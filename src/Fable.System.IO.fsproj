@@ -12,6 +12,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Content Remove="**\obj\**\*" />
+    <!-- Makes this a Fable-compatible library. See https://fable.io/docs/your-fable-project/author-a-fable-library.html -->
     <Content Include="*.fsproj; **\*.fs; **\*.fsi" PackagePath="fable\" />
     <Compile Include="Path.fs" />
     <Compile Include="File.fs" />

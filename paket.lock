@@ -72,7 +72,7 @@ NUGET
       Fable.Core (>= 3.1.5)
       Fable.Promise (>= 2.2.2)
       FSharp.Core (>= 4.7.2)
-    Fable.Mocha (2.9.1)
+    Fable.Mocha (2.15)
       Fable.Core (>= 3.0)
       FSharp.Core (>= 4.7)
     Fable.Promise (2.2.2)

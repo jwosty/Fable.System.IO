@@ -8,7 +8,7 @@
     <RepositoryType>git</RepositoryType>
     <RepositoryUrl>https://github.com/jwosty/Fable.System.IO</RepositoryUrl>
     <PackageProjectUrl>https://github.com/jwosty/Fable.System.IO</PackageProjectUrl>
-    <PackageTags>fsharp;fable</PackageTags>
+    <PackageTags>fsharp;fable;fable-library;fable-dotnet;fable-javascript</PackageTags>
     <PackageLicenseFile>LICENSE</PackageLicenseFile>
     <GenerateDocumentationFile>false</GenerateDocumentationFile>
     <FsDocsLicenseLink>$(RepositoryUrl)/blob/master/LICENSE</FsDocsLicenseLink>
