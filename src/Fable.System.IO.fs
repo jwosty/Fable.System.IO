@@ -68,13 +68,12 @@ type private WebApi() =
         wc.DownloadString path
 #endif
 
-[<Sealed; AbstractClass>]
-type IO private() =
-    static let mutable pathImpl = None
+module IO =
+    let mutable private pathImpl = None
 
     // Use a lazily-initialized property, so that we don't unnecessarily trigger the platform detection in scenarios
     // where it can crash stuff (like under the Mocha test environment) (see PR #7)
-    static member Path =
+    let Path =
         match pathImpl with
         | Some p -> p
         | None ->
@@ -90,9 +89,9 @@ type IO private() =
             pathImpl <- Some p
             p
 
-    static member val File : Fable.System.IOImpl.file =
+    let File : Fable.System.IOImpl.file =
 #if FABLE_COMPILER
-        let getCurrentPage () = failwith "bang" //System.Uri Browser.Dom.document.location.href
+        let getCurrentPage () = System.Uri Browser.Dom.document.location.href
         new Fable.System.IOImpl.file(getCurrentPage, WebApi())
 #else
         new Fable.System.IOImpl.file(FileApi(), WebApi())
